@@ -7,7 +7,7 @@ title: Home
 
 I'm **Lello Molinario**, Cyber Security Specialist and Digital Forensics Expert based in Sassari, Italy.
 
-This is my personal website built with [Jekyll](https://jekyllrb.com) and hosted on [GitHub Pages](https://pages.github.com).
+This is my personal website.
 
 - 🧠 About  
 - 💼 [Projects](./projects.md)  
