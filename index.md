@@ -9,7 +9,7 @@ I'm **Lello Molinario**, Cyber Security Specialist and Digital Forensics Expert 
 
 This is my personal website.
 
-- 🧠 About  
+- 🧠 [About]  (./about.md)  
 - 💼 [Projects](./projects.md)  
 - 📝 [Blog](./blog.md)  
 - 📬 [Contact](./contact.md)
