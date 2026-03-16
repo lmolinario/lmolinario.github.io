@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DFAAS Radar – OSINT Monitoring Platform</title>
+
+  <!-- Leaflet (preview map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f172a;
+      --panel2:#111827;
+      --border:#1f2937;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --accent:#38bdf8;
+      --accent2:#22c55e;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background:rgba(2,6,23,.9);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+      padding:16px 7%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .logo{
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:.5px;
+      color:var(--accent);
+    }
+    nav a{
+      color:var(--text);
+      text-decoration:none;
+      margin-left:18px;
+      font-size:14px;
+      opacity:.9;
+    }
+    nav a:hover{opacity:1; color:var(--accent)}
+    .hero{
+      padding:44px 7% 28px;
+      background:linear-gradient(120deg,#020617,#0b1220 55%, #111827);
+      border-bottom:1px solid var(--border);
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:28px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+    }
+    h1{
+      margin:0 0 12px 0;
+      font-size:38px;
+      line-height:1.15;
+    }
+    .subtitle{
+      margin:0 0 18px 0;
+      max-width:820px;
+      font-size:16px;
+      line-height:1.65;
+      color:var(--muted);
+    }
+    .cta-row{
+      display:flex; flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-block;
+      padding:12px 16px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
+      border:1px solid transparent;
+    }
+    .btn.primary{
+      background:var(--accent);
+      color:#020617;
+    }
+    .btn.secondary{
+      background:transparent;
+      border-color:var(--border);
+      color:var(--text);
+    }
+    .btn.secondary:hover{border-color:var(--accent); color:var(--accent)}
+    .kpis{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .kpi{
+      background:rgba(17,24,39,.7);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+      min-height:72px;
+    }
+    .kpi .label{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .kpi .value{
+      font-size:22px;
+      font-weight:800;
+      letter-spacing:.3px;
+    }
+    .status-dot{
+      display:inline-block;
+      width:10px; height:10px; border-radius:50%;
+      background:var(--warn);
+      margin-right:8px;
+      vertical-align:middle;
+      box-shadow:0 0 0 3px rgba(245,158,11,.15);
+    }
+    .status-ok{background:var(--accent2); box-shadow:0 0 0 3px rgba(34,197,94,.15)}
+    .status-bad{background:var(--danger); box-shadow:0 0 0 3px rgba(239,68,68,.15)}
+    .map-wrap{
+      background:rgba(17,24,39,.65);
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+      min-height:320px;
+      display:flex;
+      flex-direction:column;
+    }
+    #map{
+      height:320px;
+      width:100%;
+    }
+    .map-bar{
+      padding:10px 12px;
+      border-top:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .section{
+      padding:40px 7%;
+    }
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+      margin-top:16px;
+    }
+    .card{
+      background:rgba(15,23,42,.8);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+    }
+    .card h3{margin:0 0 8px 0; color:var(--accent); font-size:16px}
+    .card p{margin:0; color:var(--muted); line-height:1.6; font-size:14px}
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      color:#cbd5e1;
+      background:rgba(2,6,23,.7);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+      overflow:auto;
+    }
+    footer{
+      padding:28px 7%;
+      border-top:1px solid var(--border);
+      background:#020617;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .pill{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      font-size:12px;
+      margin-left:8px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">DFAAS RADAR <span class="pill">OSINT • GEO • CTI</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/radar">Dashboard</a>
+    <a href="#fonti">Fonti</a>
+    <a href="#api">API</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <h1>Cyber OSINT Threat Radar</h1>
+      <p class="subtitle">
+        Piattaforma di monitoraggio geospaziale che aggrega eventi OSINT e tracking mezzi
+        (es. ADS-B) per analisi operativa e situational awareness. Questa pagina mostra una
+        preview mappa e indicatori live (se le API sono raggiungibili).
+      </p>
+
+      <div class="cta-row">
+        <a class="btn primary" href="/radar">Apri la Dashboard</a>
+        <a class="btn secondary" href="#api">Verifica API</a>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="label"><span id="apiDot" class="status-dot"></span>Stato API</div>
+        <div class="value" id="apiStatus">checking…</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Eventi (ultimi 60 min)</div>
+        <div class="value" id="kpiEvents">—</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Mezzi tracciati</div>
+        <div class="value" id="kpiAircraft">—</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Ultimo aggiornamento</div>
+        <div class="value" id="kpiUpdated">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:18px" class="map-wrap">
+    <div id="map"></div>
+    <div class="map-bar">
+      <div>Preview mappa (Leaflet) • Click sui marker per dettagli</div>
+      <div id="mapNote">API endpoints configurabili in fondo al file</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="fonti">
+  <h2>Fonti e segnali</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>OSINT Events</h3>
+      <p>Feed di eventi geolocalizzati (incidenti, segnalazioni, avvisi), normalizzati e visualizzati su mappa.</p>
+    </div>
+    <div class="card">
+      <h3>Open Aviation / ADS-B</h3>
+      <p>Tracking velivoli via fonti pubbliche (con caching e rate-limit friendly) e overlay dedicato.</p>
+    </div>
+    <div class="card">
+      <h3>Filtering & Query</h3>
+      <p>Ricerca per keyword/tipologia/sorgente e possibilità di focalizzare l’area geografica di interesse.</p>
+    </div>
+    <div class="card">
+      <h3>Operational View</h3>
+      <p>Dashboard per analisi rapida: indicatori, timeline eventi e contesto geografico integrato.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="api">
+  <h2>API (configurazione)</h2>
+  <p class="subtitle">
+    Se la tua dashboard usa endpoint diversi, modifica i valori in fondo a questo file nella sezione <span class="mono">CONFIG</span>.
+    La homepage prova a chiamare gli endpoint e aggiorna KPI + marker preview.
+  </p>
+
+  <div class="mono">
+    <b>Endpoint attesi (default):</b><br/>
+    GET <span id="epHealth"></span><br/>
+    GET <span id="epEvents"></span><br/>
+    GET <span id="epAircraft"></span><br/>
+    <br/>
+    <b>Formato minimo suggerito:</b><br/>
+    events: [{ id, title, lat, lon, ts, source, type }]<br/>
+    aircraft: [{ icao24, callsign, lat, lon, heading, velocity }]<br/>
+  </div>
+</section>
+
+<footer>
+  © 2026 DFAAS Radar • OSINT Monitoring Platform • Home preview + API KPI
+</footer>
+
+<script>
+/* =======================
+   CONFIG (MODIFICA QUI)
+   ======================= */
+const API_BASE   = "";           // es. "https://dfaas.it" oppure "" se stesso dominio
+const EP_HEALTH  = "/api/health";
+const EP_EVENTS  = "/api/events?window=60";   // ultimi 60 minuti (adatta al tuo backend)
+const EP_AIRCRAFT= "/api/aircraft";          // adatta al tuo backend
+
+/* =======================
+   UI helpers
+   ======================= */
+const apiDot = document.getElementById("apiDot");
+const apiStatus = document.getElementById("apiStatus");
+const kpiEvents = document.getElementById("kpiEvents");
+const kpiAircraft = document.getElementById("kpiAircraft");
+const kpiUpdated = document.getElementById("kpiUpdated");
+
+document.getElementById("epHealth").textContent  = API_BASE + EP_HEALTH;
+document.getElementById("epEvents").textContent  = API_BASE + EP_EVENTS;
+document.getElementById("epAircraft").textContent= API_BASE + EP_AIRCRAFT;
+
+/* =======================
+   Map
+   ======================= */
+const map = L.map("map").setView([41.9, 12.5], 5);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 18,
+  attribution: "&copy; OpenStreetMap contributors",
+}).addTo(map);
+
+const eventsLayer = L.layerGroup().addTo(map);
+const aircraftLayer = L.layerGroup().addTo(map);
+
+function setApiState(state, text){
+  apiStatus.textContent = text;
+  apiDot.classList.remove("status-ok","status-bad");
+  apiDot.classList.add(state === "ok" ? "status-ok" : (state === "bad" ? "status-bad" : ""));
+}
+
+function fmtTime(ts){
+  try{
+    const d = new Date(ts);
+    if (isNaN(d.getTime())) return "—";
+    return d.toLocaleString("it-IT");
+  }catch(e){
+    return "—";
+  }
+}
+
+async function fetchJson(url, timeoutMs=6000){
+  const ctrl = new AbortController();
+  const t = setTimeout(()=>ctrl.abort(), timeoutMs);
+  try{
+    const r = await fetch(url, { signal: ctrl.signal, headers: { "Accept":"application/json" }});
+    clearTimeout(t);
+    if(!r.ok) throw new Error("HTTP " + r.status);
+    return await r.json();
+  }finally{
+    clearTimeout(t);
+  }
+}
+
+function renderEvents(events){
+  eventsLayer.clearLayers();
+  if(!Array.isArray(events)) return;
+
+  const bounds = [];
+  events.slice(0, 200).forEach(ev=>{
+    const lat = Number(ev.lat), lon = Number(ev.lon);
+    if(!isFinite(lat) || !isFinite(lon)) return;
+
+    const title = ev.title || ev.summary || "Evento";
+    const src = ev.source || "OSINT";
+    const typ = ev.type || "event";
+    const ts = ev.ts || ev.time || ev.datetime;
+
+    const m = L.marker([lat, lon]);
+    m.bindPopup(
+      `<b>${escapeHtml(title)}</b><br>`+
+      `Tipo: ${escapeHtml(typ)}<br>`+
+      `Fonte: ${escapeHtml(src)}<br>`+
+      `Time: ${escapeHtml(fmtTime(ts))}`
+    );
+    m.addTo(eventsLayer);
+    bounds.push([lat, lon]);
+  });
+
+  if(bounds.length){
+    try{ map.fitBounds(bounds, { padding:[20,20] }); }catch(e){}
+  }
+}
+
+function renderAircraft(ac){
+  aircraftLayer.clearLayers();
+  if(!Array.isArray(ac)) return;
+
+  ac.slice(0, 250).forEach(a=>{
+    const lat = Number(a.lat), lon = Number(a.lon);
+    if(!isFinite(lat) || !isFinite(lon)) return;
+
+    const callsign = (a.callsign || "").trim() || "—";
+    const icao24 = a.icao24 || "—";
+    const v = a.velocity ?? a.speed ?? "—";
+    const h = a.heading ?? "—";
+
+    const m = L.circleMarker([lat, lon], { radius: 4, weight: 1, fillOpacity: .7 });
+    m.bindPopup(
+      `<b>Aircraft</b><br>`+
+      `ICAO24: ${escapeHtml(String(icao24))}<br>`+
+      `Callsign: ${escapeHtml(String(callsign))}<br>`+
+      `Vel: ${escapeHtml(String(v))}<br>`+
+      `Hdg: ${escapeHtml(String(h))}`
+    );
+    m.addTo(aircraftLayer);
+  });
+}
+
+function escapeHtml(s){
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+async function refresh(){
+  setApiState("warn","checking…");
+  kpiUpdated.textContent = "—";
+
+  // health
+  try{
+    await fetchJson(API_BASE + EP_HEALTH, 3500);
+    setApiState("ok","online");
+  }catch(e){
+    setApiState("bad","offline");
+  }
+
+  // events
+  try{
+    const ev = await fetchJson(API_BASE + EP_EVENTS, 6500);
+    const events = ev.events || ev.data || ev;
+    const n = Array.isArray(events) ? events.length : 0;
+    kpiEvents.textContent = n;
+    renderEvents(events);
+  }catch(e){
+    kpiEvents.textContent = "—";
+  }
+
+  // aircraft
+  try{
+    const ac = await fetchJson(API_BASE + EP_AIRCRAFT, 6500);
+    const aircraft = ac.aircraft || ac.data || ac;
+    const n = Array.isArray(aircraft) ? aircraft.length : 0;
+    kpiAircraft.textContent = n;
+    renderAircraft(aircraft);
+  }catch(e){
+    kpiAircraft.textContent = "—";
+  }
+
+  kpiUpdated.textContent = new Date().toLocaleString("it-IT");
+}
+
+// prima render + refresh periodico soft
+refresh();
+setInterval(refresh, 30000);
+</script>
+
+</body>
+</html>
