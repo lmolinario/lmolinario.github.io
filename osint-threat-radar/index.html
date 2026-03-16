@@ -1,480 +1,381 @@
-
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DFAAS Radar – OSINT Monitoring Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Leaflet (preview map) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <title>OSINT Threat Radar – Lello Molinario</title>
+  <meta name="description" content="OSINT Threat Radar is a project focused on geospatial monitoring, event aggregation, and cyber-relevant open-source intelligence visualization." />
+  <meta name="keywords" content="OSINT Threat Radar, OSINT, cyber threat intelligence, geospatial monitoring, open source intelligence, event monitoring, digital risk" />
+  <meta name="author" content="Lello Molinario" />
+
+  <meta property="og:title" content="OSINT Threat Radar – Lello Molinario" />
+  <meta property="og:description" content="Geospatial and event-based monitoring platform for OSINT and cyber-relevant situational awareness." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://lmolinario.github.io/osint-threat-radar/" />
+  <meta property="og:image" content="https://ui-avatars.com/api/?name=OSINT+Threat+Radar&background=0f172a&color=fff&size=400" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="OSINT Threat Radar – Lello Molinario" />
+  <meta name="twitter:description" content="Geospatial and event-based monitoring platform for OSINT and cyber-relevant situational awareness." />
+  <meta name="twitter:image" content="https://ui-avatars.com/api/?name=OSINT+Threat+Radar&background=0f172a&color=fff&size=400" />
+
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    :root{
-      --bg:#0b1220;
-      --panel:#0f172a;
-      --panel2:#111827;
-      --border:#1f2937;
-      --text:#e5e7eb;
-      --muted:#9ca3af;
-      --accent:#38bdf8;
-      --accent2:#22c55e;
-      --warn:#f59e0b;
-      --danger:#ef4444;
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0369a1;
+      --border: #e2e8f0;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
+
+    * {
+      box-sizing: border-box;
     }
-    header{
-      position:sticky; top:0; z-index:10;
-      background:rgba(2,6,23,.9);
-      backdrop-filter: blur(8px);
-      border-bottom:1px solid var(--border);
-      padding:16px 7%;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
     }
-    .logo{
-      font-size:18px;
-      font-weight:700;
-      letter-spacing:.5px;
-      color:var(--accent);
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
     }
-    nav a{
-      color:var(--text);
-      text-decoration:none;
-      margin-left:18px;
-      font-size:14px;
-      opacity:.9;
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
     }
-    nav a:hover{opacity:1; color:var(--accent)}
-    .hero{
-      padding:44px 7% 28px;
-      background:linear-gradient(120deg,#020617,#0b1220 55%, #111827);
-      border-bottom:1px solid var(--border);
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:28px;
-      align-items:stretch;
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
     }
-    @media (max-width: 980px){
-      .hero-grid{grid-template-columns:1fr}
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 500;
     }
-    h1{
-      margin:0 0 12px 0;
-      font-size:38px;
-      line-height:1.15;
+
+    nav a:hover {
+      color: var(--accent);
     }
-    .subtitle{
-      margin:0 0 18px 0;
-      max-width:820px;
-      font-size:16px;
-      line-height:1.65;
-      color:var(--muted);
+
+    .hero {
+      padding: 4rem 0 3rem;
+      background: linear-gradient(to bottom, #ffffff, #f8fafc);
+      border-bottom: 1px solid var(--border);
     }
-    .cta-row{
-      display:flex; flex-wrap:wrap;
-      gap:12px;
-      margin-top:18px;
-      align-items:center;
+
+    .hero h1 {
+      font-size: 2.4rem;
+      line-height: 1.15;
+      margin: 0 0 1rem;
     }
-    .btn{
-      display:inline-block;
-      padding:12px 16px;
-      border-radius:10px;
-      text-decoration:none;
-      font-weight:700;
-      font-size:14px;
-      border:1px solid transparent;
+
+    .hero p {
+      max-width: 820px;
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+      font-size: 1.05rem;
     }
-    .btn.primary{
-      background:var(--accent);
-      color:#020617;
+
+    .hero-links a {
+      display: inline-block;
+      margin-right: 0.8rem;
+      margin-bottom: 0.8rem;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
     }
-    .btn.secondary{
-      background:transparent;
-      border-color:var(--border);
-      color:var(--text);
+
+    .hero-links a.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
-    .btn.secondary:hover{border-color:var(--accent); color:var(--accent)}
-    .kpis{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
+
+    section {
+      padding: 2.5rem 0;
     }
-    .kpi{
-      background:rgba(17,24,39,.7);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:14px;
-      min-height:72px;
+
+    h2 {
+      font-size: 1.45rem;
+      margin: 0 0 1rem;
     }
-    .kpi .label{
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:6px;
+
+    .lead {
+      max-width: 860px;
+      color: var(--muted);
     }
-    .kpi .value{
-      font-size:22px;
-      font-weight:800;
-      letter-spacing:.3px;
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
     }
-    .status-dot{
-      display:inline-block;
-      width:10px; height:10px; border-radius:50%;
-      background:var(--warn);
-      margin-right:8px;
-      vertical-align:middle;
-      box-shadow:0 0 0 3px rgba(245,158,11,.15);
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
     }
-    .status-ok{background:var(--accent2); box-shadow:0 0 0 3px rgba(34,197,94,.15)}
-    .status-bad{background:var(--danger); box-shadow:0 0 0 3px rgba(239,68,68,.15)}
-    .map-wrap{
-      background:rgba(17,24,39,.65);
-      border:1px solid var(--border);
-      border-radius:16px;
-      overflow:hidden;
-      min-height:320px;
-      display:flex;
-      flex-direction:column;
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+      font-size: 1.05rem;
     }
-    #map{
-      height:320px;
-      width:100%;
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
     }
-    .map-bar{
-      padding:10px 12px;
-      border-top:1px solid var(--border);
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:center;
-      font-size:12px;
-      color:var(--muted);
+
+    .feature-list {
+      padding-left: 1.2rem;
+      color: var(--muted);
     }
-    .section{
-      padding:40px 7%;
+
+    .feature-list li {
+      margin-bottom: 0.5rem;
     }
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:16px;
-      margin-top:16px;
+
+    .tech-tags {
+      margin-top: 1rem;
     }
-    .card{
-      background:rgba(15,23,42,.8);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
+
+    .tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      padding: 0.28rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      margin-right: 0.4rem;
+      margin-bottom: 0.45rem;
+      color: var(--muted);
+      background: #f8fafc;
     }
-    .card h3{margin:0 0 8px 0; color:var(--accent); font-size:16px}
-    .card p{margin:0; color:var(--muted); line-height:1.6; font-size:14px}
-    .mono{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size:12px;
-      color:#cbd5e1;
-      background:rgba(2,6,23,.7);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:14px;
-      overflow:auto;
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-top: 1rem;
     }
-    footer{
-      padding:28px 7%;
-      border-top:1px solid var(--border);
-      background:#020617;
-      color:var(--muted);
-      font-size:13px;
+
+    .panel a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
     }
-    .pill{
-      display:inline-block;
-      padding:4px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      color:var(--muted);
-      font-size:12px;
-      margin-left:8px;
+
+    .panel a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding: 1.5rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      background: var(--surface);
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      nav a {
+        margin-left: 0.75rem;
+      }
     }
   </style>
 </head>
-
 <body>
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/">Lello Molinario</a>
+      <nav>
+        <a href="/about/">About</a>
+        <a href="/projects/">Projects</a>
+        <a href="/research/">Research</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-<header>
-  <div class="logo">DFAAS RADAR <span class="pill">OSINT • GEO • CTI</span></div>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/radar">Dashboard</a>
-    <a href="#fonti">Fonti</a>
-    <a href="#api">API</a>
-  </nav>
-</header>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>OSINT Threat Radar</h1>
+        <p>
+          OSINT Threat Radar is a monitoring project designed to collect, organize, and visualize
+          cyber-relevant open-source information through an interactive, geospatial, and event-driven approach.
+          The goal is to support situational awareness, threat monitoring, and rapid exploration of publicly
+          available signals that may be relevant for cybersecurity and intelligence workflows.
+        </p>
 
-<section class="hero">
-  <div class="hero-grid">
-    <div>
-      <h1>Cyber OSINT Threat Radar</h1>
-      <p class="subtitle">
-        Piattaforma di monitoraggio geospaziale che aggrega eventi OSINT e tracking mezzi
-        (es. ADS-B) per analisi operativa e situational awareness. Questa pagina mostra una
-        preview mappa e indicatori live (se le API sono raggiungibili).
-      </p>
+        <div class="hero-links">
+          <a class="primary" href="/osint-threat-radar/radar/">Open Radar Dashboard</a>
+          <a href="/projects/">Back to Projects</a>
+        </div>
 
-      <div class="cta-row">
-        <a class="btn primary" href="/radar">Apri la Dashboard</a>
-        <a class="btn secondary" href="#api">Verifica API</a>
+        <div class="tech-tags">
+          <span class="tag">OSINT</span>
+          <span class="tag">Threat Intelligence</span>
+          <span class="tag">Geospatial Monitoring</span>
+          <span class="tag">Cyber Events</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">Leaflet</span>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="kpis">
-      <div class="kpi">
-        <div class="label"><span id="apiDot" class="status-dot"></span>Stato API</div>
-        <div class="value" id="apiStatus">checking…</div>
+    <section>
+      <div class="container">
+        <h2>Project Overview</h2>
+        <p class="lead">
+          The platform is built to aggregate data from public sources and present it in a way that is easy to explore,
+          filter, and monitor. It combines event collection, geographic visualization, and lightweight analysis to provide
+          a practical interface for observing cyber-related activity and other relevant open-source signals.
+        </p>
+
+        <div class="card-grid">
+          <article class="card">
+            <h3>Event Collection</h3>
+            <p>
+              Aggregates open-source events and structured data points from multiple sources to create a unified monitoring view.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Geospatial Visualization</h3>
+            <p>
+              Displays relevant signals on a map to support situational awareness and contextual understanding.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Filtering and Exploration</h3>
+            <p>
+              Enables quick browsing of events by source, type, and geographic context.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Operational Perspective</h3>
+            <p>
+              Designed as a practical prototype for cyber monitoring, OSINT workflows, and external awareness use cases.
+            </p>
+          </article>
+        </div>
       </div>
-      <div class="kpi">
-        <div class="label">Eventi (ultimi 60 min)</div>
-        <div class="value" id="kpiEvents">—</div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Main Objectives</h2>
+        <ul class="feature-list">
+          <li>Provide a central interface for cyber-relevant OSINT monitoring.</li>
+          <li>Support geospatial inspection of events and external indicators.</li>
+          <li>Enable quick exploration of aggregated data from public sources.</li>
+          <li>Offer a foundation for future digital risk and external exposure features.</li>
+          <li>Experiment with practical intelligence-oriented dashboards for technical users.</li>
+        </ul>
       </div>
-      <div class="kpi">
-        <div class="label">Mezzi tracciati</div>
-        <div class="value" id="kpiAircraft">—</div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Architecture</h2>
+        <div class="panel">
+          <p class="lead">
+            The current implementation follows a simple architecture with a frontend dashboard and a backend service
+            responsible for data collection and normalization.
+          </p>
+
+          <ul class="feature-list">
+            <li><strong>Frontend:</strong> interactive map and event exploration interface.</li>
+            <li><strong>Backend:</strong> FastAPI-based API layer for collecting and serving data.</li>
+            <li><strong>Data Sources:</strong> open-source and public feeds suitable for event monitoring.</li>
+            <li><strong>Visualization:</strong> map-based representation of events and associated metadata.</li>
+          </ul>
+        </div>
       </div>
-      <div class="kpi">
-        <div class="label">Ultimo aggiornamento</div>
-        <div class="value" id="kpiUpdated">—</div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Current Status</h2>
+        <div class="panel">
+          <p class="lead">
+            OSINT Threat Radar is an evolving project. The current version focuses on the core monitoring flow:
+            collecting events, normalizing them, exposing them through an API, and rendering them in an interactive interface.
+          </p>
+          <p class="lead">
+            Future development may include richer source integration, digital risk indicators, domain-related monitoring,
+            historical storage, and more advanced ranking or alerting features.
+          </p>
+        </div>
       </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Access the Dashboard</h2>
+        <div class="panel">
+          <p>
+            The interactive radar interface is available here:
+          </p>
+          <p>
+            <a href="/osint-threat-radar/radar/">/osint-threat-radar/radar/</a>
+          </p>
+          <p class="lead">
+            This dashboard represents the operational view of the project, while this page serves as its public overview and project description.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Lello Molinario. All rights reserved.
     </div>
-  </div>
-
-  <div style="margin-top:18px" class="map-wrap">
-    <div id="map"></div>
-    <div class="map-bar">
-      <div>Preview mappa (Leaflet) • Click sui marker per dettagli</div>
-      <div id="mapNote">API endpoints configurabili in fondo al file</div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="fonti">
-  <h2>Fonti e segnali</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>OSINT Events</h3>
-      <p>Feed di eventi geolocalizzati (incidenti, segnalazioni, avvisi), normalizzati e visualizzati su mappa.</p>
-    </div>
-    <div class="card">
-      <h3>Open Aviation / ADS-B</h3>
-      <p>Tracking velivoli via fonti pubbliche (con caching e rate-limit friendly) e overlay dedicato.</p>
-    </div>
-    <div class="card">
-      <h3>Filtering & Query</h3>
-      <p>Ricerca per keyword/tipologia/sorgente e possibilità di focalizzare l’area geografica di interesse.</p>
-    </div>
-    <div class="card">
-      <h3>Operational View</h3>
-      <p>Dashboard per analisi rapida: indicatori, timeline eventi e contesto geografico integrato.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="api">
-  <h2>API (configurazione)</h2>
-  <p class="subtitle">
-    Se la tua dashboard usa endpoint diversi, modifica i valori in fondo a questo file nella sezione <span class="mono">CONFIG</span>.
-    La homepage prova a chiamare gli endpoint e aggiorna KPI + marker preview.
-  </p>
-
-  <div class="mono">
-    <b>Endpoint attesi (default):</b><br/>
-    GET <span id="epHealth"></span><br/>
-    GET <span id="epEvents"></span><br/>
-    GET <span id="epAircraft"></span><br/>
-    <br/>
-    <b>Formato minimo suggerito:</b><br/>
-    events: [{ id, title, lat, lon, ts, source, type }]<br/>
-    aircraft: [{ icao24, callsign, lat, lon, heading, velocity }]<br/>
-  </div>
-</section>
-
-<footer>
-  © 2026 DFAAS Radar • OSINT Monitoring Platform • Home preview + API KPI
-</footer>
-
-<script>
-/* =======================
-   CONFIG (MODIFICA QUI)
-   ======================= */
-const API_BASE   = "";           // es. "https://dfaas.it" oppure "" se stesso dominio
-const EP_HEALTH  = "/api/health";
-const EP_EVENTS  = "/api/events?window=60";   // ultimi 60 minuti (adatta al tuo backend)
-const EP_AIRCRAFT= "/api/aircraft";          // adatta al tuo backend
-
-/* =======================
-   UI helpers
-   ======================= */
-const apiDot = document.getElementById("apiDot");
-const apiStatus = document.getElementById("apiStatus");
-const kpiEvents = document.getElementById("kpiEvents");
-const kpiAircraft = document.getElementById("kpiAircraft");
-const kpiUpdated = document.getElementById("kpiUpdated");
-
-document.getElementById("epHealth").textContent  = API_BASE + EP_HEALTH;
-document.getElementById("epEvents").textContent  = API_BASE + EP_EVENTS;
-document.getElementById("epAircraft").textContent= API_BASE + EP_AIRCRAFT;
-
-/* =======================
-   Map
-   ======================= */
-const map = L.map("map").setView([41.9, 12.5], 5);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 18,
-  attribution: "&copy; OpenStreetMap contributors",
-}).addTo(map);
-
-const eventsLayer = L.layerGroup().addTo(map);
-const aircraftLayer = L.layerGroup().addTo(map);
-
-function setApiState(state, text){
-  apiStatus.textContent = text;
-  apiDot.classList.remove("status-ok","status-bad");
-  apiDot.classList.add(state === "ok" ? "status-ok" : (state === "bad" ? "status-bad" : ""));
-}
-
-function fmtTime(ts){
-  try{
-    const d = new Date(ts);
-    if (isNaN(d.getTime())) return "—";
-    return d.toLocaleString("it-IT");
-  }catch(e){
-    return "—";
-  }
-}
-
-async function fetchJson(url, timeoutMs=6000){
-  const ctrl = new AbortController();
-  const t = setTimeout(()=>ctrl.abort(), timeoutMs);
-  try{
-    const r = await fetch(url, { signal: ctrl.signal, headers: { "Accept":"application/json" }});
-    clearTimeout(t);
-    if(!r.ok) throw new Error("HTTP " + r.status);
-    return await r.json();
-  }finally{
-    clearTimeout(t);
-  }
-}
-
-function renderEvents(events){
-  eventsLayer.clearLayers();
-  if(!Array.isArray(events)) return;
-
-  const bounds = [];
-  events.slice(0, 200).forEach(ev=>{
-    const lat = Number(ev.lat), lon = Number(ev.lon);
-    if(!isFinite(lat) || !isFinite(lon)) return;
-
-    const title = ev.title || ev.summary || "Evento";
-    const src = ev.source || "OSINT";
-    const typ = ev.type || "event";
-    const ts = ev.ts || ev.time || ev.datetime;
-
-    const m = L.marker([lat, lon]);
-    m.bindPopup(
-      `<b>${escapeHtml(title)}</b><br>`+
-      `Tipo: ${escapeHtml(typ)}<br>`+
-      `Fonte: ${escapeHtml(src)}<br>`+
-      `Time: ${escapeHtml(fmtTime(ts))}`
-    );
-    m.addTo(eventsLayer);
-    bounds.push([lat, lon]);
-  });
-
-  if(bounds.length){
-    try{ map.fitBounds(bounds, { padding:[20,20] }); }catch(e){}
-  }
-}
-
-function renderAircraft(ac){
-  aircraftLayer.clearLayers();
-  if(!Array.isArray(ac)) return;
-
-  ac.slice(0, 250).forEach(a=>{
-    const lat = Number(a.lat), lon = Number(a.lon);
-    if(!isFinite(lat) || !isFinite(lon)) return;
-
-    const callsign = (a.callsign || "").trim() || "—";
-    const icao24 = a.icao24 || "—";
-    const v = a.velocity ?? a.speed ?? "—";
-    const h = a.heading ?? "—";
-
-    const m = L.circleMarker([lat, lon], { radius: 4, weight: 1, fillOpacity: .7 });
-    m.bindPopup(
-      `<b>Aircraft</b><br>`+
-      `ICAO24: ${escapeHtml(String(icao24))}<br>`+
-      `Callsign: ${escapeHtml(String(callsign))}<br>`+
-      `Vel: ${escapeHtml(String(v))}<br>`+
-      `Hdg: ${escapeHtml(String(h))}`
-    );
-    m.addTo(aircraftLayer);
-  });
-}
-
-function escapeHtml(s){
-  return String(s ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
-}
-
-async function refresh(){
-  setApiState("warn","checking…");
-  kpiUpdated.textContent = "—";
-
-  // health
-  try{
-    await fetchJson(API_BASE + EP_HEALTH, 3500);
-    setApiState("ok","online");
-  }catch(e){
-    setApiState("bad","offline");
-  }
-
-  // events
-  try{
-    const ev = await fetchJson(API_BASE + EP_EVENTS, 6500);
-    const events = ev.events || ev.data || ev;
-    const n = Array.isArray(events) ? events.length : 0;
-    kpiEvents.textContent = n;
-    renderEvents(events);
-  }catch(e){
-    kpiEvents.textContent = "—";
-  }
-
-  // aircraft
-  try{
-    const ac = await fetchJson(API_BASE + EP_AIRCRAFT, 6500);
-    const aircraft = ac.aircraft || ac.data || ac;
-    const n = Array.isArray(aircraft) ? aircraft.length : 0;
-    kpiAircraft.textContent = n;
-    renderAircraft(aircraft);
-  }catch(e){
-    kpiAircraft.textContent = "—";
-  }
-
-  kpiUpdated.textContent = new Date().toLocaleString("it-IT");
-}
-
-// prima render + refresh periodico soft
-refresh();
-setInterval(refresh, 30000);
-</script>
-
+  </footer>
 </body>
 </html>
