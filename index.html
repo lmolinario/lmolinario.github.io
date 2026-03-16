@@ -4,159 +4,344 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Lello Molinario – Cybersecurity & Digital Forensics</title>
-  <meta name="description" content="Lello Molinario – Cyber Security Specialist, Digital Forensics Expert, Internal Consultant. Personal website with projects, research, and professional information." />
-  <meta name="keywords" content="Lello Molinario, cybersecurity, digital forensics, OSINT, incident response, AI security, Sardinia, Sassari, Italy" />
+  <title>Lello Molinario – Cybersecurity, Digital Forensics, AI Security</title>
+  <meta name="description" content="Lello Molinario – Cyber Security Specialist, Digital Forensics Expert, and AI Security researcher. Personal website with projects, research, tools, and professional information." />
+  <meta name="keywords" content="Lello Molinario, cybersecurity, digital forensics, AI security, OSINT, threat intelligence, incident response, malware analysis, Sassari, Italy" />
   <meta name="author" content="Lello Molinario" />
 
-  <meta property="og:title" content="Lello Molinario – Cybersecurity & Digital Forensics" />
-  <meta property="og:description" content="Cyber Security Specialist, Digital Forensics Expert, Internal Consultant. Explore projects, research, and professional work." />
+  <meta property="og:title" content="Lello Molinario – Cybersecurity, Digital Forensics, AI Security" />
+  <meta property="og:description" content="Cyber Security Specialist, Digital Forensics Expert, and AI Security researcher. Explore projects, research, and technical tools." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lmolinario.github.io/" />
-  <meta property="og:image" content="https://ui-avatars.com/api/?name=Lello+Molinario&background=0073aa&color=fff&size=400" />
+  <meta property="og:image" content="https://ui-avatars.com/api/?name=Lello+Molinario&background=0f172a&color=fff&size=400" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lello Molinario – Cybersecurity & Digital Forensics" />
-  <meta name="twitter:description" content="Cyber Security Specialist, Digital Forensics Expert, Internal Consultant." />
-  <meta name="twitter:image" content="https://ui-avatars.com/api/?name=Lello+Molinario&background=0073aa&color=fff&size=400" />
+  <meta name="twitter:title" content="Lello Molinario – Cybersecurity, Digital Forensics, AI Security" />
+  <meta name="twitter:description" content="Cyber Security Specialist, Digital Forensics Expert, and AI Security researcher." />
+  <meta name="twitter:image" content="https://ui-avatars.com/api/?name=Lello+Molinario&background=0f172a&color=fff&size=400" />
 
   <link rel="icon" type="image/png" href="favicon.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Lello Molinario",
+    "url": "https://lmolinario.github.io/",
+    "jobTitle": "Cyber Security Specialist · Digital Forensics Expert · AI Security Researcher",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Prosecutor’s Office of Sassari"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Sassari",
+      "addressCountry": "Italy"
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Cagliari"
+    },
+    "sameAs": [
+      "https://github.com/lmolinario",
+      "https://www.linkedin.com/in/lello-molinario-357462325"
+    ]
+  }
+  </script>
 
   <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0369a1;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Inter', Arial, sans-serif;
-      max-width: 900px;
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 980px;
       margin: 0 auto;
-      padding: 2rem;
-      line-height: 1.6;
-      background-color: #f9f9f9;
-      color: #333;
+      padding: 0 1.25rem;
     }
 
     header {
-      text-align: center;
-      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.3rem;
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
-    h2 {
-      margin-top: 2rem;
-      color: #0073aa;
+    .brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
     }
 
     nav a {
-      margin: 0 0.5rem;
+      color: var(--muted);
       text-decoration: none;
-      color: #0073aa;
-      font-weight: bold;
+      margin-left: 1rem;
+      font-weight: 500;
     }
 
     nav a:hover {
-      text-decoration: underline;
+      color: var(--accent);
+    }
+
+    .hero {
+      padding: 4.5rem 0 3rem;
+      background: linear-gradient(to bottom, #ffffff, #f8fafc);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin: 0 0 1rem;
+    }
+
+    .hero p {
+      max-width: 760px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+    }
+
+    .hero-links a {
+      display: inline-block;
+      margin-right: 0.9rem;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    .hero-links a.primary {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
     }
 
     section {
-      margin-bottom: 2rem;
+      padding: 2.5rem 0;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .card a {
+      color: var(--accent);
+      text-decoration: none;
     }
 
     ul {
       padding-left: 1.2rem;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .muted {
+      color: var(--muted);
     }
 
     footer {
-      text-align: center;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #777;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding: 1.5rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      background: var(--surface);
     }
 
-    .social-links a {
-      margin: 0 0.5rem;
-      text-decoration: none;
-      color: #0073aa;
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      nav a {
+        margin-left: 0.75rem;
+      }
     }
   </style>
 </head>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Lello Molinario",
-  "url": "https://lmolinario.github.io/",
-  "jobTitle": "Cyber Security Specialist · Digital Forensics Expert",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Prosecutor’s Office of Sassari"
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Sassari",
-    "addressCountry": "Italy"
-  },
-  "alumniOf": {
-    "@type": "CollegeOrUniversity",
-    "name": "University of Cagliari"
-  },
-  "sameAs": [
-    "https://github.com/lmolinario",
-    "https://www.linkedin.com/in/lello-molinario-357462325"
-  ]
-}
-</script>
-
 <body>
-
   <header>
-  <h1>Lello Molinario</h1>
-    <p>Cyber Security Specialist · Digital Forensics Expert · Internal Consultant</p>
-    <nav>
-      <a href="/about/">About</a>
-      <a href="/projects/">Projects</a>
-      <a href="/research/">Research</a>
-    </nav>
+    <div class="container topbar">
+      <a class="brand" href="/">Lello Molinario</a>
+      <nav>
+        <a href="/about/">About</a>
+        <a href="/projects/">Projects</a>
+        <a href="/research/">Research</a>
+        <a href="/blog/">Blog</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      I'm <strong>Lello Molinario</strong>, a Cyber Security Specialist and Digital Forensics Expert based in Sassari, Italy.
-      I currently work at the <strong>Prosecutor’s Office of Sassari</strong>, providing internal consultancy in cybersecurity, digital investigations, and forensics.
-    </p>
-    <p>
-      I have a strong background in computer engineering and software development, with expertise in
-      <em>application security</em>, <em>malware analysis</em>, <em>OSINT/CLOSINT</em>, and <em>incident response</em>.
-      I'm currently pursuing a Master's degree in <strong>Computer Engineering, Cybersecurity and Artificial Intelligence</strong> at the University of Cagliari.
-    </p>
-  </section>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Lello Molinario</h1>
+        <p>
+          Cyber Security Specialist and Digital Forensics Expert based in Sassari, Italy.
+          I work on cybersecurity, digital investigations, OSINT, incident response, and
+          the robustness of AI systems in forensic and security contexts.
+        </p>
+        <div class="hero-links">
+          <a class="primary" href="/projects/">View Projects</a>
+          <a href="/research/">Research</a>
+          <a href="/osint-threat-radar/">OSINT Threat Radar</a>
+        </div>
+      </div>
+    </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <ul>
-      <li><a href="/osint-threat-radar/">OSINT Threat Radar</a> – monitoring of cyber-threat events and geospatial intelligence.</li>
-      <li><a href="/ai-forensics/">AI Forensics</a> – research on robustness of AI tools in digital investigations.</li>
-      <li><a href="/tools/jwt-decoder/">JWT Decoder Tool</a></li>
-      <li><a href="/tools/dns-check/">DNS Security Check</a></li>
-    </ul>
-  </section>
+    <section>
+      <div class="container">
+        <h2>About</h2>
+        <p class="muted">
+          I currently work at the Prosecutor’s Office of Sassari, providing internal consultancy
+          in cybersecurity, digital investigations, and forensic workflows. My background combines
+          computer engineering, security analysis, applied research, and technical problem solving
+          across institutional and academic contexts.
+        </p>
+      </div>
+    </section>
 
+    <section>
+      <div class="container">
+        <h2>Core Expertise</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Cybersecurity</h3>
+            <p>Application security, incident response, malware analysis, and technical risk evaluation.</p>
+          </div>
+          <div class="card">
+            <h3>Digital Forensics</h3>
+            <p>Digital investigations, forensic workflows, evidence handling, and technical support.</p>
+          </div>
+          <div class="card">
+            <h3>OSINT & Threat Intelligence</h3>
+            <p>Open-source intelligence, exposure monitoring, and cyber threat analysis.</p>
+          </div>
+          <div class="card">
+            <h3>AI Security</h3>
+            <p>Adversarial machine learning, robustness evaluation, and AI-based forensic tools.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <section>
+      <div class="container">
+        <h2>Selected Projects</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3><a href="/osint-threat-radar/">OSINT Threat Radar</a></h3>
+            <p>Geospatial and event-based monitoring platform for OSINT and external threat awareness.</p>
+          </div>
+          <div class="card">
+            <h3><a href="/ai-forensics/">AI Forensics</a></h3>
+            <p>Research-oriented work on robustness of AI tools in digital forensics and adversarial settings.</p>
+          </div>
+          <div class="card">
+            <h3><a href="/tools/jwt-decoder/">JWT Decoder</a></h3>
+            <p>Utility for inspecting JWT tokens and supporting technical validation workflows.</p>
+          </div>
+          <div class="card">
+            <h3><a href="/tools/dns-check/">DNS Security Check</a></h3>
+            <p>Tooling and checks for DNS-related security posture and configuration review.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section id="contact">
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://github.com/lmolinario" target="_blank" rel="noopener noreferrer">GitHub</a>
-    </div>
-  </section>
+    <section>
+      <div class="container">
+        <h2>Research Interests</h2>
+        <ul class="muted">
+          <li>Digital forensics and AI-assisted investigative workflows</li>
+          <li>Adversarial attacks and anti-forensic perturbations on image-based systems</li>
+          <li>Robustness and trustworthiness of AI tools in operational environments</li>
+          <li>Cyber threat intelligence and OSINT-driven monitoring platforms</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <p class="muted">
+
+        </p>
+        <p>
+          LinkedIn:
+          <a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener noreferrer">Profile</a>
+          <br />
+          GitHub:
+          <a href="https://github.com/lmolinario" target="_blank" rel="noopener noreferrer">lmolinario</a>
+        </p>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    © 2025 Lello Molinario — All rights reserved.
+    <div class="container">
+      © 2026 Lello Molinario. All rights reserved.
+    </div>
   </footer>
-
 </body>
 </html>
