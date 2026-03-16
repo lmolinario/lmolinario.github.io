@@ -247,6 +247,11 @@
         <input type="checkbox" id="aircraftToggle" />
         <span>Show aircraft</span>
       </label>
+
+      <label class="controls-row">
+        <input type="checkbox" id="satelliteToggle" />
+        <span>Show satellites</span>
+      </label>
     </div>
 
     <div id="events"></div>
@@ -267,6 +272,7 @@
 
   const eventsLayer = L.layerGroup().addTo(map);
   const aircraftLayer = L.layerGroup().addTo(map);
+  const satelliteLayer = L.layerGroup().addTo(map);
 
   const statusEl = document.getElementById("status");
   const eventsEl = document.getElementById("events");
@@ -275,6 +281,7 @@
   const sourceEl = document.getElementById("source");
   const refreshBtn = document.getElementById("refresh");
   const aircraftToggle = document.getElementById("aircraftToggle");
+  const satelliteToggle = document.getElementById("satelliteToggle");
 
   function setStatus(text, isError = false) {
     statusEl.textContent = text;
@@ -354,6 +361,8 @@
           <strong>${escapeHtml(props.title || "event")}</strong>
           <div class="muted">${escapeHtml(props.source || "")}</div>
           <div class="muted">${escapeHtml(props.ts || "")}</div>
+          ${props.summary ? `<div class="muted">${escapeHtml(props.summary)}</div>` : ""}
+          ${props.url ? `<div><a href="${props.url}" target="_blank" rel="noopener noreferrer">Open source</a></div>` : ""}
         `;
 
         if (marker) {
@@ -389,7 +398,15 @@
       aircraftLayer.clearLayers();
       setStatus("loading aircraft");
 
-      const res = await fetch(`${API_BASE}/aircraft`);
+      const bounds = map.getBounds();
+      const lamin = bounds.getSouth();
+      const lamax = bounds.getNorth();
+      const lomin = bounds.getWest();
+      const lomax = bounds.getEast();
+
+      const url = `${API_BASE}/aircraft?lamin=${encodeURIComponent(lamin)}&lamax=${encodeURIComponent(lamax)}&lomin=${encodeURIComponent(lomin)}&lomax=${encodeURIComponent(lomax)}`;
+
+      const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const data = await res.json();
@@ -411,8 +428,10 @@
         }).addTo(aircraftLayer);
 
         marker.bindPopup(`
-          <strong>${escapeHtml(p.callsign || "aircraft")}</strong><br>
-          alt: ${escapeHtml(p.geo_altitude || "?")}
+          <strong>${escapeHtml(props.title || "event")}</strong><br>
+          ${escapeHtml(props.source || "")}<br>
+          <span class="muted">${escapeHtml(props.ts || "")}</span><br>
+          ${props.url ? `<a href="${props.url}" target="_blank" rel="noopener noreferrer">Open source</a>` : ""}
         `);
       });
 
@@ -436,6 +455,71 @@
     } else {
       aircraftLayer.clearLayers();
       setStatus("aircraft hidden");
+    }
+  });
+
+  async function loadSatellites() {
+    try {
+      satelliteLayer.clearLayers();
+      setStatus("loading satellites");
+
+      const bounds = map.getBounds();
+      const lamin = bounds.getSouth();
+      const lamax = bounds.getNorth();
+      const lomin = bounds.getWest();
+      const lomax = bounds.getEast();
+
+      const url = `${API_BASE}/satellites?group=stations&lamin=${encodeURIComponent(lamin)}&lamax=${encodeURIComponent(lamax)}&lomin=${encodeURIComponent(lomin)}&lomax=${encodeURIComponent(lomax)}`;
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+      const items = Array.isArray(data.items) ? data.items : [];
+
+      items.forEach((sat) => {
+        if (sat.lat == null || sat.lon == null) return;
+
+        const marker = L.circleMarker([sat.lat, sat.lon], {
+          radius: 5,
+          color: "#facc15"
+        }).addTo(satelliteLayer);
+
+        marker.bindPopup(`
+          <strong>${escapeHtml(sat.name || "satellite")}</strong><br>
+          NORAD: ${escapeHtml(sat.norad_id || "?")}<br>
+          alt: ${escapeHtml(
+            sat.alt_km != null ? sat.alt_km.toFixed(1) + " km" : "?"
+          )}<br>
+          speed: ${escapeHtml(
+            sat.speed_kms != null ? sat.speed_kms.toFixed(2) + " km/s" : "?"
+          )}
+        `);
+      });
+
+      setStatus(`${items.length} satellites loaded`);
+    } catch (err) {
+      console.error(err);
+      satelliteLayer.clearLayers();
+      setStatus("error loading satellites", true);
+    }
+  }
+
+  satelliteToggle.addEventListener("change", (e) => {
+    if (e.target.checked) {
+      loadSatellites();
+    } else {
+      satelliteLayer.clearLayers();
+      setStatus("satellites hidden");
+    }
+  });
+
+  map.on("moveend", () => {
+    if (aircraftToggle.checked) {
+      loadAircraft();
+    }
+    if (satelliteToggle.checked) {
+      loadSatellites();
     }
   });
 
