@@ -1,23 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
 <url>
-  <loc>https://lmolinario.github.io/</loc>
+<loc>https://lmolinario.github.io/</loc>
 </url>
 
 <url>
-  <loc>https://lmolinario.github.io/about/</loc>
+<loc>https://lmolinario.github.io/about/</loc>
 </url>
 
 <url>
-  <loc>https://lmolinario.github.io/projects/</loc>
+<loc>https://lmolinario.github.io/projects/</loc>
 </url>
 
 <url>
-  <loc>https://lmolinario.github.io/research/</loc>
+<loc>https://lmolinario.github.io/research/</loc>
 </url>
 
 <url>
-  <loc>https://lmolinario.github.io/osint-threat-radar/</loc>
+<loc>https://lmolinario.github.io/blog/</loc>
 </url>
 
 <url>
-  <loc>https://lmolinario.github.io/tools/</loc>
+<loc>https://lmolinario.github.io/ai-forensics/</loc>
 </url>
+
+<url>
+<loc>https://lmolinario.github.io/osint-threat-radar/</loc>
+</url>
+
+<url>
+<loc>https://lmolinario.github.io/tools/jwt-decoder/</loc>
+</url>
+
+<url>
+<loc>https://lmolinario.github.io/tools/hash-tool/</loc>
+</url>
+
+<url>
+<loc>https://lmolinario.github.io/tools/dns-check/</loc>
+</url>
+
+</urlset>
