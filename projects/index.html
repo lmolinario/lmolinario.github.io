@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Projects – Lello Molinario</title>
+  <meta name="description" content="Projects by Lello Molinario in cybersecurity, digital forensics, OSINT, AI security, and technical research." />
+
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0369a1;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      padding: 3rem 0;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      line-height: 1.2;
+      margin: 0 0 1rem;
+    }
+
+    .intro {
+      max-width: 760px;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.65rem;
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      margin: 0 0 0.9rem;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      padding: 0.28rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      margin-right: 0.4rem;
+      margin-bottom: 0.45rem;
+      color: var(--muted);
+      background: #f8fafc;
+    }
+
+    .project-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    .note {
+      margin-top: 2rem;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding: 1.5rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      background: var(--surface);
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 1.9rem;
+      }
+
+      nav a {
+        margin-left: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/">Lello Molinario</a>
+      <nav>
+        <a href="/about/">About</a>
+        <a href="/projects/">Projects</a>
+        <a href="/research/">Research</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>Projects</h1>
+      <p class="intro">
+        This page collects selected technical and research-oriented projects in cybersecurity,
+        digital forensics, OSINT, AI security, and software development. The focus is on
+        practical systems, applied research, and tools designed for investigation, monitoring,
+        and security assessment.
+      </p>
+
+      <h2>Featured Projects</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>OSINT Threat Radar</h3>
+          <p>
+            Geospatial and event-based monitoring platform for OSINT collection, cyber-related
+            event tracking, and external situational awareness.
+          </p>
+          <div>
+            <span class="tag">OSINT</span>
+            <span class="tag">Threat Intelligence</span>
+            <span class="tag">Monitoring</span>
+            <span class="tag">Geospatial</span>
+          </div>
+          <p>
+            <a class="project-link" href="/osint-threat-radar/">Open project page</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>AI Forensics</h3>
+          <p>
+            Research project focused on the robustness of AI-based tools in digital forensics,
+            with attention to adversarial attacks, anti-forensic perturbations, and operational reliability.
+          </p>
+          <div>
+            <span class="tag">AI Security</span>
+            <span class="tag">Digital Forensics</span>
+            <span class="tag">Adversarial ML</span>
+            <span class="tag">Research</span>
+          </div>
+          <p>
+            <a class="project-link" href="/ai-forensics/">Open project page</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Security Tools</h3>
+          <p>
+            Collection of lightweight technical utilities for validation, inspection, and
+            security-oriented workflows, including token and DNS-related tools.
+          </p>
+          <div>
+            <span class="tag">Tools</span>
+            <span class="tag">Security</span>
+            <span class="tag">Utilities</span>
+          </div>
+          <p>
+            <a class="project-link" href="/tools/jwt-decoder/">JWT Decoder</a><br />
+            <a class="project-link" href="/tools/dns-check/">DNS Security Check</a><br />
+            <a class="project-link" href="/tools/hash-tool/">Hash Tool</a>
+          </p>
+        </article>
+      </div>
+
+      <h2>Research and Development Areas</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Digital Forensics Workflows</h3>
+          <p>
+            Investigation-oriented workflows involving digital evidence handling, forensic
+            processing, technical validation, and support for structured analysis activities.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>AI Robustness Evaluation</h3>
+          <p>
+            Experimental analysis of AI systems exposed to adversarial manipulation and
+            anti-forensic transformations in operational and investigative contexts.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Cyber Threat Monitoring</h3>
+          <p>
+            Monitoring approaches for collecting, organizing, and visualizing cyber-relevant
+            events, exposure indicators, and intelligence signals from public sources.
+          </p>
+        </article>
+      </div>
+
+      <h2>Current Direction</h2>
+      <p class="intro">
+        Ongoing work is centered on the intersection of cybersecurity, digital forensics,
+        artificial intelligence, and OSINT-driven monitoring. Future additions will include
+        expanded technical write-ups, public research summaries, and more complete project pages.
+      </p>
+
+      <p class="note">
+        Additional projects and technical documentation will be published progressively.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Lello Molinario. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>
