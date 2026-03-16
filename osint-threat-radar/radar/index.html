@@ -292,6 +292,7 @@
     }[c]));
   }
 
+<script>
   async function loadEvents() {
     try {
       setStatus("loading events");
@@ -313,10 +314,15 @@
       eventsLayer.clearLayers();
       eventsEl.innerHTML = "";
 
-      const events = Array.isArray(data.events) ? data.events : [];
+      const events = Array.isArray(data.features) ? data.features : [];
 
       if (events.length === 0) {
-        eventsEl.innerHTML = `<div class="event"><strong>No events found</strong><div class="muted">Try changing filters or refreshing later.</div></div>`;
+        eventsEl.innerHTML = `
+          <div class="event">
+            <strong>No events found</strong>
+            <div class="muted">Try changing filters or refreshing later.</div>
+          </div>
+        `;
         setStatus("0 events");
         return;
       }
@@ -324,28 +330,35 @@
       const bounds = [];
 
       events.forEach((ev) => {
-        const lat = ev.lat;
-        const lon = ev.lon;
+        const props = ev.properties || {};
+        const coords = ev.geometry?.coordinates;
+
+        const lon = Array.isArray(coords) ? coords[0] : null;
+        const lat = Array.isArray(coords) ? coords[1] : null;
+
         let marker = null;
 
         if (lat != null && lon != null) {
           marker = L.marker([lat, lon]).addTo(eventsLayer);
+
           marker.bindPopup(`
-            <strong>${escapeHtml(ev.title || "event")}</strong><br>
-            ${escapeHtml(ev.source || "")}
+            <strong>${escapeHtml(props.title || "event")}</strong><br>
+            ${escapeHtml(props.source || "")}<br>
+            <span class="muted">${escapeHtml(props.ts || "")}</span>
           `);
+
           bounds.push([lat, lon]);
         }
 
         const div = document.createElement("div");
         div.className = "event" + (marker ? " clickable" : "");
         div.innerHTML = `
-          <strong>${escapeHtml(ev.title || "event")}</strong>
-          <div class="muted">${escapeHtml(ev.source || "")}</div>
-          <div class="muted">${escapeHtml(ev.time || "")}</div>
+          <strong>${escapeHtml(props.title || "event")}</strong>
+          <div class="muted">${escapeHtml(props.source || "")}</div>
+          <div class="muted">${escapeHtml(props.ts || "")}</div>
         `;
 
-        if (marker && lat != null && lon != null) {
+        if (marker) {
           div.addEventListener("click", () => {
             map.setView([lat, lon], 8);
             marker.openPopup();
@@ -363,10 +376,16 @@
     } catch (err) {
       console.error(err);
       eventsLayer.clearLayers();
-      eventsEl.innerHTML = `<div class="event"><strong>Unable to load events</strong><div class="muted">Please try again later.</div></div>`;
+      eventsEl.innerHTML = `
+        <div class="event">
+          <strong>Unable to load events</strong>
+          <div class="muted">Please try again later.</div>
+        </div>
+      `;
       setStatus("error loading events", true);
     }
   }
+</script>
 
   async function loadAircraft() {
     try {
