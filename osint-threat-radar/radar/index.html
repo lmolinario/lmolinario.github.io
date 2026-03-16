@@ -356,6 +356,8 @@
           <strong>${escapeHtml(props.title || "event")}</strong>
           <div class="muted">${escapeHtml(props.source || "")}</div>
           <div class="muted">${escapeHtml(props.ts || "")}</div>
+          <div class="muted">${escapeHtml(props.summary || "")}</div>
+          ${props.url ? `<div><a href="${props.url}" target="_blank" rel="noopener noreferrer">Open source</a></div>` : ""}
         `;
 
         if (marker) {
