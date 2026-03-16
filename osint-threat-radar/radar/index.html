@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OSINT Threat Radar – Dashboard</title>
+  <meta name="description" content="Interactive OSINT monitoring dashboard with geospatial visualization of events and aircraft data." />
+
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111827;
+      --panel2:#1f2937;
+      --border:#374151;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --accent:#38bdf8;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Inter,Arial;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      flex-direction:column;
+      height:100vh;
+    }
+
+    header{
+      background:var(--panel);
+      border-bottom:1px solid var(--border);
+      padding:10px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    header h1{
+      font-size:16px;
+      margin:0;
+      font-weight:600;
+    }
+
+    header nav a{
+      color:var(--muted);
+      margin-left:14px;
+      text-decoration:none;
+      font-size:14px;
+    }
+
+    header nav a:hover{
+      color:var(--accent);
+    }
+
+    #layout{
+      flex:1;
+      display:flex;
+      min-height:0;
+    }
+
+    #map{
+      flex:1;
+      height:100%;
+    }
+
+    #sidebar{
+      width:340px;
+      background:var(--panel);
+      border-left:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+    }
+
+    #controls{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      background:var(--panel2);
+    }
+
+    #controls input,
+    #controls select{
+      width:100%;
+      padding:6px;
+      margin-bottom:8px;
+      border:1px solid var(--border);
+      background:#020617;
+      color:var(--text);
+      border-radius:4px;
+    }
+
+    #events{
+      flex:1;
+      overflow:auto;
+      padding:12px;
+    }
+
+    .event{
+      border-bottom:1px solid var(--border);
+      padding:8px 0;
+      font-size:13px;
+    }
+
+    .event strong{
+      color:white;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    #status{
+      padding:6px 10px;
+      border-top:1px solid var(--border);
+      font-size:12px;
+      color:var(--muted);
+      background:#020617;
+    }
+
+    button{
+      padding:6px 10px;
+      background:var(--accent);
+      border:none;
+      color:#020617;
+      font-weight:600;
+      cursor:pointer;
+      border-radius:4px;
+    }
+
+    button:hover{
+      opacity:0.9;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>OSINT Threat Radar</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/osint-threat-radar/">Project</a>
+  </nav>
+</header>
+
+<div id="layout">
+
+  <div id="map"></div>
+
+  <div id="sidebar">
+
+    <div id="controls">
+      <input id="q" placeholder="Search text" />
+      <select id="type">
+        <option value="">All types</option>
+        <option value="cyber">Cyber</option>
+        <option value="incident">Incident</option>
+        <option value="intel">Intel</option>
+      </select>
+
+      <select id="source">
+        <option value="">All sources</option>
+        <option value="rss">RSS</option>
+        <option value="manual">Manual</option>
+      </select>
+
+      <button id="refresh">Refresh</button>
+      <label style="display:block;margin-top:6px;font-size:12px">
+        <input type="checkbox" id="aircraftToggle" /> aircraft
+      </label>
+    </div>
+
+    <div id="events"></div>
+
+    <div id="status">ready</div>
+
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const API_BASE = "https://osint-threat-radar.onrender.com";
+
+const map = L.map("map").setView([41.9,12.5],5);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+  maxZoom:18,
+  attribution:"© OpenStreetMap"
+}).addTo(map);
+
+const eventsLayer = L.layerGroup().addTo(map);
+const aircraftLayer = L.layerGroup().addTo(map);
+
+const statusEl = document.getElementById("status");
+const eventsEl = document.getElementById("events");
+
+function setStatus(s){
+  statusEl.textContent = s;
+}
+
+async function loadEvents(){
+
+  setStatus("loading events");
+
+  const q = document.getElementById("q").value;
+  const type = document.getElementById("type").value;
+  const source = document.getElementById("source").value;
+
+  let url = `${API_BASE}/events?`;
+
+  if(q) url += `q=${encodeURIComponent(q)}&`;
+  if(type) url += `type=${encodeURIComponent(type)}&`;
+  if(source) url += `source=${encodeURIComponent(source)}&`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  eventsLayer.clearLayers();
+  eventsEl.innerHTML="";
+
+  if(!data.events) return;
+
+  data.events.forEach(ev=>{
+
+    const lat = ev.lat;
+    const lon = ev.lon;
+
+    if(lat && lon){
+
+      const m = L.marker([lat,lon]).addTo(eventsLayer);
+      m.bindPopup(`<strong>${ev.title}</strong><br>${ev.source}`);
+    }
+
+    const div = document.createElement("div");
+    div.className="event";
+
+    div.innerHTML = `
+      <strong>${ev.title || "event"}</strong>
+      <div class="muted">${ev.source || ""}</div>
+      <div class="muted">${ev.time || ""}</div>
+    `;
+
+    eventsEl.appendChild(div);
+
+  });
+
+  setStatus(`${data.events.length} events`);
+
+}
+
+async function loadAircraft(){
+
+  aircraftLayer.clearLayers();
+
+  const res = await fetch(`${API_BASE}/aircraft`);
+  const data = await res.json();
+
+  if(!data.features) return;
+
+  data.features.forEach(f=>{
+
+    const c = f.geometry.coordinates;
+
+    const lat = c[1];
+    const lon = c[0];
+
+    const m = L.circleMarker([lat,lon],{
+      radius:4,
+      color:"#38bdf8"
+    }).addTo(aircraftLayer);
+
+    const p = f.properties;
+
+    m.bindPopup(`
+      <strong>${p.callsign || "aircraft"}</strong><br>
+      alt: ${p.baro_altitude || "?"}
+    `);
+
+  });
+
+}
+
+document.getElementById("refresh").onclick = loadEvents;
+
+document.getElementById("aircraftToggle").onchange = e=>{
+  if(e.target.checked){
+    loadAircraft();
+  } else {
+    aircraftLayer.clearLayers();
+  }
+};
+
+loadEvents();
+
+</script>
+
+</body>
+</html>
