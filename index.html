@@ -4,40 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Lello Molinario – Cybersecurity, Digital Forensics, AI Security</title>
-  <meta name="description" content="Lello Molinario – Cyber Security Specialist, Digital Forensics Expert, and AI Security researcher. Personal website with projects, research, tools, and professional information." />
-  <meta name="keywords" content="Lello Molinario, cybersecurity, digital forensics, AI security, OSINT, threat intelligence, incident response, malware analysis, Sassari, Italy" />
+  <title>Lello Molinario | Cybersecurity, Digital Forensics, AI Security</title>
+  <meta name="description" content="Lello Molinario is a cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy. Personal website with projects, research, tools, and professional information." />
   <meta name="author" content="Lello Molinario" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://lmolinario.github.io/" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
-  <meta property="og:title" content="Lello Molinario – Cybersecurity, Digital Forensics, AI Security" />
-  <meta property="og:description" content="Cyber Security Specialist, Digital Forensics Expert, and AI Security researcher. Explore projects, research, and technical tools." />
+  <meta property="og:title" content="Lello Molinario | Cybersecurity, Digital Forensics, AI Security" />
+  <meta property="og:description" content="Cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lmolinario.github.io/" />
-  <meta property="og:image" content="https://ui-avatars.com/api/?name=Lello+Molinario&background=0f172a&color=fff&size=400" />
+  <meta property="og:image" content="https://lmolinario.github.io/assets/og-cover.jpg" />
 
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lello Molinario – Cybersecurity, Digital Forensics, AI Security" />
-  <meta name="twitter:description" content="Cyber Security Specialist, Digital Forensics Expert, and AI Security researcher." />
-  <meta name="twitter:image" content="https://ui-avatars.com/api/?name=Lello+Molinario&background=0f172a&color=fff&size=400" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Lello Molinario | Cybersecurity, Digital Forensics, AI Security" />
+  <meta name="twitter:description" content="Cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy." />
+  <meta name="twitter:image" content="https://lmolinario.github.io/assets/og-cover.jpg" />
 
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://lmolinario.github.io/#person",
     "name": "Lello Molinario",
     "url": "https://lmolinario.github.io/",
-    "jobTitle": "Cyber Security Specialist · Digital Forensics Expert · AI Security Researcher",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Prosecutor’s Office of Sassari"
-    },
+    "image": "https://lmolinario.github.io/assets/profile.jpg",
+    "jobTitle": "Cybersecurity Specialist, Digital Forensics Expert, AI Security Researcher",
+    "description": "Cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Sassari",
-      "addressCountry": "Italy"
+      "addressCountry": "IT"
     },
     "alumniOf": {
       "@type": "CollegeOrUniversity",
@@ -54,14 +57,23 @@
     :root {
       --bg: #f8fafc;
       --surface: #ffffff;
+      --surface-soft: #f1f5f9;
       --text: #0f172a;
       --muted: #475569;
       --accent: #0369a1;
+      --accent-dark: #075985;
       --border: #e2e8f0;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      --radius: 16px;
+      --maxw: 1040px;
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -70,40 +82,63 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: var(--accent);
     }
 
     .container {
-      max-width: 980px;
+      max-width: var(--maxw);
       margin: 0 auto;
       padding: 0 1.25rem;
     }
 
     header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
-      background: var(--surface);
     }
 
     .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 0;
       gap: 1rem;
       flex-wrap: wrap;
+      padding: 1rem 0;
     }
 
     .brand {
-      font-weight: 700;
+      font-weight: 800;
       font-size: 1.05rem;
       color: var(--text);
       text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
     nav a {
       color: var(--muted);
       text-decoration: none;
-      margin-left: 1rem;
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 0.95rem;
     }
 
     nav a:hover {
@@ -111,34 +146,64 @@
     }
 
     .hero {
-      padding: 4.5rem 0 3rem;
-      background: linear-gradient(to bottom, #ffffff, #f8fafc);
+      padding: 5rem 0 3rem;
+      background:
+        radial-gradient(circle at top right, rgba(3, 105, 161, 0.08), transparent 30%),
+        linear-gradient(to bottom, #ffffff, #f8fafc);
+    }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: var(--accent-dark);
+      font-size: 0.85rem;
+      font-weight: 700;
     }
 
     .hero h1 {
-      font-size: 2.5rem;
-      line-height: 1.2;
       margin: 0 0 1rem;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
     }
 
     .hero p {
-      max-width: 760px;
-      font-size: 1.05rem;
-      color: var(--muted);
       margin: 0 0 1.5rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 740px;
+    }
+
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.25rem;
     }
 
     .hero-links a {
-      display: inline-block;
-      margin-right: 0.9rem;
-      margin-bottom: 0.75rem;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       border: 1px solid var(--border);
       color: var(--text);
       background: var(--surface);
+      box-shadow: var(--shadow);
     }
 
     .hero-links a.primary {
@@ -147,13 +212,39 @@
       border-color: var(--accent);
     }
 
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card h2 {
+      margin-top: 0;
+      font-size: 1.05rem;
+    }
+
+    .hero-card ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      color: var(--muted);
+    }
+
     section {
-      padding: 2.5rem 0;
+      padding: 2.75rem 0;
     }
 
     h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+      margin: 0 0 1rem;
+      font-size: 1.65rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-intro {
+      margin: 0 0 1.2rem;
+      color: var(--muted);
+      max-width: 760px;
     }
 
     .card-grid {
@@ -165,8 +256,9 @@
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: var(--radius);
       padding: 1.2rem;
+      box-shadow: var(--shadow);
     }
 
     .card h3 {
@@ -178,12 +270,31 @@
     .card p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.96rem;
+      font-size: 0.97rem;
     }
 
     .card a {
-      color: var(--accent);
       text-decoration: none;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .list-box,
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
     }
 
     ul {
@@ -192,11 +303,19 @@
     }
 
     li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.55rem;
     }
 
-    .muted {
-      color: var(--muted);
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 0.8rem;
+    }
+
+    .contact-links a {
+      text-decoration: none;
+      font-weight: 600;
     }
 
     footer {
@@ -208,20 +327,41 @@
       background: var(--surface);
     }
 
+    .footer-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 860px) {
+      .hero-wrap,
+      .split {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 640px) {
+      .hero {
+        padding-top: 4rem;
+      }
+
       .hero h1 {
-        font-size: 2rem;
+        font-size: 2.1rem;
+      }
+
+      nav {
+        gap: 0.75rem;
       }
 
       nav a {
-        margin-left: 0.75rem;
+        font-size: 0.92rem;
       }
     }
   </style>
 
-<script defer src="https://cloud.umami.is/script.js" data-website-id="bc4ecda0-940a-4623-ad07-1f11f19f917a"></script>
-
-
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="bc4ecda0-940a-4623-ad07-1f11f19f917a"></script>
 </head>
 <body>
   <header>
@@ -232,36 +372,47 @@
         <a href="/projects/">Projects</a>
         <a href="/research/">Research</a>
         <a href="/blog/">Blog</a>
-        <a href="#contact">Social</a>
+        <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="container">
-        <h1>Lello Molinario - Cybersecurity, Digital Forensics, and AI Security</h1>
-        <p>
-          Cyber Security Specialist and Digital Forensics Expert based in Sassari, Italy.
-          I work on cybersecurity, digital investigations, OSINT, incident response, and
-          the robustness of AI systems in forensic and security contexts.
-        </p>
-        <div class="hero-links">
-          <a class="primary" href="/projects/">View Projects</a>
-          <a href="/research/">Research</a>
-          <a href="/osint-threat-radar/">OSINT Threat Radar</a>
+      <div class="container hero-wrap">
+        <div>
+          <span class="eyebrow">Cybersecurity · Digital Forensics · AI Security</span>
+          <h1>Lello Molinario</h1>
+          <p>
+            Lello Molinario is a cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy. His work focuses on cybersecurity, digital investigations, OSINT, incident response, and the robustness of AI systems in forensic and security contexts.
+          </p>
+          <div class="hero-links">
+            <a class="primary" href="/projects/">View Projects</a>
+            <a href="/research/">Research</a>
+            <a href="/osint-threat-radar/">OSINT Threat Radar</a>
+          </div>
         </div>
+
+        <aside class="hero-card">
+          <h2>Professional Focus</h2>
+          <ul>
+            <li>Cybersecurity and incident response</li>
+            <li>Digital forensics and investigative workflows</li>
+            <li>OSINT and threat intelligence</li>
+            <li>AI security and adversarial robustness</li>
+          </ul>
+        </aside>
       </div>
     </section>
 
     <section>
       <div class="container">
         <h2>About</h2>
+        <p class="section-intro">
+          This website presents the professional profile, projects, research activities, and technical tools of Lello Molinario. It brings together work across cybersecurity, digital forensics, AI security, OSINT, and operational security analysis.
+        </p>
         <p class="muted">
-          I currently work at the Prosecutor’s Office of Sassari, providing internal consultancy
-          in cybersecurity, digital investigations, and forensic workflows. My background combines
-          computer engineering, security analysis, applied research, and technical problem solving
-          across institutional and academic contexts.
+          Lello Molinario works across cybersecurity, digital forensics, AI security, and threat intelligence. His activities include digital investigations, forensic workflows, OSINT-driven analysis, incident response, and research on the robustness of AI-based tools in operational environments.
         </p>
       </div>
     </section>
@@ -269,6 +420,9 @@
     <section>
       <div class="container">
         <h2>Core Expertise</h2>
+        <p class="section-intro">
+          Main domains of activity and technical specialization.
+        </p>
         <div class="card-grid">
           <div class="card">
             <h3>Cybersecurity</h3>
@@ -276,15 +430,15 @@
           </div>
           <div class="card">
             <h3>Digital Forensics</h3>
-            <p>Digital investigations, forensic workflows, evidence handling, and technical support.</p>
+            <p>Digital investigations, forensic workflows, evidence handling, and technical support in operational contexts.</p>
           </div>
           <div class="card">
             <h3>OSINT & Threat Intelligence</h3>
-            <p>Open-source intelligence, exposure monitoring, and cyber threat analysis.</p>
+            <p>Open-source intelligence, monitoring, exposure assessment, and threat-oriented analysis.</p>
           </div>
           <div class="card">
             <h3>AI Security</h3>
-            <p>Adversarial machine learning, robustness evaluation, and AI-based forensic tools.</p>
+            <p>Adversarial machine learning, robustness evaluation, trustworthy AI, and AI-assisted forensic workflows.</p>
           </div>
         </div>
       </div>
@@ -293,6 +447,9 @@
     <section>
       <div class="container">
         <h2>Selected Projects</h2>
+        <p class="section-intro">
+          Explore selected <a href="/projects/">projects</a>, ongoing <a href="/research/">research</a>, and practical security tools.
+        </p>
         <div class="card-grid">
           <div class="card">
             <h3><a href="/osint-threat-radar/">OSINT Threat Radar</a></h3>
@@ -300,7 +457,7 @@
           </div>
           <div class="card">
             <h3><a href="/ai-forensics/">AI Forensics</a></h3>
-            <p>Research-oriented work on robustness of AI tools in digital forensics and adversarial settings.</p>
+            <p>Research-oriented work on the robustness of AI tools in digital forensics and adversarial settings.</p>
           </div>
           <div class="card">
             <h3><a href="/tools/jwt-decoder/">JWT Decoder</a></h3>
@@ -315,36 +472,35 @@
     </section>
 
     <section>
-      <div class="container">
-        <h2>Research Interests</h2>
-        <ul class="muted">
-          <li>Digital forensics and AI-assisted investigative workflows</li>
-          <li>Adversarial attacks and anti-forensic perturbations on image-based systems</li>
-          <li>Robustness and trustworthiness of AI tools in operational environments</li>
-          <li>Cyber threat intelligence and OSINT-driven monitoring platforms</li>
-        </ul>
-      </div>
-    </section>
+      <div class="container split">
+        <div class="list-box">
+          <h2>Research Interests</h2>
+          <ul class="muted">
+            <li>Digital forensics and AI-assisted investigative workflows</li>
+            <li>Adversarial attacks and anti-forensic perturbations on image-based systems</li>
+            <li>Robustness and trustworthiness of AI tools in operational environments</li>
+            <li>Cyber threat intelligence and OSINT-driven monitoring platforms</li>
+          </ul>
+        </div>
 
-    <section id="contact">
-      <div class="container">
-        <p class="muted">
-
-        </p>
-        <p>
-          LinkedIn:
-          <a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener noreferrer">Profile</a>
-          <br />
-          GitHub:
-          <a href="https://github.com/lmolinario" target="_blank" rel="noopener noreferrer">lmolinario</a>
-        </p>
+        <div class="contact-box" id="contact">
+          <h2>Contact & Profiles</h2>
+          <p class="muted">
+            For professional inquiries, research collaborations, or technical networking, connect through the following profiles.
+          </p>
+          <div class="contact-links">
+            <a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/lmolinario" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      © 2026 Lello Molinario. All rights reserved.
+    <div class="container footer-line">
+      <div>© 2026 Lello Molinario. All rights reserved.</div>
+      <div>Based in Sassari, Italy</div>
     </div>
   </footer>
 </body>
