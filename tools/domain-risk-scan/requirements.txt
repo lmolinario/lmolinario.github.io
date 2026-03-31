@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary
+pydantic
+pydantic-settings
+alembic
+celery
+redis
+dnspython
+httpx
+python-dotenv
+jinja2
+stripe
+reportlab

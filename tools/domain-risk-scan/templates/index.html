@@ -1,0 +1,1192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Digital Risk Scanner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --surface:#ffffff;
+      --surface-soft:#f1f5f9;
+      --text:#0f172a;
+      --muted:#475569;
+      --accent:#0369a1;
+      --accent-dark:#075985;
+      --border:#e2e8f0;
+      --shadow:0 10px 30px rgba(15,23,42,0.06);
+
+      --critical-bg:#fff1f2;
+      --critical-text:#b42318;
+      --high-bg:#fff7ed;
+      --high-text:#c2410c;
+      --medium-bg:#fffbeb;
+      --medium-text:#a16207;
+      --low-bg:#f8fafc;
+      --low-text:#475569;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:0 1.25rem;
+    }
+
+    header{
+      border-bottom:1px solid var(--border);
+      background:var(--surface);
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      flex-wrap:wrap;
+      padding:1rem 0;
+    }
+
+    .brand{
+      font-weight:700;
+      font-size:1.05rem;
+      color:var(--text);
+      text-decoration:none;
+    }
+
+    main{
+      padding:2.5rem 0 3rem;
+    }
+
+    .hero{
+      margin-bottom:1.5rem;
+    }
+
+    h1{
+      font-size:2.4rem;
+      line-height:1.1;
+      margin:0 0 1rem;
+    }
+
+    .lead{
+      max-width:800px;
+      color:var(--muted);
+      margin:0 0 0.75rem;
+      font-size:1.03rem;
+    }
+
+    .sublead{
+      color:var(--muted);
+      margin:0;
+      font-size:0.95rem;
+    }
+
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:1.25rem;
+      box-shadow:var(--shadow);
+      margin-top:1.25rem;
+    }
+
+    .scan-form{
+      display:flex;
+      gap:0.75rem;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .scan-form input{
+      flex:1 1 420px;
+      min-width:240px;
+      padding:0.95rem 1rem;
+      border:1px solid var(--border);
+      border-radius:12px;
+      font-size:1rem;
+      outline:none;
+      background:#fff;
+      color:var(--text);
+    }
+
+    .scan-form input:focus{
+      border-color:var(--accent);
+    }
+
+    button{
+      padding:0.95rem 1.1rem;
+      border-radius:12px;
+      border:1px solid var(--accent);
+      background:var(--accent);
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      font-size:1rem;
+    }
+
+    button:hover{
+      background:var(--accent-dark);
+      border-color:var(--accent-dark);
+    }
+
+    button.secondary{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+
+    button.secondary:hover{
+      background:var(--surface-soft);
+      border-color:var(--border);
+    }
+
+    .helper{
+      color:var(--muted);
+      font-size:0.92rem;
+      margin-top:0.9rem;
+    }
+
+    .status-box,
+    .error-box{
+      display:none;
+      margin-top:1rem;
+      border-radius:12px;
+      padding:0.9rem 1rem;
+      border:1px solid var(--border);
+      background:var(--surface-soft);
+    }
+
+    .error-box{
+      color:#991b1b;
+      background:#fef2f2;
+      border-color:#fecaca;
+    }
+
+    .result{
+      display:none;
+    }
+
+    .scan-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:1rem;
+      flex-wrap:wrap;
+      margin-bottom:0.5rem;
+    }
+
+    .score{
+      font-size:3.4rem;
+      line-height:1;
+      font-weight:700;
+      margin:0.35rem 0 0.25rem;
+    }
+
+    .summary-inline{
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 11px;
+      border-radius:999px;
+      background:var(--surface-soft);
+      border:1px solid var(--border);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .section-title{
+      font-size:1.2rem;
+      margin:1.75rem 0 0.9rem;
+      font-weight:700;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .bucket-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:1rem;
+      margin-top:1rem;
+    }
+
+    .mini-card,
+    .mini-stat,
+    .ai-box,
+    .hidden-block,
+    .finding-card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:14px;
+    }
+
+    .mini-card,
+    .mini-stat,
+    .ai-box,
+    .hidden-block{
+      padding:1rem;
+    }
+
+    .mini-card h3,
+    .ai-box h4{
+      margin:0 0 0.55rem;
+    }
+
+    .mini-card p,
+    .ai-box p,
+    .mini-stat .label{
+      color:var(--muted);
+      margin:0;
+    }
+
+    .mini-stat .label{
+      font-size:0.85rem;
+      margin-bottom:0.4rem;
+    }
+
+    .mini-stat .value{
+      font-size:1.45rem;
+      font-weight:700;
+      line-height:1.25;
+    }
+
+    .score-stat .value{
+      font-size:2rem;
+    }
+
+    .bucket-immediate{ border-left:5px solid #b00020; }
+    .bucket-important{ border-left:5px solid #c26a00; }
+    .bucket-monitor{ border-left:5px solid #4b5563; }
+
+    .actions{
+      display:flex;
+      gap:0.75rem;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:1rem;
+    }
+
+    .findings-list{
+      display:grid;
+      gap:0.9rem;
+      margin-top:1rem;
+    }
+
+    .finding-card{
+      overflow:hidden;
+    }
+
+    .finding-card .top{
+      padding:1rem 1rem 0.7rem;
+      border-bottom:1px solid #edf2f7;
+      background:linear-gradient(to bottom, #ffffff, #fbfdff);
+    }
+
+    .finding-body{
+      padding:1rem;
+      display:grid;
+      gap:0.8rem;
+    }
+
+    .finding-meta{
+      display:flex;
+      gap:0.5rem;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom:0.55rem;
+    }
+
+    .finding-title{
+      font-size:1.02rem;
+      font-weight:700;
+      margin-bottom:0.35rem;
+    }
+
+    .technical-title{
+      color:var(--muted);
+      font-size:0.92rem;
+    }
+
+    .finding-block{
+      border:1px solid #eef2f7;
+      background:#fcfdff;
+      border-radius:12px;
+      padding:0.85rem 0.95rem;
+    }
+
+    .finding-block h5{
+      margin:0 0 0.45rem;
+      font-size:0.82rem;
+      text-transform:uppercase;
+      letter-spacing:0.02em;
+      color:#334155;
+    }
+
+    .category-chip,
+    .meta-chip,
+    .sev-pill{
+      display:inline-flex;
+      align-items:center;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .category-chip,
+    .meta-chip{
+      border:1px solid var(--border);
+      background:var(--surface-soft);
+      color:#334155;
+    }
+
+    .sev-pill{
+      text-transform:uppercase;
+      letter-spacing:0.02em;
+      border:1px solid transparent;
+    }
+
+    .sev-critical{
+      color:var(--critical-text);
+      background:var(--critical-bg);
+      border-color:#fecdd3;
+    }
+
+    .sev-high{
+      color:var(--high-text);
+      background:var(--high-bg);
+      border-color:#fed7aa;
+    }
+
+    .sev-medium{
+      color:var(--medium-text);
+      background:var(--medium-bg);
+      border-color:#fde68a;
+    }
+
+    .sev-low{
+      color:var(--low-text);
+      background:var(--low-bg);
+      border-color:#e2e8f0;
+    }
+
+    .snippet{
+      margin:0;
+      padding:0.85rem;
+      background:#111827;
+      color:#f9fafb;
+      border-radius:10px;
+      overflow-x:auto;
+      font-family:Consolas, Monaco, monospace;
+      font-size:13px;
+      line-height:1.45;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+
+    .evidence-list,
+    .compact{
+      margin:0.35rem 0 0 1rem;
+      padding:0;
+    }
+
+    .teaser-callout{
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    .prewrap{
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+
+    footer{
+      border-top:1px solid var(--border);
+      margin-top:2rem;
+      padding:1.5rem 0 2.5rem;
+      color:var(--muted);
+      font-size:0.95rem;
+      background:var(--surface);
+    }
+
+    @media (max-width: 980px){
+      .stats-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px){
+      .bucket-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 760px){
+      .grid,
+      .stats-grid{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:2rem;
+      }
+
+      .score{
+        font-size:2.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/">Digital Risk Scanner</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="hero">
+        <h1><a href="/">Digital Risk Scanner</a></h1>
+        <p class="lead">
+          Scan a domain and get a commercial-grade external exposure snapshot across DNS, TLS, email security, and passive exposure signals.
+        </p>
+        <p class="sublead">
+          Designed for fast domain-level risk validation, lightweight lead generation, and practical external exposure assessment. Typically completed in under 60 seconds.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="scan-form">
+          <input
+            id="domain"
+            type="text"
+            placeholder="Enter a domain, e.g. example.com"
+            autocomplete="off"
+          >
+          <button onclick="startScan()">Start scan</button>
+        </div>
+
+        <div class="helper">
+          Example inputs: <strong>example.com</strong>, <strong>openai.com</strong>, <strong>yourcompany.it</strong>
+        </div>
+
+        <div id="status" class="status-box"></div>
+        <div id="errorBox" class="error-box"></div>
+      </div>
+
+      <div id="result" class="card result">
+        <div class="scan-header">
+          <div>
+            <div id="domainLabel" class="sublead"></div>
+            <div id="score" class="score"></div>
+            <div id="summary" class="summary-inline"></div>
+          </div>
+          <div id="scoreBadge"></div>
+        </div>
+
+        <div id="reportTeaser"></div>
+        <div id="findingsPreview"></div>
+
+        <div class="hidden-block" id="unlockBlock" style="display:none;">
+          <strong>Unlock the full risk report</strong>
+          <p class="teaser-callout" style="margin-top:0.55rem;">
+            Unlock the full report to access the executive summary, prioritized remediation actions, complete findings, business impact context, and downloadable PDF report.
+          </p>
+
+          <div class="ai-box" style="margin-top:1rem;">
+            <h4>Test checkout details</h4>
+            <p class="teaser-callout" style="margin-bottom:0.65rem;">
+              This checkout is currently in test mode. Use the test card below to simulate a payment and unlock the report.
+            </p>
+            <p class="teaser-callout">
+              Card number: <strong>4242 4242 4242 4242</strong><br>
+              Expiry: any future date<br>
+              CVC: any 3 digits<br>
+              Postal code: any valid value
+            </p>
+          </div>
+
+          <div class="actions">
+            <button id="unlockBtn" onclick="unlockReport()">Unlock report for €29</button>
+            <button class="secondary" onclick="loadReport()">Check unlock status</button>
+          </div>
+        </div>
+
+        <div id="fullReport"></div>
+      </div>
+
+      <h2 class="section-title">What it checks</h2>
+      <div class="mini-grid">
+        <div class="mini-card">
+          <h3>SSL/TLS</h3>
+          <p>Certificate validity, visible transport security posture, and common public-facing issues.</p>
+        </div>
+        <div class="mini-card">
+          <h3>DNS</h3>
+          <p>Selected DNS checks and common misconfiguration patterns affecting domain hygiene and reliability.</p>
+        </div>
+        <div class="mini-card">
+          <h3>Email Security</h3>
+          <p>Basic visibility into MX, SPF, and DMARC-related issues where available.</p>
+        </div>
+        <div class="mini-card">
+          <h3>Exposure Signals</h3>
+          <p>External signals that help surface domain-level exposure and visible risk indicators.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Digital Risk Scanner.
+    </div>
+  </footer>
+
+  <script>
+    let currentScanId = null;
+
+    function showStatus(message) {
+      const box = document.getElementById("status");
+      box.style.display = "block";
+      box.textContent = message;
+    }
+
+    function hideStatus() {
+      const box = document.getElementById("status");
+      box.style.display = "none";
+      box.textContent = "";
+    }
+
+    function showError(message) {
+      const box = document.getElementById("errorBox");
+      box.style.display = "block";
+      box.textContent = message;
+    }
+
+    function hideError() {
+      const box = document.getElementById("errorBox");
+      box.style.display = "none";
+      box.textContent = "";
+    }
+
+    function resetResultView() {
+      document.getElementById("result").style.display = "none";
+      document.getElementById("reportTeaser").innerHTML = "";
+      document.getElementById("findingsPreview").innerHTML = "";
+      document.getElementById("fullReport").innerHTML = "";
+      document.getElementById("unlockBlock").style.display = "none";
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function normalizeDomain(value) {
+      return String(value || "")
+        .trim()
+        .replace(/^https?:\/\//i, "")
+        .replace(/^www\./i, "")
+        .replace(/\/.*$/, "")
+        .replace(/:\d+$/, "")
+        .replace(/\.+$/, "");
+    }
+
+    function getErrorMessage(data, fallback = "Unable to process the request.") {
+      if (!data) return fallback;
+
+      if (typeof data.detail === "string") return data.detail;
+
+      if (Array.isArray(data.detail) && data.detail.length > 0) {
+        return data.detail
+          .map(item => {
+            if (typeof item === "string") return item;
+            if (item?.msg) return item.msg;
+            return JSON.stringify(item);
+          })
+          .join(" | ");
+      }
+
+      if (typeof data.detail === "object" && data.detail !== null) {
+        if (data.detail.msg) return data.detail.msg;
+        return JSON.stringify(data.detail);
+      }
+
+      return fallback;
+    }
+
+    function normalizeSeverity(severity) {
+      const s = String(severity || "").toLowerCase();
+      if (["critical", "high", "medium", "low"].includes(s)) return s;
+      return "low";
+    }
+
+    function severityPill(severity) {
+      const s = normalizeSeverity(severity);
+      return `<span class="sev-pill sev-${s}">${escapeHtml(s)}</span>`;
+    }
+
+    function renderList(items) {
+      if (!items || items.length === 0) {
+        return `<p class="teaser-callout">No items available.</p>`;
+      }
+
+      return `<ul class="compact">${items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    }
+
+    function renderEvidence(evidence) {
+      if (!evidence || typeof evidence !== "object" || Object.keys(evidence).length === 0) {
+        return `<p class="teaser-callout">No structured evidence available.</p>`;
+      }
+
+      const items = Object.entries(evidence).map(([key, value]) => {
+        let renderedValue;
+
+        if (Array.isArray(value)) {
+          renderedValue = value.length
+            ? value.map(v => escapeHtml(typeof v === "object" ? JSON.stringify(v) : v)).join(", ")
+            : "[]";
+        } else if (value && typeof value === "object") {
+          renderedValue = JSON.stringify(value, null, 2);
+        } else {
+          renderedValue = String(value);
+        }
+
+        return `<li><strong>${escapeHtml(key)}:</strong> ${escapeHtml(renderedValue)}</li>`;
+      });
+
+      return `<ul class="evidence-list">${items.join("")}</ul>`;
+    }
+
+    function renderSeverityBreakdown(breakdown) {
+      const data = breakdown || {};
+      const severities = ["critical", "high", "medium", "low"];
+
+      return `
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          ${severities.map(sev => `
+            <span class="meta-chip">${escapeHtml(sev)}: ${escapeHtml(String(data[sev] ?? 0))}</span>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderActionBucket(title, items, extraClass = "") {
+      return `
+        <div class="ai-box ${extraClass}">
+          <h4>${escapeHtml(title)}</h4>
+          ${renderList(items)}
+        </div>
+      `;
+    }
+
+    function renderFindingCard(finding) {
+      const evidence = finding.evidence_json || {};
+      const businessTitle = finding.business_title || finding.title || "Finding";
+      const technicalTitle = finding.technical_title || finding.title || "";
+      const recommendation = finding.recommendation || "";
+      const businessImpact = finding.business_impact || "";
+      const whyItMatters = finding.why_it_matters || "";
+      const remediationSteps = finding.remediation_steps || finding.steps || [];
+      const snippet = finding.technical_snippet || finding.copy_paste_snippet || "";
+      const confidence = finding.confidence_label || "";
+      const remediationComplexity = finding.remediation_complexity || finding.effort || "";
+      const category = finding.category || "finding";
+
+      return `
+        <div class="finding-card">
+          <div class="top">
+            <div class="finding-meta">
+              ${severityPill(finding.severity)}
+              <span class="category-chip">${escapeHtml(category)}</span>
+              ${confidence ? `<span class="meta-chip">confidence: ${escapeHtml(confidence)}</span>` : ""}
+              ${remediationComplexity ? `<span class="meta-chip">complexity: ${escapeHtml(remediationComplexity)}</span>` : ""}
+            </div>
+            <div class="finding-title">${escapeHtml(businessTitle)}</div>
+            ${technicalTitle ? `<div class="technical-title">Technical finding: ${escapeHtml(technicalTitle)}</div>` : ""}
+          </div>
+
+          <div class="finding-body">
+            <div class="finding-block">
+              <h5>Description</h5>
+              <div>${escapeHtml(finding.description || "")}</div>
+            </div>
+
+            ${businessImpact ? `<div class="finding-block"><h5>Business impact</h5><div>${escapeHtml(businessImpact)}</div></div>` : ""}
+            ${whyItMatters ? `<div class="finding-block"><h5>Why it matters</h5><div>${escapeHtml(whyItMatters)}</div></div>` : ""}
+            ${recommendation ? `<div class="finding-block"><h5>Recommendation</h5><div>${escapeHtml(recommendation)}</div></div>` : ""}
+            ${remediationSteps.length ? `<div class="finding-block"><h5>Suggested steps</h5>${renderList(remediationSteps)}</div>` : ""}
+            ${snippet ? `<div class="finding-block"><h5>Technical snippet</h5><pre class="snippet">${escapeHtml(snippet)}</pre></div>` : ""}
+            <div class="finding-block"><h5>Evidence</h5>${renderEvidence(evidence)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function formatScanTimestamp(value) {
+      if (!value) return "-";
+      const dt = new Date(value);
+      if (Number.isNaN(dt.getTime())) return escapeHtml(value);
+      return dt.toLocaleString();
+    }
+
+    function renderPreviewFindings(findings) {
+      const container = document.getElementById("findingsPreview");
+      const visible = (findings || []).slice(0, 3);
+      const hiddenCount = Math.max((findings || []).length - visible.length, 0);
+
+      let html = `<h2 class="section-title">Top exposed issues</h2>`;
+
+      if (visible.length === 0) {
+        html += `<div class="ai-box"><p>No findings available.</p></div>`;
+        container.innerHTML = html;
+        return;
+      }
+
+      html += `<div class="findings-list">`;
+
+      for (const f of visible) {
+        const previewTitle = f.business_title || f.title || "";
+        const previewTechnical = f.technical_title || f.title || "";
+
+        html += `
+          <div class="finding-card">
+            <div class="top">
+              <div class="finding-meta">
+                ${severityPill(f.severity)}
+                <span class="category-chip">${escapeHtml(f.category || "finding")}</span>
+              </div>
+              <div class="finding-title">${escapeHtml(previewTitle)}</div>
+              ${previewTechnical ? `<div class="technical-title">Technical finding: ${escapeHtml(previewTechnical)}</div>` : ""}
+            </div>
+            <div class="finding-body">
+              <div class="finding-block">
+                <h5>Description</h5>
+                <div>${escapeHtml(f.description || "")}</div>
+              </div>
+              ${f.business_impact ? `<div class="finding-block"><h5>Business impact</h5><div>${escapeHtml(f.business_impact)}</div></div>` : ""}
+            </div>
+          </div>
+        `;
+      }
+
+      html += `</div>`;
+
+      if (hiddenCount > 0) {
+        html += `<p class="teaser-callout" style="margin-top:0.75rem;">+ ${hiddenCount} additional findings are available in the unlocked report.</p>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function renderScanSummary(data) {
+      document.getElementById("result").style.display = "block";
+      document.getElementById("domainLabel").textContent = `Scanned domain: ${data.domain}`;
+      document.getElementById("score").textContent = `${data.score}/100`;
+
+      const summary = data.summary || {};
+      const findingsCount = summary.findings_count ?? 0;
+      const riskLevel = data.risk_level || "Unknown";
+
+      document.getElementById("summary").innerHTML = `
+        <strong>${findingsCount}</strong> findings identified ·
+        <strong>${escapeHtml(riskLevel)}</strong> risk profile
+      `;
+
+      document.getElementById("scoreBadge").innerHTML =
+        `<span class="pill">Commercial-grade external risk snapshot</span>`;
+    }
+
+    async function startScan() {
+      hideError();
+      hideStatus();
+      resetResultView();
+
+      const rawValue = document.getElementById("domain").value;
+      const domain = normalizeDomain(rawValue);
+
+      if (!domain) {
+        showError("Please enter a domain before starting the scan.");
+        return;
+      }
+
+      showStatus("Submitting scan...");
+
+      const res = await fetch("/api/scans", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ domain })
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        showError(getErrorMessage(data, "Please enter a valid domain."));
+        return;
+      }
+
+      currentScanId = data.scan_id;
+      showStatus(
+        data.cached
+          ? `Using cached scan #${currentScanId}...`
+          : `Scan #${currentScanId} started...`
+      );
+
+      pollScan();
+    }
+
+    async function pollScan() {
+      const res = await fetch(`/api/scans/${currentScanId}`);
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data) {
+        showError("Unable to read scan status.");
+        return;
+      }
+
+      if (data.status === "pending" || data.status === "running") {
+        showStatus(`Scan status: ${data.status}...`);
+        setTimeout(pollScan, 2000);
+        return;
+      }
+
+      if (data.status === "failed") {
+        showError("Scan failed.");
+        return;
+      }
+
+      showStatus("Scan completed.");
+      renderScanSummary(data);
+      await loadReport();
+    }
+
+    async function unlockReport() {
+      if (!currentScanId) return;
+
+      const res = await fetch("/api/billing/checkout", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ scan_id: currentScanId })
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data) {
+        showError(getErrorMessage(data, "Unable to create checkout session."));
+        return;
+      }
+
+      window.location.href = data.checkout_url;
+    }
+
+    async function confirmPaidSession(scanId, sessionId) {
+      const res = await fetch(`/api/billing/confirm?scan_id=${encodeURIComponent(scanId)}&session_id=${encodeURIComponent(sessionId)}`);
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(getErrorMessage(data, "Unable to confirm payment session."));
+      }
+
+      return data;
+    }
+
+    async function loadReport() {
+      if (!currentScanId) return null;
+
+      const teaserContainer = document.getElementById("reportTeaser");
+      const previewContainer = document.getElementById("findingsPreview");
+      const fullContainer = document.getElementById("fullReport");
+      const unlockBlock = document.getElementById("unlockBlock");
+
+      teaserContainer.innerHTML = "";
+      previewContainer.innerHTML = "";
+      fullContainer.innerHTML = "";
+      unlockBlock.style.display = "none";
+
+      const res = await fetch(`/api/reports/${currentScanId}`);
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data) {
+        fullContainer.innerHTML = `<p>${escapeHtml(getErrorMessage(data, "Unable to load report."))}</p>`;
+        return null;
+      }
+
+      const findings = data.findings || [];
+
+      if (data.is_locked) {
+        const visibleCount = Math.min(findings.length, 3);
+        const hiddenCount = Math.max(findings.length - visibleCount, 0);
+
+        let teaserHtml = `<div class="ai-box"><h4>Risk overview</h4>`;
+
+        if (data.ai_top_risk_message) {
+          teaserHtml += `<p><strong>${escapeHtml(data.ai_top_risk_message)}</strong></p>`;
+        }
+
+        if (data.ai_teaser_summary) {
+          teaserHtml += `<p>${escapeHtml(data.ai_teaser_summary)}</p>`;
+        }
+
+        teaserHtml += `
+          <p class="teaser-callout">
+            You are viewing a limited preview of the scan results (${visibleCount} of ${findings.length} findings shown). Unlock the full report for the complete risk picture and recommended next actions.
+          </p>
+          <p class="teaser-callout">
+            Unlock the full report to access the executive summary, prioritized remediation actions, complete findings, business impact context, and downloadable PDF report.
+          </p>
+        </div>`;
+
+        teaserHtml += `
+          <div class="grid" style="margin-top:1rem;">
+            <div class="ai-box">
+              <h4>What you unlock</h4>
+              <ul class="compact">
+                <li>Executive summary for decision makers</li>
+                <li>Prioritized remediation actions</li>
+                <li>Detailed findings with evidence</li>
+                <li>Business impact explanations</li>
+                <li>Downloadable PDF report</li>
+              </ul>
+            </div>
+
+            <div class="ai-box">
+              <h4>Why it matters</h4>
+              <p>
+                The full report turns raw technical findings into a clearer remediation path that can support internal decisions, client conversations, and prioritization.
+              </p>
+            </div>
+          </div>
+        `;
+
+        teaserContainer.innerHTML = teaserHtml;
+        renderPreviewFindings(findings);
+        unlockBlock.style.display = "block";
+        return data;
+      }
+
+      let fullHtml = `
+        <div>
+          <div class="scan-header" style="margin-bottom:0.75rem;">
+            <div>
+              <h2 style="margin:0;">Full report</h2>
+              <p class="sublead" style="margin-top:0.35rem;">
+                External risk assessment for <strong>${escapeHtml(data.domain || "-")}</strong>
+              </p>
+            </div>
+          </div>
+
+          ${data.pdf_url ? `
+            <div class="actions" style="margin-top:0; margin-bottom:0.75rem;">
+              <a href="${escapeHtml(data.pdf_url)}" target="_blank" rel="noopener noreferrer">
+                <button type="button">Download PDF report</button>
+              </a>
+            </div>
+          ` : ""}
+
+          <div class="stats-grid">
+            <div class="mini-stat score-stat">
+              <div class="label">Security score</div>
+              <div class="value">${escapeHtml(String(data.score ?? "-"))}/100</div>
+            </div>
+            <div class="mini-stat">
+              <div class="label">Risk level</div>
+              <div class="value">${escapeHtml(data.risk_level || "Unknown")}</div>
+            </div>
+            <div class="mini-stat">
+              <div class="label">Top issue</div>
+              <div class="value">${escapeHtml(data.top_issue_title || "None")}</div>
+            </div>
+            <div class="mini-stat">
+              <div class="label">Scan completed</div>
+              <div class="value">${escapeHtml(formatScanTimestamp(data.scan_completed_at))}</div>
+            </div>
+          </div>
+
+          <h2 class="section-title">Overview</h2>
+
+          <div class="grid">
+            <div class="ai-box">
+              <h4>Risk overview</h4>
+              <p><span class="pill">${escapeHtml(data.risk_level || "Unknown")} risk</span></p>
+              ${data.ai_top_risk_message ? `<p style="margin-top:0.55rem;"><strong>${escapeHtml(data.ai_top_risk_message)}</strong></p>` : ""}
+              ${data.ai_teaser_summary ? `<p style="margin-top:0.55rem;">${escapeHtml(data.ai_teaser_summary)}</p>` : ""}
+            </div>
+
+            <div class="ai-box">
+              <h4>Severity breakdown</h4>
+              ${renderSeverityBreakdown(data.severity_breakdown)}
+            </div>
+          </div>
+      `;
+
+      if (data.ai_executive_summary) {
+        fullHtml += `
+          <div class="ai-box">
+            <h4>Executive summary</h4>
+            <div>${escapeHtml(data.ai_executive_summary)}</div>
+          </div>
+        `;
+      }
+
+      fullHtml += `
+        <h2 class="section-title">Action plan</h2>
+        <div class="grid">
+          <div class="ai-box">
+            <h4>What to fix first</h4>
+            ${renderList(data.priority_actions)}
+          </div>
+
+          <div class="ai-box">
+            <h4>Key observations</h4>
+            ${renderList(data.key_observations)}
+          </div>
+        </div>
+      `;
+
+      fullHtml += `
+        <h2 class="section-title">Remediation priorities</h2>
+        <div class="bucket-grid">
+          ${renderActionBucket("Immediate actions", data.immediate_actions, "bucket-immediate")}
+          ${renderActionBucket("Important improvements", data.important_improvements, "bucket-important")}
+          ${renderActionBucket("Monitoring recommendations", data.monitoring_recommendations, "bucket-monitor")}
+        </div>
+      `;
+
+      if (data.ai_remediation_plan) {
+        fullHtml += `
+          <div class="ai-box">
+            <h4>Remediation plan</h4>
+            <div class="prewrap">${escapeHtml(data.ai_remediation_plan)}</div>
+          </div>
+        `;
+      }
+
+      fullHtml += `<h2 class="section-title">Detailed findings</h2>`;
+
+      if (findings.length === 0) {
+        fullHtml += `<p>No findings available.</p>`;
+      } else {
+        fullHtml += `<div class="findings-list">`;
+        for (const f of findings) {
+          fullHtml += renderFindingCard(f);
+        }
+        fullHtml += `</div>`;
+      }
+
+      fullHtml += `</div>`;
+      fullContainer.innerHTML = fullHtml;
+      return data;
+    }
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      const params = new URLSearchParams(window.location.search);
+      const scanId = params.get("scan_id");
+      const paid = params.get("paid");
+      const sessionId = params.get("session_id");
+      const canceled = params.get("canceled");
+
+      if (!scanId) return;
+
+      currentScanId = Number(scanId);
+
+      const scanRes = await fetch(`/api/scans/${currentScanId}`);
+      const scanData = await scanRes.json().catch(() => null);
+
+      if (!(scanRes.ok && scanData && scanData.status === "completed")) {
+        showStatus("Scan not ready yet.");
+        return;
+      }
+
+      renderScanSummary(scanData);
+      document.getElementById("result").style.display = "block";
+      
+      if (canceled) {
+        showStatus("Checkout canceled.");
+
+        try {
+          await fetch(`/api/billing/cancel?scan_id=${encodeURIComponent(currentScanId)}`, {
+            method: "POST"
+          });
+        } catch (err) {
+          console.error("Unable to track checkout cancellation", err);
+        }
+
+        await loadReport();
+        return;
+      }
+
+      if (paid && sessionId) {
+        showStatus("Payment received. Verifying checkout session...");
+
+        try {
+          const confirm = await confirmPaidSession(currentScanId, sessionId);
+
+          if (confirm.is_paid) {
+            showStatus("Payment completed. Full report unlocked.");
+          } else {
+            showStatus("Payment recorded, but final confirmation is still pending. Refresh report status in a few seconds.");
+          }
+        } catch (err) {
+          showError(err.message || "Unable to verify payment session.");
+        }
+
+        await loadReport();
+        return;
+      }
+
+      if (paid && !sessionId) {
+        showStatus("Payment completed. Waiting for confirmation...");
+        await loadReport();
+        return;
+      }
+
+      showStatus("Scan loaded.");
+      await loadReport();
+    });
+  </script>
+</body>
+</html>
