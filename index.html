@@ -166,98 +166,112 @@
       border-radius: 999px;
       background: #e0f2fe;
       color: var(--accent-dark);
-      font-size: 0.85rem;
       font-weight: 700;
+      font-size: 0.84rem;
+      letter-spacing: 0.02em;
     }
 
     .hero h1 {
       margin: 0 0 1rem;
-      font-size: clamp(2.2rem, 4vw, 3.4rem);
-      line-height: 1.12;
-      letter-spacing: -0.03em;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
     }
 
     .hero p {
       margin: 0 0 1.5rem;
       color: var(--muted);
       font-size: 1.05rem;
-      max-width: 740px;
+      max-width: 60ch;
     }
 
-    .hero-links {
+    .hero-cta {
       display: flex;
+      gap: 0.9rem;
       flex-wrap: wrap;
-      gap: 0.8rem;
       margin-top: 1.25rem;
     }
 
-    .hero-links a {
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
-      padding: 0.8rem 1rem;
+      gap: 0.45rem;
+      padding: 0.85rem 1.1rem;
       border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
       text-decoration: none;
       font-weight: 700;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: var(--surface);
       box-shadow: var(--shadow);
     }
 
-    .hero-links a.primary {
+    .btn.primary {
       background: var(--accent);
-      color: #ffffff;
       border-color: var(--accent);
+      color: #fff;
     }
 
     .hero-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: var(--radius);
       padding: 1.25rem;
       box-shadow: var(--shadow);
     }
 
-    .hero-card h2 {
+    .hero-card h3 {
       margin-top: 0;
-      font-size: 1.05rem;
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
     }
 
-    .hero-card ul {
-      margin: 0;
-      padding-left: 1.15rem;
+    .hero-card p {
+      margin: 0.4rem 0;
+      font-size: 0.95rem;
       color: var(--muted);
     }
 
     section {
-      padding: 2.75rem 0;
+      padding: 3.5rem 0;
     }
 
-    h2 {
-      margin: 0 0 1rem;
-      font-size: 1.65rem;
-      letter-spacing: -0.02em;
+    .section-head {
+      margin-bottom: 1.2rem;
     }
 
-    .section-intro {
-      margin: 0 0 1.2rem;
+    .section-head h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.85rem;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 70ch;
       color: var(--muted);
-      max-width: 760px;
     }
 
-    .card-grid {
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1rem;
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.2rem;
+      padding: 1.25rem;
       box-shadow: var(--shadow);
     }
 
@@ -270,98 +284,84 @@
     .card p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.97rem;
+      font-size: 0.98rem;
     }
 
-    .card a {
-      text-decoration: none;
-    }
-
-    .muted {
+    .link-list {
+      margin-top: 0.9rem;
+      padding-left: 1.1rem;
       color: var(--muted);
     }
 
-    .split {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 1.25rem;
-      align-items: start;
+    .link-list li {
+      margin-bottom: 0.45rem;
     }
 
-    .list-box,
-    .contact-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.2rem;
-      box-shadow: var(--shadow);
-    }
-
-    ul {
-      padding-left: 1.2rem;
-      margin: 0;
-    }
-
-    li {
-      margin-bottom: 0.55rem;
-    }
-
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 0.8rem;
-    }
-
-    .contact-links a {
+    .link-list a {
       text-decoration: none;
       font-weight: 600;
     }
 
+    .link-list a:hover {
+      text-decoration: underline;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
     footer {
       border-top: 1px solid var(--border);
-      margin-top: 2rem;
-      padding: 1.5rem 0 2.5rem;
+      padding: 2rem 0 3rem;
+      background: var(--surface);
       color: var(--muted);
       font-size: 0.95rem;
-      background: var(--surface);
     }
 
-    .footer-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
       .hero-wrap,
-      .split {
+      .contact-box,
+      .grid.cols-3,
+      .grid.cols-2 {
         grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 4rem;
       }
     }
 
     @media (max-width: 640px) {
-      .hero {
-        padding-top: 4rem;
-      }
-
       .hero h1 {
-        font-size: 2.1rem;
+        font-size: 2.2rem;
       }
 
-      nav {
-        gap: 0.75rem;
-      }
-
-      nav a {
-        font-size: 0.92rem;
+      .section-head h2 {
+        font-size: 1.55rem;
       }
     }
   </style>
-
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="bc4ecda0-940a-4623-ad07-1f11f19f917a"></script>
 </head>
 <body>
   <header>
@@ -372,7 +372,7 @@
         <a href="/projects/">Projects</a>
         <a href="/research/">Research</a>
         <a href="/blog/">Blog</a>
-        <a href="#contact">Social</a>
+        <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
@@ -384,113 +384,127 @@
           <span class="eyebrow">Cybersecurity · Digital Forensics · AI Security</span>
           <h1>Lello Molinario</h1>
           <p>
-            Lello Molinario is a cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy. His work focuses on cybersecurity, digital investigations, OSINT, incident response, and the robustness of AI systems in forensic and security contexts.
+            Cybersecurity specialist, digital forensics expert, and AI security researcher
+            based in Sassari, Italy. This website collects selected projects, research work,
+            technical tools, and professional information related to digital investigation,
+            applied security, and AI robustness.
           </p>
-          <div class="hero-links">
-            <a class="primary" href="/projects/">View Projects</a>
-            <a href="/research/">Research</a>
-            <a href="/osint-threat-radar/">OSINT Threat Radar</a>
+
+          <div class="hero-cta">
+            <a class="btn primary" href="/projects/">View Projects</a>
+            <a class="btn" href="/research/">Research</a>
+            <a class="btn" href="/tools/domain-risk-scan/">Domain Risk Scan</a>
           </div>
         </div>
 
         <aside class="hero-card">
-          <h2>Professional Focus</h2>
-          <ul>
-            <li>Cybersecurity and incident response</li>
-            <li>Digital forensics and investigative workflows</li>
-            <li>OSINT and threat intelligence</li>
-            <li>AI security and adversarial robustness</li>
-          </ul>
+          <h3>Current Focus Areas</h3>
+          <p>• Digital forensics and operational investigation</p>
+          <p>• AI robustness and adversarial security</p>
+          <p>• OSINT monitoring and external exposure analysis</p>
+          <p>• Lightweight security tools and applied research systems</p>
         </aside>
       </div>
     </section>
 
     <section>
       <div class="container">
-        <h2>About</h2>
-        <p class="section-intro">
-          This website presents the professional profile, projects, research activities, and technical tools of Lello Molinario. It brings together work across cybersecurity, digital forensics, AI security, OSINT, and operational security analysis.
-        </p>
-        <p class="muted">
-          Lello Molinario works across cybersecurity, digital forensics, AI security, and threat intelligence. His activities include digital investigations, forensic workflows, OSINT-driven analysis, incident response, and research on the robustness of AI-based tools in operational environments.
-        </p>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <h2>Core Expertise</h2>
-        <p class="section-intro">
-          Main domains of activity and technical specialization.
-        </p>
-        <div class="card-grid">
-          <div class="card">
-            <h3>Cybersecurity</h3>
-            <p>Application security, incident response, malware analysis, and technical risk evaluation.</p>
-          </div>
-          <div class="card">
-            <h3>Digital Forensics</h3>
-            <p>Digital investigations, forensic workflows, evidence handling, and technical support in operational contexts.</p>
-          </div>
-          <div class="card">
-            <h3>OSINT & Threat Intelligence</h3>
-            <p>Open-source intelligence, monitoring, exposure assessment, and threat-oriented analysis.</p>
-          </div>
-          <div class="card">
-            <h3>AI Security</h3>
-            <p>Adversarial machine learning, robustness evaluation, trustworthy AI, and AI-assisted forensic workflows.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <h2>Selected Projects</h2>
-        <p class="section-intro">
-          Explore selected <a href="/projects/">projects</a>, ongoing <a href="/research/">research</a>, and practical security tools.
-        </p>
-        <div class="card-grid">
-          <div class="card">
-            <h3><a href="/osint-threat-radar/">OSINT Threat Radar</a></h3>
-            <p>Geospatial and event-based monitoring platform for OSINT and external threat awareness.</p>
-          </div>
-          <div class="card">
-            <h3><a href="/ai-forensics/">AI Forensics</a></h3>
-            <p>Research-oriented work on the robustness of AI tools in digital forensics and adversarial settings.</p>
-          </div>
-          <div class="card">
-            <h3><a href="/tools/jwt-decoder/">JWT Decoder</a></h3>
-            <p>Utility for inspecting JWT tokens and supporting technical validation workflows.</p>
-          </div>
-          <div class="card">
-            <h3><a href="/tools/dns-check/">DNS Security Check</a></h3>
-            <p>Tooling and checks for DNS-related security posture and configuration review.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container split">
-        <div class="list-box">
-          <h2>Research Interests</h2>
-          <ul class="muted">
-            <li>Digital forensics and AI-assisted investigative workflows</li>
-            <li>Adversarial attacks and anti-forensic perturbations on image-based systems</li>
-            <li>Robustness and trustworthiness of AI tools in operational environments</li>
-            <li>Cyber threat intelligence and OSINT-driven monitoring platforms</li>
-          </ul>
-        </div>
-
-        <div class="contact-box" id="contact">
-          <h2>Profiles</h2>
-          <p class="muted">
-            Connect through the following profiles.
+        <div class="section-head">
+          <h2>Featured Work</h2>
+          <p>
+            Selected initiatives spanning research, monitoring platforms, operational workflows,
+            and practical cybersecurity tooling.
           </p>
-          <div class="contact-links">
-            <a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="https://github.com/lmolinario" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+
+        <div class="grid cols-3">
+          <article class="card">
+            <h3>OSINT Threat Radar</h3>
+            <p>
+              Project focused on geospatial monitoring, event aggregation, and cyber-relevant
+              open-source intelligence visualization.
+            </p>
+            <ul class="link-list">
+              <li><a href="/osint-threat-radar/">Project page</a></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>AI Forensics</h3>
+            <p>
+              Research effort centered on the robustness of AI-based tools in digital forensics,
+              adversarial attacks, anti-forensic perturbations, and operational reliability.
+            </p>
+            <ul class="link-list">
+              <li><a href="/ai-forensics/">Project page</a></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Domain Risk Scan</h3>
+            <p>
+              Lightweight domain assessment tool for visible digital exposure, SSL/TLS checks,
+              DNS hygiene, and email security review.
+            </p>
+            <ul class="link-list">
+              <li><a href="/tools/domain-risk-scan/">Open tool</a></li>
+              <li><a href="/tools/">View all tools</a></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Areas of Interest</h2>
+          <p>
+            Main areas of ongoing work, study, and technical development across cybersecurity,
+            digital investigation, and applied AI security.
+          </p>
+        </div>
+
+        <div class="pill-list">
+          <span class="pill">Digital Forensics</span>
+          <span class="pill">Cybersecurity</span>
+          <span class="pill">AI Security</span>
+          <span class="pill">Adversarial Robustness</span>
+          <span class="pill">OSINT</span>
+          <span class="pill">Threat Intelligence</span>
+          <span class="pill">External Exposure Monitoring</span>
+          <span class="pill">Security Tooling</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <h2>Contact</h2>
+          <p>
+            For professional inquiries, collaboration, research-related communication,
+            or technical discussion, feel free to get in touch.
+          </p>
+        </div>
+
+        <div class="contact-box">
+          <div class="card">
+            <h3>Professional and Technical Interests</h3>
+            <p>
+              Topics of interest include digital forensics, cyber investigation, AI robustness,
+              security research, external attack surface analysis, and applied monitoring systems.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Links</h3>
+            <ul class="link-list">
+              <li><a href="https://github.com/lmolinario" target="_blank" rel="noopener">GitHub</a></li>
+              <li><a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener">LinkedIn</a></li>
+              <li><a href="/projects/">Projects</a></li>
+              <li><a href="/tools/">Tools</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -498,9 +512,8 @@
   </main>
 
   <footer>
-    <div class="container footer-line">
-      <div>© 2026 Lello Molinario. All rights reserved.</div>
-      <div>Based in Sassari, Italy</div>
+    <div class="container">
+      © 2026 Lello Molinario · Cybersecurity, Digital Forensics, AI Security.
     </div>
   </footer>
 </body>

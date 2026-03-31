@@ -2,790 +2,267 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Domain Risk Scan</title>
-  <meta name="description" content="Scan a domain and get a quick overview of digital exposure, DNS, SSL/TLS, and email security issues." />
+  <title>Security Tools – Lello Molinario</title>
+  <meta name="description" content="Lightweight web-based security tools and technical utilities for domain assessment, token inspection, hashing, and practical cybersecurity workflows." />
 
+  <link rel="icon" type="image/png" href="../favicon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    :root{
-      --bg:#0f172a;
-      --panel:#111827;
-      --panel-2:#0b1220;
-      --border:#374151;
-      --text:#e5e7eb;
-      --muted:#9ca3af;
-      --accent:#38bdf8;
-      --accent-2:#0ea5e9;
-      --success:#22c55e;
-      --warning:#f59e0b;
-      --danger:#ef4444;
-      --soft:#1f2937;
-      --shadow:0 0 25px rgba(0,0,0,0.35);
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0369a1;
+      --border: #e2e8f0;
     }
 
-    *{
-      box-sizing:border-box;
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
     }
 
-    html, body{
-      margin:0;
-      padding:0;
-      font-family:Inter, sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(56,189,248,0.08), transparent 35%),
-        var(--bg);
-      color:var(--text);
-      min-height:100%;
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
     }
 
-    body{
-      padding:32px 16px 60px;
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
     }
 
-    .wrapper{
-      max-width:920px;
-      margin:0 auto;
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
-    .card{
-      background:rgba(17,24,39,0.92);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:32px;
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(6px);
+    .brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
     }
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      margin-bottom:20px;
-      flex-wrap:wrap;
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 500;
     }
 
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size:12px;
-      color:var(--muted);
-      background:var(--soft);
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:8px 12px;
+    nav a:hover {
+      color: var(--accent);
     }
 
-    .home-link{
-      color:var(--accent);
-      text-decoration:none;
-      font-size:14px;
-      font-weight:500;
+    main {
+      padding: 3rem 0;
     }
 
-    .home-link:hover{
-      text-decoration:underline;
+    h1 {
+      font-size: 2.2rem;
+      line-height: 1.2;
+      margin: 0 0 1rem;
     }
 
-    h1{
-      margin:0 0 12px;
-      font-size:clamp(30px, 4vw, 42px);
-      line-height:1.1;
-      letter-spacing:-0.02em;
+    .intro {
+      max-width: 760px;
+      color: var(--muted);
+      margin-bottom: 2rem;
     }
 
-    .lead{
-      margin:0 0 28px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.7;
-      max-width:760px;
+    h2 {
+      font-size: 1.35rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
     }
 
-    .scan-box{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:16px;
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
     }
 
-    .scan-box input{
-      flex:1 1 420px;
-      min-width:260px;
-      background:var(--panel-2);
-      color:var(--text);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:14px 16px;
-      font-size:15px;
-      outline:none;
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
     }
 
-    .scan-box input:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 3px rgba(56,189,248,0.12);
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.65rem;
+      font-size: 1.05rem;
     }
 
-    .scan-box button{
-      background:linear-gradient(180deg, var(--accent), var(--accent-2));
-      color:#062030;
-      border:none;
-      border-radius:12px;
-      padding:14px 18px;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-      min-width:150px;
+    .card p {
+      margin: 0 0 0.9rem;
+      color: var(--muted);
+      font-size: 0.96rem;
     }
 
-    .scan-box button:hover{
-      filter:brightness(1.03);
+    .tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      padding: 0.28rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      margin-right: 0.4rem;
+      margin-bottom: 0.45rem;
+      color: var(--muted);
+      background: #f8fafc;
     }
 
-    .scan-box button:disabled{
-      opacity:0.6;
-      cursor:not-allowed;
+    .project-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
     }
 
-    .helper{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:26px;
+    .project-link:hover {
+      text-decoration: underline;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:16px;
-      margin-bottom:28px;
+    .note {
+      margin-top: 2rem;
+      color: var(--muted);
     }
 
-    .mini-card{
-      background:var(--panel-2);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px;
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding: 1.5rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      background: var(--surface);
     }
 
-    .mini-card h3{
-      margin:0 0 8px;
-      font-size:16px;
-    }
-
-    .mini-card p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:14px;
-    }
-
-    .section{
-      margin-top:26px;
-      padding-top:22px;
-      border-top:1px solid rgba(55,65,81,0.6);
-    }
-
-    .section h2{
-      margin:0 0 14px;
-      font-size:22px;
-    }
-
-    .status-box{
-      background:var(--panel-2);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:16px;
-      margin-bottom:18px;
-      display:none;
-    }
-
-    .status-label{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-
-    .status-value{
-      font-size:16px;
-      font-weight:600;
-    }
-
-    .results{
-      display:none;
-      gap:16px;
-      flex-direction:column;
-    }
-
-    .summary{
-      display:grid;
-      grid-template-columns:220px 1fr;
-      gap:16px;
-      align-items:stretch;
-    }
-
-    .score-card{
-      background:var(--panel-2);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-    }
-
-    .score-card .label{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:8px;
-    }
-
-    .score-value{
-      font-size:54px;
-      font-weight:700;
-      line-height:1;
-      margin-bottom:10px;
-    }
-
-    .score-caption{
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    .summary-card{
-      background:var(--panel-2);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:20px;
-    }
-
-    .summary-card h3{
-      margin:0 0 10px;
-      font-size:18px;
-    }
-
-    .summary-card p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .findings{
-      display:grid;
-      gap:12px;
-    }
-
-    .finding{
-      background:var(--panel-2);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:16px;
-    }
-
-    .finding-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:8px;
-    }
-
-    .finding-title{
-      font-size:16px;
-      font-weight:600;
-      margin:0;
-    }
-
-    .severity{
-      font-size:12px;
-      font-weight:700;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid transparent;
-      text-transform:uppercase;
-      letter-spacing:0.04em;
-    }
-
-    .severity.critical{
-      background:rgba(239,68,68,0.12);
-      color:#fca5a5;
-      border-color:rgba(239,68,68,0.28);
-    }
-
-    .severity.high{
-      background:rgba(245,158,11,0.12);
-      color:#fcd34d;
-      border-color:rgba(245,158,11,0.28);
-    }
-
-    .severity.medium{
-      background:rgba(250,204,21,0.10);
-      color:#fde68a;
-      border-color:rgba(250,204,21,0.20);
-    }
-
-    .severity.low{
-      background:rgba(156,163,175,0.10);
-      color:#d1d5db;
-      border-color:rgba(156,163,175,0.20);
-    }
-
-    .finding p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:14px;
-    }
-
-    .cta-box{
-      background:linear-gradient(180deg, rgba(56,189,248,0.08), rgba(14,165,233,0.03));
-      border:1px solid rgba(56,189,248,0.25);
-      border-radius:16px;
-      padding:20px;
-      margin-top:18px;
-    }
-
-    .cta-box h3{
-      margin:0 0 8px;
-      font-size:18px;
-    }
-
-    .cta-box p{
-      margin:0 0 16px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .cta-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .btn-secondary,
-    .btn-primary{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      border-radius:12px;
-      padding:12px 16px;
-      font-weight:600;
-      font-size:14px;
-    }
-
-    .btn-primary{
-      background:linear-gradient(180deg, var(--accent), var(--accent-2));
-      color:#062030;
-    }
-
-    .btn-secondary{
-      border:1px solid var(--border);
-      color:var(--text);
-      background:var(--panel-2);
-    }
-
-    .muted-note{
-      margin-top:14px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .error-box{
-      display:none;
-      background:rgba(239,68,68,0.10);
-      border:1px solid rgba(239,68,68,0.25);
-      color:#fecaca;
-      border-radius:12px;
-      padding:14px 16px;
-      margin-top:12px;
-      font-size:14px;
-      line-height:1.6;
-    }
-
-    .footer{
-      text-align:center;
-      margin-top:22px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    @media (max-width: 760px){
-      .card{
-        padding:22px;
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 1.9rem;
       }
 
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .summary{
-        grid-template-columns:1fr;
-      }
-
-      .score-value{
-        font-size:46px;
+      nav a {
+        margin-left: 0.75rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="card">
-      <div class="topbar">
-        <div class="badge">Security Tool · MVP</div>
-        <a class="home-link" href="/">← Back to Home</a>
-      </div>
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/">Lello Molinario</a>
+      <nav>
+        <a href="/about/">About</a>
+        <a href="/projects/">Projects</a>
+        <a href="/research/">Research</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-      <h1>Domain Risk Scan</h1>
-      <p class="lead">
-        Scan a domain and get a quick overview of visible digital exposure, DNS configuration,
-        SSL/TLS status, and email security issues. Built for fast validation, lead generation,
-        and lightweight security posture checks.
+  <main>
+    <div class="container">
+      <h1>Security Tools</h1>
+      <p class="intro">
+        This section collects lightweight web-based tools and technical utilities for cybersecurity,
+        digital forensics, and practical security assessment. Some modules are already available,
+        while others are currently being refined.
       </p>
 
-      <form id="scanForm">
-        <div class="scan-box">
-          <input
-            id="domainInput"
-            type="text"
-            placeholder="Enter a domain (e.g. example.com)"
-            autocomplete="off"
-            required
-          />
-          <button id="scanButton" type="submit">Start Scan</button>
-        </div>
-      </form>
-
-      <div class="helper">
-        Example inputs: <strong>example.com</strong>, <strong>openai.com</strong>, <strong>yourcompany.it</strong>
-      </div>
-
-      <div class="grid">
-        <div class="mini-card">
-          <h3>What it checks</h3>
+      <h2>Available and In Progress</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Domain Risk Scan</h3>
           <p>
-            SSL/TLS exposure, DNS setup, MX presence, SPF/DMARC basics, and visible domain hygiene issues.
+            Lightweight domain assessment tool designed to identify visible exposure,
+            SSL/TLS weaknesses, DNS misconfigurations, and email security gaps.
           </p>
-        </div>
-        <div class="mini-card">
-          <h3>Who it is for</h3>
-          <p>
-            Small businesses, consultants, agencies, managed service providers, and pre-sales security workflows.
-          </p>
-        </div>
-        <div class="mini-card">
-          <h3>Why it matters</h3>
-          <p>
-            Small misconfigurations often become trust, email delivery, or attack-surface problems before anyone notices.
-          </p>
-        </div>
-        <div class="mini-card">
-          <h3>Fast output</h3>
-          <p>
-            Receive a simple risk score and a teaser of findings immediately, then unlock the full report if needed.
-          </p>
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Scan Status</h2>
-
-        <div id="statusBox" class="status-box">
-          <div class="status-label">Current status</div>
-          <div id="statusValue" class="status-value">Waiting</div>
-        </div>
-
-        <div id="errorBox" class="error-box"></div>
-
-        <div id="results" class="results">
-          <div class="summary">
-            <div class="score-card">
-              <div class="label">Risk Score</div>
-              <div id="scoreValue" class="score-value">--</div>
-              <div id="scoreCaption" class="score-caption">Score available after scan completion</div>
-            </div>
-
-            <div class="summary-card">
-              <h3>Scan Summary</h3>
-              <p id="summaryText">
-                The scan result summary will appear here once the domain analysis is complete.
-              </p>
-            </div>
-          </div>
-
           <div>
-            <h2>Top Findings</h2>
-            <div id="findingsList" class="findings"></div>
+            <span class="tag">Live MVP</span>
+            <span class="tag">Security Tool</span>
+            <span class="tag">Digital Risk</span>
           </div>
+          <p>
+            <a class="project-link" href="/tools/domain-risk-scan/">Open tool</a>
+          </p>
+        </article>
 
-          <div class="cta-box">
-            <h3>Need the full report?</h3>
-            <p>
-              Unlock the complete report for additional findings, clearer remediation guidance,
-              and a more complete view of the domain’s visible exposure.
-            </p>
-
-            <div class="cta-actions">
-              <a id="unlockReportBtn" class="btn-primary" href="#">Unlock Full Report</a>
-              <a class="btn-secondary" href="mailto:your@email.com?subject=Domain%20Risk%20Scan%20Info">Request Info</a>
-            </div>
-
-            <div class="muted-note">
-              Replace the unlock action and contact email with your real checkout or contact flow.
-            </div>
+        <article class="card">
+          <h3>JWT Decoder</h3>
+          <p>
+            Utility for decoding and inspecting JSON Web Tokens during development,
+            debugging, and security analysis workflows.
+          </p>
+          <div>
+            <span class="tag">Preview</span>
+            <span class="tag">JWT</span>
+            <span class="tag">Analysis</span>
           </div>
-        </div>
+          <p>
+            <a class="project-link" href="/tools/jwt-decoder/">Open page</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>DNS Security Check</h3>
+          <p>
+            Experimental utility focused on reviewing selected DNS-related settings and
+            surfacing common configuration weaknesses.
+          </p>
+          <div>
+            <span class="tag">Preview</span>
+            <span class="tag">DNS</span>
+            <span class="tag">Configuration</span>
+          </div>
+          <p>
+            <a class="project-link" href="/tools/dns-check/">Open page</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Hash Tool</h3>
+          <p>
+            Simple utility for generating and comparing cryptographic hashes for file
+            verification and lightweight forensic workflows.
+          </p>
+          <div>
+            <span class="tag">Preview</span>
+            <span class="tag">Hashing</span>
+            <span class="tag">Forensics</span>
+          </div>
+          <p>
+            <a class="project-link" href="/tools/hash-tool/">Open page</a>
+          </p>
+        </article>
       </div>
 
-      <div class="footer">
-        Last update: March 2026
-      </div>
+      <p class="note">
+        Additional tools and utilities will be added over time as part of ongoing work on
+        cybersecurity, digital forensics, and applied security assessment workflows.
+      </p>
     </div>
-  </div>
+  </main>
 
-  <script>
-    const API_BASE_URL = "YOUR_API_BASE_URL";
-    // Example: https://your-api.onrender.com
-
-    const scanForm = document.getElementById("scanForm");
-    const domainInput = document.getElementById("domainInput");
-    const scanButton = document.getElementById("scanButton");
-
-    const statusBox = document.getElementById("statusBox");
-    const statusValue = document.getElementById("statusValue");
-    const errorBox = document.getElementById("errorBox");
-
-    const results = document.getElementById("results");
-    const scoreValue = document.getElementById("scoreValue");
-    const scoreCaption = document.getElementById("scoreCaption");
-    const summaryText = document.getElementById("summaryText");
-    const findingsList = document.getElementById("findingsList");
-    const unlockReportBtn = document.getElementById("unlockReportBtn");
-
-    let pollingInterval = null;
-
-    function showStatus(message) {
-      statusBox.style.display = "block";
-      statusValue.textContent = message;
-    }
-
-    function showError(message) {
-      errorBox.style.display = "block";
-      errorBox.textContent = message;
-    }
-
-    function hideError() {
-      errorBox.style.display = "none";
-      errorBox.textContent = "";
-    }
-
-    function resetResults() {
-      results.style.display = "none";
-      findingsList.innerHTML = "";
-      scoreValue.textContent = "--";
-      scoreCaption.textContent = "Score available after scan completion";
-      summaryText.textContent = "The scan result summary will appear here once the domain analysis is complete.";
-      unlockReportBtn.setAttribute("href", "#");
-    }
-
-    function normalizeDomain(value) {
-      return value
-        .trim()
-        .replace(/^https?:\/\//i, "")
-        .replace(/^www\./i, "")
-        .replace(/\/.*$/, "");
-    }
-
-    function buildSeverityClass(severity) {
-      const s = (severity || "").toLowerCase();
-      if (["critical", "high", "medium", "low"].includes(s)) return s;
-      return "low";
-    }
-
-    function renderFindings(findings) {
-      findingsList.innerHTML = "";
-
-      if (!Array.isArray(findings) || findings.length === 0) {
-        findingsList.innerHTML = `
-          <div class="finding">
-            <div class="finding-top">
-              <h3 class="finding-title">No teaser findings available</h3>
-              <span class="severity low">Info</span>
-            </div>
-            <p>The scan completed, but no teaser findings were returned.</p>
-          </div>
-        `;
-        return;
-      }
-
-      findings.slice(0, 5).forEach((finding) => {
-        const severity = finding.severity || "low";
-        const severityClass = buildSeverityClass(severity);
-        const title = finding.business_title || finding.title || "Security Finding";
-        const description =
-          finding.business_description ||
-          finding.description ||
-          "A relevant issue was identified during the scan.";
-
-        const item = document.createElement("div");
-        item.className = "finding";
-        item.innerHTML = `
-          <div class="finding-top">
-            <h3 class="finding-title">${escapeHtml(title)}</h3>
-            <span class="severity ${severityClass}">${escapeHtml(severity)}</span>
-          </div>
-          <p>${escapeHtml(description)}</p>
-        `;
-        findingsList.appendChild(item);
-      });
-    }
-
-    function buildSummary(scan, findingsCount) {
-      const domain = scan.domain || "the requested domain";
-      const score = scan.risk_score ?? "N/A";
-      return `The scan for ${domain} completed successfully. Current risk score: ${score}. Teaser findings shown below: ${findingsCount}.`;
-    }
-
-    function escapeHtml(value) {
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    async function fetchFindings(scanId) {
-      const res = await fetch(`${API_BASE_URL}/api/scans/${scanId}/findings`);
-      if (!res.ok) {
-        throw new Error("Unable to load scan findings.");
-      }
-      return await res.json();
-    }
-
-    async function fetchScan(scanId) {
-      const res = await fetch(`${API_BASE_URL}/api/scans/${scanId}`);
-      if (!res.ok) {
-        throw new Error("Unable to load scan status.");
-      }
-      return await res.json();
-    }
-
-    async function startScan(domain) {
-      const res = await fetch(`${API_BASE_URL}/api/scans`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ domain })
-      });
-
-      if (!res.ok) {
-        throw new Error("Unable to start the scan.");
-      }
-
-      return await res.json();
-    }
-
-    async function handleScanCompletion(scan) {
-      const scanId = scan.id || scan.scan_id;
-      const findingsResponse = await fetchFindings(scanId);
-
-      const findings = Array.isArray(findingsResponse)
-        ? findingsResponse
-        : findingsResponse.findings || [];
-
-      const riskScore = scan.risk_score ?? "--";
-      scoreValue.textContent = riskScore;
-      scoreCaption.textContent = "Lower score can indicate better visible posture, depending on your scoring model.";
-      summaryText.textContent = buildSummary(scan, findings.length);
-      renderFindings(findings);
-
-      if (scanId) {
-        unlockReportBtn.setAttribute("href", `${API_BASE_URL}/api/reports/${scanId}`);
-      }
-
-      results.style.display = "flex";
-    }
-
-    function stopPolling() {
-      if (pollingInterval) {
-        clearInterval(pollingInterval);
-        pollingInterval = null;
-      }
-    }
-
-    function beginPolling(scanId) {
-      stopPolling();
-
-      pollingInterval = setInterval(async () => {
-        try {
-          const scan = await fetchScan(scanId);
-          const status = (scan.status || "").toLowerCase();
-
-          showStatus(scan.status || "Processing");
-
-          if (status === "completed" || status === "done" || status === "finished") {
-            stopPolling();
-            await handleScanCompletion(scan);
-            scanButton.disabled = false;
-            scanButton.textContent = "Start Scan";
-          } else if (status === "failed" || status === "error") {
-            stopPolling();
-            showError("The scan failed. Please try again.");
-            scanButton.disabled = false;
-            scanButton.textContent = "Start Scan";
-          }
-        } catch (err) {
-          stopPolling();
-          showError(err.message || "Unexpected error while checking scan status.");
-          scanButton.disabled = false;
-          scanButton.textContent = "Start Scan";
-        }
-      }, 2500);
-    }
-
-    scanForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      hideError();
-      resetResults();
-
-      const rawValue = domainInput.value;
-      const domain = normalizeDomain(rawValue);
-
-      if (!domain) {
-        showError("Please enter a valid domain.");
-        return;
-      }
-
-      scanButton.disabled = true;
-      scanButton.textContent = "Scanning...";
-      showStatus("Starting scan...");
-
-      try {
-        const response = await startScan(domain);
-        const scanId = response.id || response.scan_id;
-
-        if (!scanId) {
-          throw new Error("Scan created, but no scan ID was returned.");
-        }
-
-        showStatus("Scan started. Checking progress...");
-        beginPolling(scanId);
-      } catch (err) {
-        showError(err.message || "Unexpected error while starting the scan.");
-        scanButton.disabled = false;
-        scanButton.textContent = "Start Scan";
-      }
-    });
-  </script>
+  <footer>
+    <div class="container">
+      © 2026 Lello Molinario · Security tools and technical utilities.
+    </div>
+  </footer>
 </body>
 </html>
