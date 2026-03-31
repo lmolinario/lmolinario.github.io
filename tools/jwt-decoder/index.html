@@ -1,130 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Module Under Development</title>
+  <title>JWT Decoder – Lello Molinario</title>
+  <meta name="description" content="Preview page for a JWT Decoder utility focused on token inspection, decoding, and security-oriented analysis workflows." />
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-<style>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0369a1;
+      --border: #e2e8f0;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
 
-:root{
-  --bg:#0f172a;
-  --panel:#111827;
-  --border:#374151;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --accent:#38bdf8;
-}
+    * { box-sizing: border-box; }
 
-*{
-  box-sizing:border-box;
-}
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
 
-body{
-  margin:0;
-  font-family:Inter, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-}
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
 
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:40px;
-  max-width:600px;
-  text-align:center;
-  box-shadow:0 0 25px rgba(0,0,0,0.4);
-}
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
 
-h1{
-  margin-top:0;
-  font-size:28px;
-}
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
 
-p{
-  color:var(--muted);
-  line-height:1.6;
-}
+    .brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+    }
 
-.status{
-  margin-top:20px;
-  padding:8px 14px;
-  display:inline-block;
-  border-radius:20px;
-  font-size:13px;
-  background:#1f2937;
-  border:1px solid var(--border);
-}
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 500;
+    }
 
-ul{
-  margin-top:20px;
-  padding-left:0;
-  list-style:none;
-}
+    nav a:hover {
+      color: var(--accent);
+    }
 
-ul li{
-  padding:6px 0;
-  color:var(--muted);
-}
+    main {
+      padding: 3rem 0;
+    }
 
-a{
-  display:inline-block;
-  margin-top:25px;
-  text-decoration:none;
-  color:var(--accent);
-  font-weight:500;
-}
+    h1 {
+      font-size: 2.2rem;
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
 
-a:hover{
-  text-decoration:underline;
-}
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
 
-.footer{
-  margin-top:25px;
-  font-size:12px;
-  color:var(--muted);
-}
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+    }
 
-</style>
+    .badge {
+      display: inline-block;
+      font-size: 0.82rem;
+      padding: 0.3rem 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      background: var(--surface-soft);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-top: 0;
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+      padding: 1.5rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      background: var(--surface);
+    }
+  </style>
 </head>
-
 <body>
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/">Lello Molinario</a>
+      <nav>
+        <a href="/about/">About</a>
+        <a href="/projects/">Projects</a>
+        <a href="/research/">Research</a>
+        <a href="/tools/">Tools</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="card">
+  <main>
+    <div class="container">
+      <h1>JWT Decoder</h1>
+      <p class="lead">
+        Preview page for a lightweight utility focused on inspecting and decoding JSON Web Tokens
+        during development, debugging, and security-oriented analysis workflows.
+      </p>
 
-<h1>Module Under Development</h1>
+      <div class="card">
+        <div class="badge">Preview</div>
+        <h2>Overview</h2>
+        <p>
+          This tool is intended to provide a simple interface for decoding JWT structures,
+          inspecting headers and payloads, and supporting quick technical review during web
+          security and API-related activities.
+        </p>
+      </div>
 
-<p>
-This section of the website is currently being developed.
-New features and data will be available soon.
-</p>
+      <div class="card">
+        <h2>Planned Features</h2>
+        <ul>
+          <li>Header and payload decoding</li>
+          <li>Readable visualization of claims and token fields</li>
+          <li>Support for quick debugging during API testing</li>
+          <li>Utility-oriented interface for lightweight inspection workflows</li>
+        </ul>
+      </div>
 
-<div class="status">
-🚧 Status: Work in Progress
-</div>
+      <div class="card">
+        <h2>Status</h2>
+        <p>
+          The tool is currently being refined and integrated into the broader security tools section.
+          A functional public version will be published here once the interface and validation flow are finalized.
+        </p>
 
-<ul>
-<li>Interactive OSINT dashboards</li>
-<li>Threat intelligence feeds</li>
-<li>Geospatial monitoring tools</li>
-<li>Research datasets</li>
-</ul>
+        <div class="actions">
+          <a class="btn primary" href="/tools/">Back to Tools</a>
+          <a class="btn" href="/projects/">View Projects</a>
+        </div>
+      </div>
+    </div>
+  </main>
 
-<a href="/">← Back to Home</a>
-
-<div class="footer">
-Last update: March 2026
-</div>
-
-</div>
-
+  <footer>
+    <div class="container">
+      © 2026 Lello Molinario · JWT Decoder preview.
+    </div>
+  </footer>
 </body>
 </html>
