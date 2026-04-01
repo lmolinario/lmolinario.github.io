@@ -43,7 +43,7 @@ app.include_router(analytics_router)
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "cors_debug": "enabled_v2"}
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
