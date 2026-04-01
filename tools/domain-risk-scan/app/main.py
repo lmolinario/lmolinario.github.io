@@ -23,7 +23,6 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://lmolinario.github.io",
-        "https://lmolinario.github.io/tools/domain-risk-scan/",
         "http://localhost:5500",
         "http://127.0.0.1:5500",
         "http://localhost:8000",
