@@ -25,6 +25,8 @@
       --medium-text:#a16207;
       --low-bg:#f8fafc;
       --low-text:#475569;
+      --info-bg:#ecfeff;
+      --info-text:#0e7490;
     }
 
     *{ box-sizing:border-box; }
@@ -408,6 +410,12 @@
       border-color:#e2e8f0;
     }
 
+    .sev-info{
+      color:var(--info-text);
+      background:var(--info-bg);
+      border-color:#a5f3fc;
+    }
+
     .snippet{
       margin:0;
       padding:0.85rem;
@@ -671,7 +679,7 @@
 
     function normalizeSeverity(severity) {
       const s = String(severity || "").toLowerCase();
-      if (["critical", "high", "medium", "low"].includes(s)) return s;
+      if (["critical", "high", "medium", "low", "info"].includes(s)) return s;
       return "low";
     }
 
@@ -714,7 +722,7 @@
 
     function renderSeverityBreakdown(breakdown) {
       const data = breakdown || {};
-      const severities = ["critical", "high", "medium", "low"];
+      const severities = ["critical", "high", "medium", "low", "info"];
 
       return `
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
@@ -968,6 +976,7 @@
       }
 
       const findings = data.findings || [];
+      const coverageNotes = data.coverage_notes || [];
 
       if (data.is_locked) {
         const visibleCount = Math.min(findings.length, 3);
@@ -1125,6 +1134,17 @@
         fullHtml += `<div class="findings-list">`;
         for (const f of findings) {
           fullHtml += renderFindingCard(f);
+        }
+        fullHtml += `</div>`;
+      }
+
+      fullHtml += `<h2 class="section-title">Scan coverage notes</h2>`;
+      if (coverageNotes.length === 0) {
+        fullHtml += `<p>No coverage limitations were recorded.</p>`;
+      } else {
+        fullHtml += `<div class="findings-list">`;
+        for (const n of coverageNotes) {
+          fullHtml += renderFindingCard(n);
         }
         fullHtml += `</div>`;
       }

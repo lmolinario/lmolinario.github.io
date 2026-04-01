@@ -109,11 +109,20 @@ def execute_scan(scan_id: int):
         set_scan_running(db, scan)
 
         domain = scan.domain
-        findings: list[dict] = []
+        raw_results: list[dict] = []
 
-        findings.extend(scan_dns(domain))
-        findings.extend(scan_ssl(domain))
-        findings.extend(scan_subdomains(domain))
+        raw_results.extend(scan_dns(domain))
+        raw_results.extend(scan_ssl(domain))
+        raw_results.extend(scan_subdomains(domain))
+
+        findings: list[dict] = []
+        coverage_notes: list[dict] = []
+        for item in raw_results:
+            finding_type = (item.get("finding_type") or "security").lower()
+            if finding_type == "coverage":
+                coverage_notes.append(item)
+            else:
+                findings.append(item)
 
         replace_findings(db, scan_id, findings)
 
@@ -129,25 +138,21 @@ def execute_scan(scan_id: int):
         }
 
         security_findings_count = 0
-        coverage_findings_count = 0
-
         for f in findings:
             sev = (f.get("severity") or "").lower()
-            cat = (f.get("category") or "").lower()
 
             if sev in by_severity:
                 by_severity[sev] += 1
 
-            if cat == "scanner" or sev == "info":
-                coverage_findings_count += 1
-            else:
-                security_findings_count += 1
+            security_findings_count += 1
 
         summary = {
             "domain": domain,
             "findings_count": len(findings),
             "security_findings_count": security_findings_count,
-            "coverage_findings_count": coverage_findings_count,
+            "coverage_findings_count": len(coverage_notes),  # backward-compat key
+            "coverage_notes_count": len(coverage_notes),
+            "coverage_notes": coverage_notes,
             "by_severity": by_severity,
             "top_issues": [
                 {

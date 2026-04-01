@@ -30,6 +30,7 @@ class ReportResponse(BaseModel):
     ai_remediation_plan: str | None = None
 
     findings: list[dict]
+    coverage_notes: list[dict] = []
     pdf_url: str | None = None
 
     immediate_actions: list[str] = []

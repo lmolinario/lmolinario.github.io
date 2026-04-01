@@ -625,6 +625,8 @@ def build_report_payload(db: Session, scan: Scan, is_paid: bool) -> dict:
     key_observations = _build_key_observations(findings)
     findings_payload = _build_findings_payload(findings, is_paid, scan.domain)
     action_buckets = _build_action_buckets(findings)
+    summary = scan.summary_json if isinstance(scan.summary_json, dict) else {}
+    coverage_notes = summary.get("coverage_notes") if isinstance(summary.get("coverage_notes"), list) else []
 
     ai_payload = _build_fallback_ai_messages(
         scan=scan,
@@ -654,6 +656,7 @@ def build_report_payload(db: Session, scan: Scan, is_paid: bool) -> dict:
         "ai_executive_summary": ai_payload["ai_executive_summary"],
         "ai_remediation_plan": ai_payload["ai_remediation_plan"],
         "findings": findings_payload,
+        "coverage_notes": coverage_notes,
         "pdf_url": f"/api/pdf/{scan.id}" if is_paid else None,
     }
 
@@ -682,6 +685,7 @@ def persist_report_payload(db: Session, report: Report, scan: Scan) -> Report:
         "ai_top_risk_message": payload["ai_top_risk_message"],
         "ai_teaser_summary": payload["ai_teaser_summary"],
         "findings_preview": payload["findings"] if not report.is_paid else existing.get("findings_preview"),
+        "coverage_notes": payload["coverage_notes"],
     }
 
     if report.is_paid:
@@ -690,6 +694,7 @@ def persist_report_payload(db: Session, report: Report, scan: Scan) -> Report:
                 "ai_executive_summary": payload["ai_executive_summary"],
                 "ai_remediation_plan": payload["ai_remediation_plan"],
                 "findings_full": payload["findings"],
+                "coverage_notes": payload["coverage_notes"],
                 "pdf_url": payload["pdf_url"],
                 "paid_snapshot_at": datetime.now(timezone.utc).isoformat(),
             }
