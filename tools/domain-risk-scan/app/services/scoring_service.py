@@ -1,4 +1,5 @@
 SEVERITY_WEIGHTS = {
+    "info": 0,
     "low": 5,
     "medium": 12,
     "high": 20,
@@ -9,6 +10,7 @@ CATEGORY_CAPS = {
     "dns": 30,
     "ssl": 20,
     "subdomain": 15,
+    "scanner": 0,
 }
 
 

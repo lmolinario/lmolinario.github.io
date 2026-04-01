@@ -116,9 +116,9 @@ def _severity_rank(severity: str | None) -> int:
         "high": 3,
         "medium": 2,
         "low": 1,
+        "info": 0,
     }
     return order.get((severity or "").lower(), 0)
-
 
 
 def _score_to_risk_level(score: int | None) -> str:
@@ -161,6 +161,9 @@ def _finding_business_priority(f: Finding) -> int:
 
     score = 0
     score += _severity_rank(f.severity) * 100
+
+    if category == "scanner":
+        score -= 1000
 
     if category == "dns":
         score += 40
@@ -221,13 +224,12 @@ def _top_finding(findings: list[Finding]) -> Finding | None:
 
 
 def _build_severity_breakdown(findings: list[Finding]) -> dict:
-    breakdown = {"critical": 0, "high": 0, "medium": 0, "low": 0}
+    breakdown = {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}
     for f in findings:
         sev = (f.severity or "").lower()
         if sev in breakdown:
             breakdown[sev] += 1
     return breakdown
-
 
 
 def _finding_theme(f: Finding) -> str:

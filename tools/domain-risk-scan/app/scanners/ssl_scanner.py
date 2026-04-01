@@ -46,11 +46,25 @@ def scan_ssl(domain: str) -> list[dict]:
                 "recommendation": "Schedule the certificate renewal now."
             })
 
-    except ssl.SSLError as e:
+    except ssl.SSLCertVerificationError as e:
         findings.append({
             "category": "ssl",
             "severity": "medium",
-            "title": "TLS handshake validation failed",
+            "title": "TLS certificate validation failed",
+            "description": "The HTTPS service responded, but the certificate could not be validated correctly.",
+            "evidence_json": {
+                "error": str(e),
+                "check_type": "ssl_cert_validation_failed",
+                "scan_quality": "partial",
+            },
+            "recommendation": "Verify the certificate chain, hostname coverage, and trust configuration."
+        })
+
+    except ssl.SSLError as e:
+        findings.append({
+            "category": "scanner",
+            "severity": "info",
+            "title": "TLS handshake validation incomplete",
             "description": "The scan reached the HTTPS service but could not complete a valid TLS handshake.",
             "evidence_json": {
                 "error": str(e),
@@ -76,9 +90,9 @@ def scan_ssl(domain: str) -> list[dict]:
 
     except ConnectionRefusedError as e:
         findings.append({
-            "category": "ssl",
-            "severity": "low",
-            "title": "HTTPS service unavailable on port 443",
+            "category": "scanner",
+            "severity": "info",
+            "title": "HTTPS service not reachable on port 443",
             "description": "The domain did not accept a TLS connection on port 443 during the scan.",
             "evidence_json": {
                 "error": str(e),

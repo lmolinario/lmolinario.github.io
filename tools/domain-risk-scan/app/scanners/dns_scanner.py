@@ -14,45 +14,80 @@ def _resolver_status_from_exception(exc: Exception) -> str:
     return "unknown"
 
 
+def _resolve_record(domain: str, record_type: str):
+    try:
+        answers = dns.resolver.resolve(domain, record_type)
+        return {
+            "status": "ok",
+            "answers": list(answers),
+        }
+    except Exception as e:
+        return {
+            "status": _resolver_status_from_exception(e),
+            "error": e,
+            "answers": [],
+        }
+
+
+def _is_dns_incomplete(status: str) -> bool:
+    return status in {"timeout", "no_nameservers", "unknown"}
+
+
 def scan_dns(domain: str) -> list[dict]:
     findings = []
 
-    # Primo check: il dominio base risolve?
-    try:
-        dns.resolver.resolve(domain, "A")
-    except dns.resolver.NXDOMAIN as e:
-        return [{
-            "category": "dns",
-            "severity": "high",
-            "title": "Domain does not resolve in public DNS",
-            "description": f"The domain {domain} does not currently resolve in public DNS.",
-            "evidence_json": {
-                "domain_checked": domain,
-                "error": str(e),
-                "resolver_status": "nxdomain",
-                "check_type": "domain_resolution_failed",
-                "scan_quality": "partial",
-            },
-            "recommendation": "Verify the domain name, DNS delegation, and authoritative public DNS resolution before assessing email-related controls."
-        }]
-    except (dns.resolver.NoNameservers, dns.resolver.LifetimeTimeout, dns.exception.DNSException) as e:
-        status = _resolver_status_from_exception(e)
-        return [{
-            "category": "scanner",
-            "severity": "info",
-            "title": "DNS validation incomplete",
-            "description": "The scan could not reliably validate DNS-based controls because DNS resolution did not complete successfully.",
-            "evidence_json": {
-                "domain_checked": domain,
-                "error": str(e),
-                "resolver_status": status,
-                "check_type": "dns_resolution_incomplete",
-                "scan_quality": "partial",
-            },
-            "recommendation": "Repeat the scan and verify public DNS availability before relying on the result."
-        }]
+    # 1) Base resolution check: A OR AAAA
+    a_result = _resolve_record(domain, "A")
+    aaaa_result = _resolve_record(domain, "AAAA")
 
-    # SPF
+    base_ok = a_result["status"] == "ok" or aaaa_result["status"] == "ok"
+
+    if not base_ok:
+        statuses = {a_result["status"], aaaa_result["status"]}
+
+        if statuses == {"nxdomain"} or statuses == {"nxdomain", "no_answer"}:
+            return [{
+                "category": "scanner",
+                "severity": "info",
+                "title": "Base domain does not resolve in public DNS",
+                "description": (
+                    f"The domain {domain} did not resolve through public DNS during the scan. "
+                    "Email-related controls were not scored as normal security findings because "
+                    "the base domain itself could not be validated."
+                ),
+                "evidence_json": {
+                    "domain_checked": domain,
+                    "a_status": a_result["status"],
+                    "aaaa_status": aaaa_result["status"],
+                    "check_type": "domain_resolution_incomplete",
+                    "scan_quality": "partial",
+                },
+                "recommendation": (
+                    "Verify the domain name, DNS delegation, and authoritative public DNS resolution "
+                    "before relying on email-security results."
+                ),
+            }]
+
+        if any(_is_dns_incomplete(s) for s in statuses):
+            return [{
+                "category": "scanner",
+                "severity": "info",
+                "title": "DNS validation incomplete",
+                "description": (
+                    "The scan could not reliably validate DNS-based controls because base domain "
+                    "resolution did not complete successfully."
+                ),
+                "evidence_json": {
+                    "domain_checked": domain,
+                    "a_status": a_result["status"],
+                    "aaaa_status": aaaa_result["status"],
+                    "check_type": "dns_resolution_incomplete",
+                    "scan_quality": "partial",
+                },
+                "recommendation": "Repeat the scan and verify public DNS availability before relying on the result.",
+            }]
+
+    # 2) SPF
     try:
         txt_records = dns.resolver.resolve(domain, "TXT")
         txt_values = [r.to_text().strip('"') for r in txt_records]
@@ -89,6 +124,23 @@ def scan_dns(domain: str) -> list[dict]:
             "recommendation": "Publish an SPF record to authorize legitimate outbound email servers.",
         })
 
+    except dns.resolver.NXDOMAIN as e:
+        findings.append({
+            "category": "scanner",
+            "severity": "info",
+            "title": "SPF validation incomplete",
+            "description": "The scan could not complete SPF validation because DNS resolution was not reliable.",
+            "evidence_json": {
+                "error": str(e),
+                "domain_checked": domain,
+                "resolver_stage": "spf_lookup",
+                "resolver_status": "nxdomain",
+                "check_type": "spf_lookup_failed",
+                "scan_quality": "partial",
+            },
+            "recommendation": "Repeat the DNS lookup and verify TXT record resolution for the domain.",
+        })
+
     except (dns.resolver.NoNameservers, dns.resolver.LifetimeTimeout, dns.exception.DNSException) as e:
         status = _resolver_status_from_exception(e)
         findings.append({
@@ -101,13 +153,13 @@ def scan_dns(domain: str) -> list[dict]:
                 "domain_checked": domain,
                 "resolver_stage": "spf_lookup",
                 "resolver_status": status,
-                "check_type": "spf_lookup_incomplete",
+                "check_type": "spf_lookup_failed",
                 "scan_quality": "partial",
             },
             "recommendation": "Repeat the DNS lookup and verify TXT record resolution for the domain.",
         })
 
-    # DMARC
+    # 3) DMARC
     dmarc_domain = f"_dmarc.{domain}"
     try:
         dmarc_records = dns.resolver.resolve(dmarc_domain, "TXT")
@@ -144,6 +196,21 @@ def scan_dns(domain: str) -> list[dict]:
             "recommendation": "Add a DMARC record to reduce spoofing risk and improve email trust.",
         })
 
+    except dns.resolver.NXDOMAIN:
+        findings.append({
+            "category": "dns",
+            "severity": "high",
+            "title": "DMARC record missing",
+            "description": "No DMARC record was found for the domain.",
+            "evidence_json": {
+                "domain_checked": dmarc_domain,
+                "resolver_status": "nxdomain",
+                "check_type": "dmarc_missing",
+                "scan_quality": "complete",
+            },
+            "recommendation": "Add a DMARC record to reduce spoofing risk and improve email trust.",
+        })
+
     except (dns.resolver.NoNameservers, dns.resolver.LifetimeTimeout, dns.exception.DNSException) as e:
         status = _resolver_status_from_exception(e)
         findings.append({
@@ -156,13 +223,13 @@ def scan_dns(domain: str) -> list[dict]:
                 "error": str(e),
                 "resolver_stage": "dmarc_lookup",
                 "resolver_status": status,
-                "check_type": "dmarc_lookup_incomplete",
+                "check_type": "dmarc_lookup_failed",
                 "scan_quality": "partial",
             },
             "recommendation": "Repeat the lookup and verify that the _dmarc TXT record is externally resolvable.",
         })
 
-    # MX
+    # 4) MX
     try:
         mx_records = dns.resolver.resolve(domain, "MX")
         mx_values = [r.exchange.to_text() for r in mx_records]
@@ -197,6 +264,23 @@ def scan_dns(domain: str) -> list[dict]:
             "recommendation": "If the domain should receive email, configure MX records for the intended mail service.",
         })
 
+    except dns.resolver.NXDOMAIN as e:
+        findings.append({
+            "category": "scanner",
+            "severity": "info",
+            "title": "MX validation incomplete",
+            "description": "The scan could not complete MX validation because DNS resolution was not reliable.",
+            "evidence_json": {
+                "domain_checked": domain,
+                "error": str(e),
+                "resolver_stage": "mx_lookup",
+                "resolver_status": "nxdomain",
+                "check_type": "mx_lookup_failed",
+                "scan_quality": "partial",
+            },
+            "recommendation": "Repeat the lookup and verify whether the domain is expected to receive email.",
+        })
+
     except (dns.resolver.NoNameservers, dns.resolver.LifetimeTimeout, dns.exception.DNSException) as e:
         status = _resolver_status_from_exception(e)
         findings.append({
@@ -209,7 +293,7 @@ def scan_dns(domain: str) -> list[dict]:
                 "error": str(e),
                 "resolver_stage": "mx_lookup",
                 "resolver_status": status,
-                "check_type": "mx_lookup_incomplete",
+                "check_type": "mx_lookup_failed",
                 "scan_quality": "partial",
             },
             "recommendation": "Repeat the lookup and verify whether the domain is expected to receive email.",

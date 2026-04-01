@@ -25,6 +25,7 @@ def _severity_rank(severity: str | None) -> int:
         "high": 3,
         "medium": 2,
         "low": 1,
+        "info": 0,
     }
     return order.get((severity or "").lower(), 0)
 
@@ -39,6 +40,10 @@ def _finding_priority(finding: dict) -> int:
     score = 0
     score += _severity_rank(severity) * 100
 
+    # Scanner/info: non devono diventare top issue quasi mai
+    if category == "scanner":
+        score -= 1000
+
     if category == "dns":
         score += 40
 
@@ -46,22 +51,19 @@ def _finding_priority(finding: dict) -> int:
             score += 50
 
         if check_type == "dmarc_lookup_failed":
-            score += 30
+            score += 10
 
         if check_type == "spf_missing" or "spf record missing" in title:
             score += 40
 
         if check_type == "spf_lookup_failed":
-            score += 20
+            score += 10
 
         if check_type == "mx_missing" or "mx records missing" in title:
             score += 35
 
         if check_type == "mx_lookup_failed":
-            score += 25
-
-        if check_type in {"dns_lookup_failure"} or "does not resolve in dns" in title:
-            score += 45
+            score += 10
 
     if category in {"ssl", "tls"}:
         score += 60
@@ -126,14 +128,26 @@ def execute_scan(scan_id: int):
             "info": 0,
         }
 
+        security_findings_count = 0
+        coverage_findings_count = 0
+
         for f in findings:
             sev = (f.get("severity") or "").lower()
+            cat = (f.get("category") or "").lower()
+
             if sev in by_severity:
                 by_severity[sev] += 1
+
+            if cat == "scanner" or sev == "info":
+                coverage_findings_count += 1
+            else:
+                security_findings_count += 1
 
         summary = {
             "domain": domain,
             "findings_count": len(findings),
+            "security_findings_count": security_findings_count,
+            "coverage_findings_count": coverage_findings_count,
             "by_severity": by_severity,
             "top_issues": [
                 {
