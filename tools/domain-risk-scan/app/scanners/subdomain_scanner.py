@@ -43,6 +43,8 @@ def scan_subdomains(domain: str) -> list[dict]:
                 "evidence_json": {
                     "count": len(subdomains),
                     "sample": subdomains[:15],
+                    "check_type": "subdomain_footprint",
+                    "scan_quality": "complete",
                 },
                 "recommendation": "Review whether all public subdomains are still required and properly protected."
             })
@@ -55,18 +57,26 @@ def scan_subdomains(domain: str) -> list[dict]:
                 "evidence_json": {
                     "count": len(subdomains),
                     "sample": subdomains[:10],
+                    "check_type": "subdomain_footprint",
+                    "scan_quality": "complete",
                 },
                 "recommendation": "Maintain an up-to-date inventory of exposed subdomains."
             })
 
     except Exception as e:
+        # Non trasformare il fallimento di una fonte esterna in un finding di rischio.
         findings.append({
-            "category": "subdomain",
-            "severity": "low",
-            "title": "Passive subdomain check failed",
-            "description": "The passive subdomain lookup did not complete successfully.",
-            "evidence_json": {"error": str(e)},
-            "recommendation": "Repeat the check later or validate exposure with an alternative passive source."
+            "category": "scanner",
+            "severity": "info",
+            "title": "Passive subdomain coverage incomplete",
+            "description": "The passive subdomain source did not respond correctly, so external asset coverage may be incomplete.",
+            "evidence_json": {
+                "error": str(e),
+                "check_type": "subdomain_source_error",
+                "scan_quality": "partial",
+                "source": "crt.sh",
+            },
+            "recommendation": "Repeat the passive lookup later or validate subdomains with an additional passive source."
         })
 
     return findings

@@ -123,6 +123,7 @@ def execute_scan(scan_id: int):
             "high": 0,
             "medium": 0,
             "low": 0,
+            "info": 0,
         }
 
         for f in findings:
