@@ -64,6 +64,7 @@ def scan_ssl(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "TLS handshake validation incomplete",
             "description": "The scan reached the HTTPS service but could not complete a valid TLS handshake.",
             "evidence_json": {
@@ -78,6 +79,7 @@ def scan_ssl(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "HTTPS validation timed out",
             "description": "The HTTPS check did not complete within the expected time window.",
             "evidence_json": {
@@ -92,6 +94,7 @@ def scan_ssl(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "HTTPS service not reachable on port 443",
             "description": "The domain did not accept a TLS connection on port 443 during the scan.",
             "evidence_json": {
@@ -106,6 +109,7 @@ def scan_ssl(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "HTTPS validation incomplete",
             "description": "The HTTPS check could not be completed due to a network or socket-level error.",
             "evidence_json": {

@@ -49,6 +49,7 @@ def scan_dns(domain: str) -> list[dict]:
             return [{
                 "category": "scanner",
                 "severity": "info",
+                "finding_type": "coverage",
                 "title": "Base domain does not resolve in public DNS",
                 "description": (
                     f"The domain {domain} did not resolve through public DNS during the scan. "
@@ -72,6 +73,7 @@ def scan_dns(domain: str) -> list[dict]:
             return [{
                 "category": "scanner",
                 "severity": "info",
+                "finding_type": "coverage",
                 "title": "DNS validation incomplete",
                 "description": (
                     "The scan could not reliably validate DNS-based controls because base domain "
@@ -128,6 +130,7 @@ def scan_dns(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "SPF validation incomplete",
             "description": "The scan could not complete SPF validation because DNS resolution was not reliable.",
             "evidence_json": {
@@ -146,6 +149,7 @@ def scan_dns(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "SPF validation incomplete",
             "description": "The scan could not complete SPF validation due to a DNS lookup issue.",
             "evidence_json": {
@@ -216,6 +220,7 @@ def scan_dns(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "DMARC validation incomplete",
             "description": "The scan could not complete DMARC validation due to a DNS lookup issue.",
             "evidence_json": {
@@ -268,6 +273,7 @@ def scan_dns(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "MX validation incomplete",
             "description": "The scan could not complete MX validation because DNS resolution was not reliable.",
             "evidence_json": {
@@ -286,6 +292,7 @@ def scan_dns(domain: str) -> list[dict]:
         findings.append({
             "category": "scanner",
             "severity": "info",
+            "finding_type": "coverage",
             "title": "MX validation incomplete",
             "description": "The scan could not complete MX validation due to a DNS lookup issue.",
             "evidence_json": {

@@ -141,7 +141,7 @@ def scan_subdomains(domain: str) -> list[dict[str, Any]]:
                     f"enumeration for {domain}: {exc.__class__.__name__}. "
                     f"This is not a confirmed security issue."
                 ),
-                finding_type="scanner",
+                finding_type="coverage",
                 recommendation="Check scanner logs and repeat the scan.",
                 evidence_json={
                     "source": "crt.sh",
