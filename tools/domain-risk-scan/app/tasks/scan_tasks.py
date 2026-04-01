@@ -1,4 +1,3 @@
-from app.tasks.celery_app import celery
 from app.core.database import SessionLocal
 from app.services.scan_service import (
     get_scan,
@@ -14,6 +13,11 @@ from app.scanners.subdomain_scanner import scan_subdomains
 from app.services.report_service import _score_to_risk_level
 from app.services.analytics_service import track_event
 
+try:
+    from app.tasks.celery_app import celery
+except Exception:
+    celery = None
+
 
 def _severity_rank(severity: str | None) -> int:
     order = {
@@ -26,10 +30,6 @@ def _severity_rank(severity: str | None) -> int:
 
 
 def _finding_priority(finding: dict) -> int:
-    """
-    Business-oriented ordering for summary top_issues.
-    Higher score = higher priority.
-    """
     title = (finding.get("title") or "").lower()
     category = (finding.get("category") or "").lower()
     severity = finding.get("severity")
@@ -37,11 +37,8 @@ def _finding_priority(finding: dict) -> int:
     check_type = (evidence.get("check_type") or "").lower()
 
     score = 0
-
-    # Base severity
     score += _severity_rank(severity) * 100
 
-    # DNS / email trust posture
     if category == "dns":
         score += 40
 
@@ -66,11 +63,9 @@ def _finding_priority(finding: dict) -> int:
         if check_type in {"dns_lookup_failure"} or "does not resolve in dns" in title:
             score += 45
 
-    # TLS issues are usually highly visible and commercially relevant
     if category in {"ssl", "tls"}:
         score += 60
 
-    # Subdomain exposure is useful, but usually secondary
     if category == "subdomain":
         score += 20
         count = evidence.get("count")
@@ -82,7 +77,6 @@ def _finding_priority(finding: dict) -> int:
             elif count >= 5:
                 score += 10
 
-    # Actionable findings get a small boost
     if (finding.get("recommendation") or "").strip():
         score += 10
 
@@ -102,8 +96,7 @@ def _ordered_findings(findings: list[dict]) -> list[dict]:
     )
 
 
-@celery.task(name="app.tasks.scan_tasks.run_scan_task")
-def run_scan_task(scan_id: int):
+def execute_scan(scan_id: int):
     db = SessionLocal()
 
     try:
@@ -120,8 +113,6 @@ def run_scan_task(scan_id: int):
         findings.extend(scan_ssl(domain))
         findings.extend(scan_subdomains(domain))
 
-        # Replace existing findings for this scan_id to avoid duplicates
-        # if the task is re-run.
         replace_findings(db, scan_id, findings)
 
         score = calculate_score(findings)
@@ -150,7 +141,6 @@ def run_scan_task(scan_id: int):
                     "title": f.get("title"),
                 }
                 for f in ordered_findings[:5]
-
             ],
             "risk_level": _score_to_risk_level(score),
         }
@@ -159,7 +149,7 @@ def run_scan_task(scan_id: int):
         track_event(db, scan.id, "scan_completed")
 
     except Exception as e:
-        print(f"[run_scan_task] ERROR for scan_id={scan_id}: {e!r}")
+        print(f"[execute_scan] ERROR for scan_id={scan_id}: {e!r}")
         db.rollback()
 
         try:
@@ -167,10 +157,19 @@ def run_scan_task(scan_id: int):
             if scan:
                 update_scan_failed(db, scan, str(e))
         except Exception as inner_e:
-            print(f"[run_scan_task] FAILED to mark scan as failed for scan_id={scan_id}: {inner_e!r}")
+            print(f"[execute_scan] FAILED to mark scan as failed for scan_id={scan_id}: {inner_e!r}")
             db.rollback()
 
         raise
 
     finally:
         db.close()
+
+
+if celery is not None:
+    @celery.task(name="app.tasks.scan_tasks.run_scan_task")
+    def run_scan_task(scan_id: int):
+        execute_scan(scan_id)
+else:
+    def run_scan_task(scan_id: int):
+        execute_scan(scan_id)

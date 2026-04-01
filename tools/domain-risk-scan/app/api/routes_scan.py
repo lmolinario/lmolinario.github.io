@@ -45,7 +45,7 @@ def create_scan_endpoint(payload: ScanCreate, db: Session = Depends(get_db)):
         )
 
     scan = create_scan(db, domain)
-    run_scan_task.delay(scan.id)
+    run_scan_task(scan.id)
 
     return ScanCreateResponse(
         scan_id=scan.id,
