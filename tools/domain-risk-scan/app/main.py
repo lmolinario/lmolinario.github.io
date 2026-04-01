@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.database import Base, engine
 from app.api.routes_scan import router as scan_router
@@ -17,6 +18,19 @@ from app.api.routes_analytics import router as analytics_router
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Digital Risk Scanner")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://lmolinario.github.io",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500",
+    ],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 templates = Jinja2Templates(directory="templates")
 
 app.include_router(scan_router)
@@ -28,7 +42,6 @@ app.include_router(analytics_router)
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):

@@ -582,12 +582,18 @@
     </div>
   </footer>
 
+
   <script>
     let currentScanId = null;
-    const API_BASE_URL =https://lmolinario-github-io.onrender.com
-    window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
-    ? "http://127.0.0.1:8000"
-    : "https://TUO-BACKEND.onrender.com";
+
+    const API_BASE_URL =
+      window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+        ? "http://127.0.0.1:8000"
+        : "https://lmolinario-github-io.onrender.com";
+
+    function apiUrl(path) {
+      return `${API_BASE_URL}${path}`;
+    }
 
     function showStatus(message) {
       const box = document.getElementById("status");
@@ -860,9 +866,9 @@
 
       showStatus("Submitting scan...");
 
-      const res = await fetch("/api/scans", {
+      const res = await fetch(apiUrl("/api/scans"), {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ domain })
       });
 
@@ -884,7 +890,7 @@
     }
 
     async function pollScan() {
-      const res = await fetch(`/api/scans/${currentScanId}`);
+      const res = await fetch(apiUrl(`/api/scans/${currentScanId}`));
       const data = await res.json().catch(() => null);
 
       if (!res.ok || !data) {
@@ -911,9 +917,9 @@
     async function unlockReport() {
       if (!currentScanId) return;
 
-      const res = await fetch("/api/billing/checkout", {
+      const res = await fetch(apiUrl("/api/billing/checkout"), {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ scan_id: currentScanId })
       });
 
@@ -928,7 +934,9 @@
     }
 
     async function confirmPaidSession(scanId, sessionId) {
-      const res = await fetch(`/api/billing/confirm?scan_id=${encodeURIComponent(scanId)}&session_id=${encodeURIComponent(sessionId)}`);
+      const res = await fetch(
+        apiUrl(`/api/billing/confirm?scan_id=${encodeURIComponent(scanId)}&session_id=${encodeURIComponent(sessionId)}`)
+      );
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
@@ -951,7 +959,7 @@
       fullContainer.innerHTML = "";
       unlockBlock.style.display = "none";
 
-      const res = await fetch(`/api/reports/${currentScanId}`);
+      const res = await fetch(apiUrl(`/api/reports/${currentScanId}`));
       const data = await res.json().catch(() => null);
 
       if (!res.ok || !data) {
@@ -963,7 +971,6 @@
 
       if (data.is_locked) {
         const visibleCount = Math.min(findings.length, 3);
-        const hiddenCount = Math.max(findings.length - visibleCount, 0);
 
         let teaserHtml = `<div class="ai-box"><h4>Risk overview</h4>`;
 
@@ -982,7 +989,8 @@
           <p class="teaser-callout">
             Unlock the full report to access the executive summary, prioritized remediation actions, complete findings, business impact context, and downloadable PDF report.
           </p>
-        </div>`;
+        </div>
+        `;
 
         teaserHtml += `
           <div class="grid" style="margin-top:1rem;">
@@ -1137,7 +1145,7 @@
 
       currentScanId = Number(scanId);
 
-      const scanRes = await fetch(`/api/scans/${currentScanId}`);
+      const scanRes = await fetch(apiUrl(`/api/scans/${currentScanId}`));
       const scanData = await scanRes.json().catch(() => null);
 
       if (!(scanRes.ok && scanData && scanData.status === "completed")) {
@@ -1152,7 +1160,7 @@
         showStatus("Checkout canceled.");
 
         try {
-          await fetch(`/api/billing/cancel?scan_id=${encodeURIComponent(currentScanId)}`, {
+          await fetch(apiUrl(`/api/billing/cancel?scan_id=${encodeURIComponent(currentScanId)}`), {
             method: "POST"
           });
         } catch (err) {
