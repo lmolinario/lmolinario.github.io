@@ -8,12 +8,12 @@ from app.api.routes_scan import router as scan_router
 from app.api.routes_billing import router as billing_router
 from app.api.routes_reports import router as reports_router
 from app.api.routes_pdf import router as pdf_router
+from app.api.routes_analytics import router as analytics_router
 
 from app.models.scan import Scan
 from app.models.finding import Finding
 from app.models.report import Report
 from app.models.analytics_event import AnalyticsEvent
-from app.api.routes_analytics import router as analytics_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -25,6 +25,8 @@ app.add_middleware(
         "https://lmolinario.github.io",
         "http://localhost:5500",
         "http://127.0.0.1:5500",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
     ],
     allow_credentials=False,
     allow_methods=["*"],
