@@ -584,6 +584,10 @@
 
   <script>
     let currentScanId = null;
+    const API_BASE_URL =https://lmolinario-github-io.onrender.com
+    window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+    ? "http://127.0.0.1:8000"
+    : "https://TUO-BACKEND.onrender.com";
 
     function showStatus(message) {
       const box = document.getElementById("status");
