@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Supplier Cyber Risk Screening — Report documentato per vendor assessment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Screening esterno del rischio cyber dei fornitori. Report documentato utile per procurement, audit e compliance.">
+  <meta name="robots" content="index,follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Supplier Cyber Risk Screening">
+  <meta property="og:description" content="Report documentato utile per procurement, audit e compliance.">
+  <meta property="og:type" content="website">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+
+  <!-- Microsoft Clarity -->
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "CLARITY_PROJECT_ID");
+  </script>
+
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --surface:#ffffff;
+      --surface-soft:#f1f5f9;
+      --text:#0f172a;
+      --muted:#475569;
+      --accent:#0f766e;
+      --accent-dark:#115e59;
+      --border:#e2e8f0;
+      --shadow:0 10px 30px rgba(15,23,42,0.08);
+      --ok:#15803d;
+      --warn:#b45309;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    .container{
+      width:min(1100px, calc(100% - 32px));
+      margin:0 auto;
+    }
+
+    .header{
+      padding:18px 0;
+      border-bottom:1px solid var(--border);
+      background:rgba(248,250,252,0.92);
+      backdrop-filter:blur(8px);
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+
+    .header-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    .brand{
+      font-weight:700;
+      letter-spacing:0.02em;
+      font-size:15px;
+    }
+
+    .brand span{
+      color:var(--accent);
+    }
+
+    .hero{
+      padding:64px 0 36px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:28px;
+      align-items:start;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:var(--surface);
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:18px;
+    }
+
+    h1{
+      font-size:clamp(32px, 5vw, 54px);
+      line-height:1.08;
+      letter-spacing:-0.03em;
+      margin:0 0 18px;
+      max-width:11ch;
+    }
+
+    .lead{
+      font-size:18px;
+      color:var(--muted);
+      max-width:62ch;
+      margin:0 0 26px;
+    }
+
+    .hero-points{
+      display:grid;
+      gap:14px;
+      margin:0 0 30px;
+      padding:0;
+      list-style:none;
+    }
+
+    .hero-points li{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      color:var(--text);
+      background:var(--surface);
+      border:1px solid var(--border);
+      padding:14px 16px;
+      border-radius:16px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero-points .icon{
+      width:24px;
+      height:24px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      flex:0 0 24px;
+      margin-top:2px;
+      background:rgba(15,118,110,0.12);
+      color:var(--accent);
+    }
+
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      margin-bottom:16px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:48px;
+      padding:0 18px;
+      border-radius:12px;
+      font-weight:600;
+      border:1px solid transparent;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .btn-primary:hover{
+      background:var(--accent-dark);
+      transform:translateY(-1px);
+    }
+
+    .btn-secondary{
+      background:var(--surface);
+      color:var(--text);
+      border-color:var(--border);
+    }
+
+    .btn-secondary:hover{
+      background:var(--surface-soft);
+    }
+
+    .microcopy{
+      font-size:14px;
+      color:var(--muted);
+      margin:0;
+    }
+
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .preview-card{
+      padding:18px;
+    }
+
+    .preview-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin-bottom:14px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(180,83,9,0.10);
+      color:var(--warn);
+      font-weight:600;
+      font-size:12px;
+    }
+
+    .report-shot{
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .report-shot img{
+      width:100%;
+      height:auto;
+    }
+
+    .section{
+      padding:34px 0;
+    }
+
+    .section h2{
+      font-size:28px;
+      line-height:1.15;
+      margin:0 0 12px;
+      letter-spacing:-0.02em;
+    }
+
+    .section-intro{
+      color:var(--muted);
+      margin:0 0 24px;
+      max-width:70ch;
+    }
+
+    .pain-grid,
+    .output-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+
+    .pain-item,
+    .output-item{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+
+    .pain-item h3,
+    .output-item h3{
+      margin:0 0 10px;
+      font-size:17px;
+      line-height:1.25;
+    }
+
+    .pain-item p,
+    .output-item p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .output-list{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+
+    .output-list li + li{
+      margin-top:8px;
+    }
+
+    .preview-section{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+      align-items:center;
+    }
+
+    .preview-copy{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .preview-copy ul{
+      margin:16px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+
+    .preview-copy li + li{
+      margin-top:8px;
+    }
+
+    .credibility{
+      margin-top:28px;
+      padding:16px 18px;
+      border:1px solid rgba(15,118,110,0.22);
+      background:rgba(15,118,110,0.06);
+      border-radius:16px;
+      color:#134e4a;
+      font-size:14px;
+    }
+
+    .faq{
+      display:grid;
+      gap:14px;
+    }
+
+    .faq details{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px 18px;
+      box-shadow:var(--shadow);
+    }
+
+    .faq summary{
+      cursor:pointer;
+      font-weight:600;
+      list-style:none;
+    }
+
+    .faq summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .faq p{
+      margin:12px 0 0;
+      color:var(--muted);
+    }
+
+    .footer{
+      padding:28px 0 44px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .footer-inner{
+      border-top:1px solid var(--border);
+      padding-top:20px;
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    @media (max-width: 960px){
+      .hero-grid,
+      .pain-grid,
+      .output-grid,
+      .preview-section{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        max-width:none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">Supplier <span>Cyber Risk Screening</span></div>
+      <a class="btn btn-secondary" href="#demo" id="nav-demo-link">Vedi esempio</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Vendor assessment • procurement • audit • compliance</div>
+
+          <h1>Screening esterno del rischio cyber dei fornitori</h1>
+
+          <p class="lead">
+            Un report documentato, strutturato e leggibile per aiutare consulenti, auditor e team di compliance
+            a valutare fornitori critici con maggiore rapidità e coerenza.
+          </p>
+
+          <ul class="hero-points">
+            <li>
+              <span class="icon">1</span>
+              <div>
+                Oggi molte valutazioni dei fornitori sono frammentate tra ricerche manuali, check non omogenei e poca documentazione riutilizzabile.
+              </div>
+            </li>
+            <li>
+              <span class="icon">2</span>
+              <div>
+                Quando il fornitore tocca dati, accessi o sistemi critici, serve un output più chiaro di “abbiamo guardato qualcosa”.
+              </div>
+            </li>
+            <li>
+              <span class="icon">3</span>
+              <div>
+                Questo formato trasforma segnali pubblici e verifiche esterne in un report utile per procurement, audit e supporto documentale.
+              </div>
+            </li>
+          </ul>
+
+          <div class="cta-row">
+            <a
+              class="btn btn-primary"
+              href="GOOGLE_FORM_URL"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="cta-hero"
+              onclick="trackCTA('hero_primary_cta', 'google_form')"
+            >
+              Scarica il report dimostrativo
+            </a>
+
+            <a
+              class="btn btn-secondary"
+              href="#come-funziona"
+              id="cta-secondary"
+              onclick="trackCTA('hero_secondary_cta', 'scroll_how_it_works')"
+            >
+              Come funziona
+            </a>
+          </div>
+
+          <p class="microcopy">
+            Nessuna call richiesta. Nessun impegno commerciale. Ricevi il PDF demo e valuti il formato.
+          </p>
+        </div>
+
+        <div class="card preview-card" id="demo">
+          <div class="preview-header">
+            <strong>Esempio di report</strong>
+            <span class="pill">Demo PDF</span>
+          </div>
+
+          <div class="report-shot">
+            <img src="https://placehold.co/900x1200/png?text=Anteprima+Report+Demo" alt="Anteprima del report dimostrativo">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="come-funziona">
+      <div class="container">
+        <h2>Il problema che questo formato cerca di risolvere</h2>
+        <p class="section-intro">
+          Non è una piattaforma GRC completa e non sostituisce audit, questionari o verifiche interne.
+          È un modo più standardizzato per produrre uno screening esterno leggibile e riutilizzabile.
+        </p>
+
+        <div class="pain-grid">
+          <article class="pain-item">
+            <h3>Valutazioni poco uniformi</h3>
+            <p>
+              Ogni fornitore viene spesso analizzato in modo diverso, con risultati difficili da confrontare e da archiviare in modo coerente.
+            </p>
+          </article>
+
+          <article class="pain-item">
+            <h3>Output poco documentabili</h3>
+            <p>
+              Anche quando vengono fatte verifiche utili, spesso manca un artefatto chiaro da conservare, condividere o riutilizzare nei processi interni.
+            </p>
+          </article>
+
+          <article class="pain-item">
+            <h3>Tempo disperso</h3>
+            <p>
+              Cercare segnali di rischio su più fonti pubbliche richiede tempo e porta facilmente a risultati incompleti o non standardizzati.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Cosa contiene il report</h2>
+        <p class="section-intro">
+          Il servizio è pensato come <strong>output documentato</strong>, non come dashboard complessa. L’obiettivo è rendere leggibile e riutilizzabile uno screening esterno del fornitore.
+        </p>
+
+        <div class="output-grid">
+          <article class="output-item">
+            <h3>Identità e contesto</h3>
+            <p>
+              Dati base del soggetto analizzato, dominio, riferimenti societari disponibili e inquadramento sintetico.
+            </p>
+          </article>
+
+          <article class="output-item">
+            <h3>Score e aree di rischio</h3>
+            <p>
+              Un punteggio sintetico con suddivisione per aree e indicazione delle principali evidenze emerse.
+            </p>
+          </article>
+
+          <article class="output-item">
+            <h3>Raccomandazioni operative</h3>
+            <p>
+              Azioni suggerite prima della firma, del rinnovo o dell’abilitazione del fornitore su dati e sistemi sensibili.
+            </p>
+          </article>
+        </div>
+
+        <div class="preview-section" style="margin-top:24px;">
+          <div class="preview-copy">
+            <strong>Aree tipicamente incluse</strong>
+            <ul class="output-list">
+              <li>esposizione digitale pubblica</li>
+              <li>certificati, subdomini e segnali DNS/TLS</li>
+              <li>reputation IP/dominio e blacklist</li>
+              <li>notizie negative e segnali pubblici rilevanti</li>
+              <li>certificazioni dichiarate verificabili</li>
+              <li>raccomandazioni sintetiche per procurement, audit e compliance</li>
+            </ul>
+          </div>
+
+          <div class="preview-copy">
+            <strong>Quando è utile</strong>
+            <ul class="output-list">
+              <li>screening iniziale di un nuovo fornitore</li>
+              <li>supporto documentale in fase di vendor assessment</li>
+              <li>materiale di appoggio per audit o riesame interno</li>
+              <li>acceleratore operativo per consulenti NIS2/compliance</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="credibility">
+          Utile come supporto documentale alla valutazione del rischio del fornitore in processi di procurement, audit e compliance, anche nel contesto degli obblighi organizzativi previsti dal D.Lgs. 138/2024.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Vedi il formato prima di tutto il resto</h2>
+        <p class="section-intro">
+          Questa pagina serve a validare interesse reale sul formato del report. Nessun percorso commerciale, nessuna demo invasiva: solo il PDF dimostrativo.
+        </p>
+
+        <div class="card" style="padding:24px;">
+          <div class="cta-row">
+            <a
+              class="btn btn-primary"
+              href="GOOGLE_FORM_URL"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="cta-mid"
+              onclick="trackCTA('mid_primary_cta', 'google_form')"
+            >
+              Scarica il report dimostrativo
+            </a>
+
+            <a
+              class="btn btn-secondary"
+              href="PDF_DEMO_URL"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="cta-pdf-direct"
+              onclick="trackCTA('pdf_direct_cta', 'google_drive_pdf')"
+            >
+              Apri anteprima PDF
+            </a>
+          </div>
+
+          <p class="small" style="margin:0;">
+            Il download completo viene consegnato dopo il form. L’anteprima diretta serve solo a mostrare il layout del documento.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Domande essenziali</h2>
+
+        <div class="faq">
+          <details>
+            <summary>È una piattaforma completa di third-party risk management?</summary>
+            <p>
+              No. Questo formato è pensato come screening esterno documentato e come evidence pack sintetico, non come piattaforma enterprise completa.
+            </p>
+          </details>
+
+          <details>
+            <summary>Sostituisce audit, questionari o verifiche interne?</summary>
+            <p>
+              No. È un supporto aggiuntivo, utile per rendere più leggibile, riutilizzabile e standardizzato uno screening iniziale del fornitore.
+            </p>
+          </details>
+
+          <details>
+            <summary>A chi sembra più utile questo formato?</summary>
+            <p>
+              In particolare a consulenti NIS2/compliance, auditor, MSP e team che devono produrre o archiviare valutazioni ripetibili sui fornitori critici.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="card" style="padding:28px; text-align:center;">
+          <h2 style="margin-bottom:10px;">Ricevi il PDF demo</h2>
+          <p class="section-intro" style="margin:0 auto 20px; max-width:56ch;">
+            Lascia la tua email professionale e accedi al report dimostrativo. Nessuna call automatica, nessuna pressione commerciale.
+          </p>
+
+          <a
+            class="btn btn-primary"
+            href="GOOGLE_FORM_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="cta-final"
+            onclick="trackCTA('final_primary_cta', 'google_form')"
+          >
+            Vai al form
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Supplier Cyber Risk Screening</strong><br>
+        <span class="small">
+          Pagina di validazione del formato. Nessun servizio di compliance completa, nessuna promessa di copertura integrale degli obblighi normativi.
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function trackCTA(label, destination) {
+      if (typeof gtag === 'function') {
+        gtag('event', 'cta_click', {
+          event_category: 'engagement',
+          event_label: label,
+          destination: destination
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const links = document.querySelectorAll('a[href]');
+      links.forEach(function(link) {
+        link.addEventListener('click', function() {
+          const href = link.getAttribute('href') || '';
+          if (typeof gtag === 'function') {
+            gtag('event', 'link_click', {
+              event_category: 'navigation',
+              event_label: href
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
