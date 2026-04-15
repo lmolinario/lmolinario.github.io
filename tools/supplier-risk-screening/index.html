@@ -1,37 +1,39 @@
 <!doctype html>
 <html lang="it">
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="canonical" href="https://lmolinario.github.io/tools/supplier-risk-screening/">
-  <meta property="og:url" content="https://lmolinario.github.io/tools/supplier-risk-screening/">
-
-
-  <meta property="og:image" content="https://lmolinario.github.io/assets/report-demo-preview.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Supplier Cyber Risk Screening">
-  <meta name="twitter:description" content="Screening esterno del rischio cyber dei fornitori. Report documentato utile per procurement, audit e compliance.">
-  <meta name="twitter:image" content="https://lmolinario.github.io/assets/report-demo-preview.jpg">
-
   <meta charset="utf-8">
   <title>Supplier Cyber Risk Screening — Report documentato per vendor assessment</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Screening esterno del rischio cyber dei fornitori. Report documentato utile per procurement, audit e compliance.">
+  <meta name="author" content="Lello Molinario">
   <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#f8fafc">
 
-  <!-- Open Graph -->
+  <link rel="canonical" href="https://lmolinario.github.io/tools/supplier-risk-screening/">
+
   <meta property="og:title" content="Supplier Cyber Risk Screening">
-  <meta property="og:description" content="Report documentato utile per procurement, audit e compliance.">
+  <meta property="og:description" content="Screening esterno del rischio cyber dei fornitori. Report documentato utile per procurement, audit e compliance.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lmolinario.github.io/tools/supplier-risk-screening/">
+  <meta property="og:image" content="https://lmolinario.github.io/assets/report-demo-preview.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Supplier Cyber Risk Screening">
+  <meta name="twitter:description" content="Screening esterno del rischio cyber dei fornitori. Report documentato utile per procurement, audit e compliance.">
+  <meta name="twitter:image" content="https://lmolinario.github.io/assets/report-demo-preview.jpg">
+  <meta name="twitter:url" content="https://lmolinario.github.io/tools/supplier-risk-screening/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-05SFNMJWMN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'GA_MEASUREMENT_ID');
+    gtag('config', 'G-05SFNMJWMN');
   </script>
 
   <!-- Microsoft Clarity -->
@@ -40,7 +42,7 @@
       c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
       t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "CLARITY_PROJECT_ID");
+    })(window, document, "clarity", "script", "wblykkhts3");
   </script>
 
   <style>
@@ -54,25 +56,28 @@
       --accent-dark:#115e59;
       --border:#e2e8f0;
       --shadow:0 10px 30px rgba(15,23,42,0.08);
-      --ok:#15803d;
       --warn:#b45309;
+      --maxw:1100px;
     }
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
+
     body{
       margin:0;
       font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
       background:var(--bg);
       color:var(--text);
       line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
     }
 
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
 
     .container{
-      width:min(1100px, calc(100% - 32px));
+      width:min(var(--maxw), calc(100% - 32px));
       margin:0 auto;
     }
 
@@ -91,6 +96,7 @@
       align-items:center;
       justify-content:space-between;
       gap:20px;
+      flex-wrap:wrap;
     }
 
     .brand{
@@ -103,8 +109,18 @@
       color:var(--accent);
     }
 
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     .hero{
       padding:64px 0 36px;
+      background:
+        radial-gradient(circle at top right, rgba(15,118,110,0.08), transparent 28%),
+        linear-gradient(to bottom, #ffffff, #f8fafc);
     }
 
     .hero-grid{
@@ -196,6 +212,7 @@
       border:1px solid transparent;
       cursor:pointer;
       transition:.18s ease;
+      white-space:nowrap;
     }
 
     .btn-primary{
@@ -332,7 +349,7 @@
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:22px;
-      align-items:center;
+      align-items:start;
     }
 
     .preview-copy{
@@ -372,7 +389,7 @@
       background:var(--surface);
       border:1px solid var(--border);
       border-radius:16px;
-      padding:18px 18px;
+      padding:18px;
       box-shadow:var(--shadow);
     }
 
@@ -419,13 +436,26 @@
         max-width:none;
       }
     }
+
+    @media (max-width: 640px){
+      .section h2{
+        font-size:24px;
+      }
+
+      .lead{
+        font-size:17px;
+      }
+    }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="container header-inner">
       <div class="brand">Supplier <span>Cyber Risk Screening</span></div>
-      <a class="btn btn-secondary" href="#demo" id="nav-demo-link">Vedi esempio</a>
+      <div class="header-actions">
+        <a class="btn btn-secondary" href="#demo" id="nav-demo-link">Vedi esempio</a>
+        <a class="btn btn-secondary" href="/">Sito principale</a>
+      </div>
     </div>
   </header>
 
@@ -446,19 +476,19 @@
             <li>
               <span class="icon">1</span>
               <div>
-                Oggi molte valutazioni dei fornitori sono frammentate tra ricerche manuali, check non omogenei e poca documentazione riutilizzabile.
+                Le valutazioni dei fornitori sono spesso distribuite tra verifiche manuali, fonti eterogenee e documentazione non uniforme.
               </div>
             </li>
             <li>
               <span class="icon">2</span>
               <div>
-                Quando il fornitore tocca dati, accessi o sistemi critici, serve un output più chiaro di “abbiamo guardato qualcosa”.
+                Quando un fornitore gestisce dati, accede a sistemi o supporta processi sensibili, è utile disporre di un output documentale più chiaro e coerente.
               </div>
             </li>
             <li>
               <span class="icon">3</span>
               <div>
-                Questo formato trasforma segnali pubblici e verifiche esterne in un report utile per procurement, audit e supporto documentale.
+                Questo formato organizza segnali pubblici e verifiche esterne in un report leggibile e riutilizzabile come supporto documentale.
               </div>
             </li>
           </ul>
@@ -466,13 +496,13 @@
           <div class="cta-row">
             <a
               class="btn btn-primary"
-              href="GOOGLE_FORM_URL"
+              href="https://forms.gle/FLGQPQrMyEJbDBvh8"
               target="_blank"
               rel="noopener noreferrer"
               id="cta-hero"
               onclick="trackCTA('hero_primary_cta', 'google_form')"
             >
-              Scarica il report dimostrativo
+              Richiedi il PDF dimostrativo
             </a>
 
             <a
@@ -486,18 +516,18 @@
           </div>
 
           <p class="microcopy">
-            Nessuna call richiesta. Nessun impegno commerciale. Ricevi il PDF demo e valuti il formato.
+            Il PDF dimostrativo è disponibile tramite modulo dedicato.
           </p>
         </div>
 
         <div class="card preview-card" id="demo">
           <div class="preview-header">
             <strong>Esempio di report</strong>
-            <span class="pill">Demo PDF</span>
+            <span class="pill">Formato PDF</span>
           </div>
 
           <div class="report-shot">
-            <img src="/assets/report-demo-preview.jpg" alt="Anteprima del report dimostrativo">
+            <img src="/assets/report-demo-preview.jpg" alt="Anteprima del formato del report">
           </div>
         </div>
       </div>
@@ -505,7 +535,7 @@
 
     <section class="section" id="come-funziona">
       <div class="container">
-        <h2>Il problema che questo formato cerca di risolvere</h2>
+        <h2>Il problema che questo formato cerca di affrontare</h2>
         <p class="section-intro">
           Non è una piattaforma GRC completa e non sostituisce audit, questionari o verifiche interne.
           È un modo più standardizzato per produrre uno screening esterno leggibile e riutilizzabile.
@@ -540,7 +570,8 @@
       <div class="container">
         <h2>Cosa contiene il report</h2>
         <p class="section-intro">
-          Il servizio è pensato come <strong>output documentato</strong>, non come dashboard complessa. L’obiettivo è rendere leggibile e riutilizzabile uno screening esterno del fornitore.
+          Il report è pensato come <strong>output documentato</strong>, non come dashboard complessa.
+          L’obiettivo è rendere leggibile e riutilizzabile uno screening esterno del fornitore.
         </p>
 
         <div class="output-grid">
@@ -585,7 +616,7 @@
               <li>screening iniziale di un nuovo fornitore</li>
               <li>supporto documentale in fase di vendor assessment</li>
               <li>materiale di appoggio per audit o riesame interno</li>
-              <li>acceleratore operativo per consulenti NIS2/compliance</li>
+              <li>supporto operativo per consulenti NIS2 e compliance</li>
             </ul>
           </div>
         </div>
@@ -598,38 +629,27 @@
 
     <section class="section">
       <div class="container">
-        <h2>Vedi il formato prima di tutto il resto</h2>
+        <h2>Consultazione del formato completo</h2>
         <p class="section-intro">
-          Questa pagina serve a validare interesse reale sul formato del report. Nessun percorso commerciale, nessuna demo invasiva: solo il PDF dimostrativo.
+          Questa pagina presenta la struttura del report e consente di richiederne una copia dimostrativa in PDF.
         </p>
 
         <div class="card" style="padding:24px;">
           <div class="cta-row">
             <a
               class="btn btn-primary"
-              href="GOOGLE_FORM_URL"
+              href="https://forms.gle/FLGQPQrMyEJbDBvh8"
               target="_blank"
               rel="noopener noreferrer"
               id="cta-mid"
               onclick="trackCTA('mid_primary_cta', 'google_form')"
             >
-              Scarica il report dimostrativo
-            </a>
-
-            <a
-              class="btn btn-secondary"
-              href="PDF_DEMO_URL"
-              target="_blank"
-              rel="noopener noreferrer"
-              id="cta-pdf-direct"
-              onclick="trackCTA('pdf_direct_cta', 'google_drive_pdf')"
-            >
-              Apri anteprima PDF
+              Richiedi il PDF dimostrativo
             </a>
           </div>
 
           <p class="small" style="margin:0;">
-            Il download completo viene consegnato dopo il form. L’anteprima diretta serve solo a mostrare il layout del documento.
+            Il PDF dimostrativo completo è disponibile tramite il modulo dedicato.
           </p>
         </div>
       </div>
@@ -641,23 +661,23 @@
 
         <div class="faq">
           <details>
-            <summary>È una piattaforma completa di third-party risk management?</summary>
+            <summary>A chi serve questo report?</summary>
             <p>
-              No. Questo formato è pensato come screening esterno documentato e come evidence pack sintetico, non come piattaforma enterprise completa.
+              A chi deve documentare una valutazione del rischio su un fornitore critico — consulenti NIS2, team di procurement, auditor, CISO. Non richiede competenze tecniche per leggerlo: è pensato per essere condiviso con chi decide.
             </p>
           </details>
 
           <details>
-            <summary>Sostituisce audit, questionari o verifiche interne?</summary>
+            <summary>Cosa analizza esattamente?</summary>
             <p>
-              No. È un supporto aggiuntivo, utile per rendere più leggibile, riutilizzabile e standardizzato uno screening iniziale del fornitore.
+              Fonti pubbliche e semi-pubbliche: infrastruttura digitale esposta, credenziali in breach noti, reputazione del dominio, notizie negative pubbliche, certificazioni verificabili, dati societari.
             </p>
           </details>
 
           <details>
-            <summary>A chi sembra più utile questo formato?</summary>
+            <summary>Come si ottiene il PDF dimostrativo?</summary>
             <p>
-              In particolare a consulenti NIS2/compliance, auditor, MSP e team che devono produrre o archiviare valutazioni ripetibili sui fornitori critici.
+              Il documento dimostrativo può essere richiesto tramite il modulo indicato nella pagina.
             </p>
           </details>
         </div>
@@ -667,20 +687,20 @@
     <section class="section">
       <div class="container">
         <div class="card" style="padding:28px; text-align:center;">
-          <h2 style="margin-bottom:10px;">Ricevi il PDF demo</h2>
+          <h2 style="margin-bottom:10px;">Richiedi il PDF dimostrativo</h2>
           <p class="section-intro" style="margin:0 auto 20px; max-width:56ch;">
-            Lascia la tua email professionale e accedi al report dimostrativo. Nessuna call automatica, nessuna pressione commerciale.
+            Per consultare il formato completo del report è disponibile un modulo di richiesta del PDF dimostrativo.
           </p>
 
           <a
             class="btn btn-primary"
-            href="GOOGLE_FORM_URL"
+            href="https://forms.gle/FLGQPQrMyEJbDBvh8"
             target="_blank"
             rel="noopener noreferrer"
             id="cta-final"
             onclick="trackCTA('final_primary_cta', 'google_form')"
           >
-            Vai al form
+            Apri il modulo
           </a>
         </div>
       </div>
@@ -692,7 +712,7 @@
       <div>
         <strong>Supplier Cyber Risk Screening</strong><br>
         <span class="small">
-          Pagina di validazione del formato. Nessun servizio di compliance completa, nessuna promessa di copertura integrale degli obblighi normativi.
+          Pagina informativa sul formato del report. Il contenuto è pensato come supporto documentale per vendor assessment, procurement, audit e compliance, non come sistema completo di conformità normativa.
         </span>
       </div>
     </div>
