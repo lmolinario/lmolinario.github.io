@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Lello Molinario | Cybersecurity, Digital Forensics, AI Security</title>
-  <meta name="description" content="Lello Molinario is a cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy. Personal website with projects, research, tools, and professional information." />
+  <meta name="description" content="Lello Molinario is a cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy. Portfolio focused on digital investigations, AI robustness, OSINT, and external exposure assessment." />
   <meta name="author" content="Lello Molinario" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://lmolinario.github.io/" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-
   <meta property="og:title" content="Lello Molinario | Cybersecurity, Digital Forensics, AI Security" />
-  <meta property="og:description" content="Cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy." />
+  <meta property="og:description" content="Professional portfolio focused on digital forensics, cyber investigation, AI security, OSINT, and external exposure assessment." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lmolinario.github.io/" />
   <meta property="og:image" content="https://lmolinario.github.io/assets/og-cover.jpg" />
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Lello Molinario | Cybersecurity, Digital Forensics, AI Security" />
-  <meta name="twitter:description" content="Cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy." />
+  <meta name="twitter:description" content="Digital forensics, cybersecurity, AI security, OSINT, and external exposure assessment." />
   <meta name="twitter:image" content="https://lmolinario.github.io/assets/og-cover.jpg" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -37,330 +32,13 @@
     "image": "https://lmolinario.github.io/assets/profile.jpg",
     "jobTitle": "Cybersecurity Specialist, Digital Forensics Expert, AI Security Researcher",
     "description": "Cybersecurity specialist, digital forensics expert, and AI security researcher based in Sassari, Italy.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Sassari",
-      "addressCountry": "IT"
-    },
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "University of Cagliari"
-    },
-    "sameAs": [
-      "https://github.com/lmolinario",
-      "https://www.linkedin.com/in/lello-molinario-357462325"
-    ]
+    "address": {"@type": "PostalAddress", "addressLocality": "Sassari", "addressCountry": "IT"},
+    "alumniOf": {"@type": "CollegeOrUniversity", "name": "University of Cagliari"},
+    "sameAs": ["https://www.linkedin.com/in/lello-molinario-357462325"]
   }
   </script>
-
   <style>
-    :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-soft: #f1f5f9;
-      --text: #0f172a;
-      --muted: #475569;
-      --accent: #0369a1;
-      --accent-dark: #075985;
-      --border: #e2e8f0;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-      --radius: 16px;
-      --maxw: 1040px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: "Inter", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    a {
-      color: var(--accent);
-    }
-
-    .container {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      padding: 1rem 0;
-    }
-
-    .brand {
-      font-weight: 800;
-      font-size: 1.05rem;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.02em;
-    }
-
-    nav {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    .hero {
-      padding: 5rem 0 3rem;
-      background:
-        radial-gradient(circle at top right, rgba(3, 105, 161, 0.08), transparent 30%),
-        linear-gradient(to bottom, #ffffff, #f8fafc);
-    }
-
-    .hero-wrap {
-      display: grid;
-      grid-template-columns: 1.35fr 0.85fr;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 1rem;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      background: #e0f2fe;
-      color: var(--accent-dark);
-      font-weight: 700;
-      font-size: 0.84rem;
-      letter-spacing: 0.02em;
-    }
-
-    .hero h1 {
-      margin: 0 0 1rem;
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-    }
-
-    .hero p {
-      margin: 0 0 1.5rem;
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 60ch;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 0.9rem;
-      flex-wrap: wrap;
-      margin-top: 1.25rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      padding: 0.85rem 1.1rem;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 700;
-      box-shadow: var(--shadow);
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .hero-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card h3 {
-      margin-top: 0;
-      margin-bottom: 0.75rem;
-      font-size: 1rem;
-    }
-
-    .hero-card p {
-      margin: 0.4rem 0;
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
-
-    section {
-      padding: 3.5rem 0;
-    }
-
-    .section-head {
-      margin-bottom: 1.2rem;
-    }
-
-    .section-head h2 {
-      margin: 0 0 0.6rem;
-      font-size: 1.85rem;
-      line-height: 1.15;
-      letter-spacing: -0.03em;
-    }
-
-    .section-head p {
-      margin: 0;
-      max-width: 70ch;
-      color: var(--muted);
-    }
-
-    .grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .grid.cols-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .grid.cols-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      box-shadow: var(--shadow);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 0.6rem;
-      font-size: 1.05rem;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.98rem;
-    }
-
-    .link-list {
-      margin-top: 0.9rem;
-      padding-left: 1.1rem;
-      color: var(--muted);
-    }
-
-    .link-list li {
-      margin-bottom: 0.45rem;
-    }
-
-    .link-list a {
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .link-list a:hover {
-      text-decoration: underline;
-    }
-
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem;
-      margin-top: 1rem;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 0.4rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--surface-soft);
-      color: var(--muted);
-      font-size: 0.86rem;
-      font-weight: 600;
-    }
-
-    .contact-box {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 1rem;
-      align-items: start;
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 0 3rem;
-      background: var(--surface);
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 900px) {
-      .hero-wrap,
-      .contact-box,
-      .grid.cols-3,
-      .grid.cols-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 4rem;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-
-      .section-head h2 {
-        font-size: 1.55rem;
-      }
-    }
+    :root{--bg:#f8fafc;--surface:#fff;--soft:#f1f5f9;--text:#0f172a;--muted:#475569;--accent:#0369a1;--accent-dark:#075985;--border:#e2e8f0;--shadow:0 10px 30px rgba(15,23,42,.06);--radius:16px;--maxw:1040px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}a{color:var(--accent)}.container{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem}header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 0}.brand{font-weight:800;font-size:1.05rem;color:var(--text);text-decoration:none;letter-spacing:-.02em}nav{display:flex;gap:1rem;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem}nav a:hover{color:var(--accent)}.hero{padding:5rem 0 3rem;background:radial-gradient(circle at top right,rgba(3,105,161,.08),transparent 30%),linear-gradient(to bottom,#fff,#f8fafc)}.hero-wrap{display:grid;grid-template-columns:1.35fr .85fr;gap:2rem;align-items:center}.eyebrow{display:inline-block;margin-bottom:1rem;padding:.35rem .7rem;border-radius:999px;background:#e0f2fe;color:var(--accent-dark);font-weight:700;font-size:.84rem}.hero h1{margin:0 0 1rem;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;letter-spacing:-.04em}.hero p{margin:0 0 1.5rem;color:var(--muted);font-size:1.05rem;max-width:64ch}.hero-cta{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.25rem}.btn{display:inline-flex;align-items:center;justify-content:center;padding:.85rem 1.1rem;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none;font-weight:700;box-shadow:var(--shadow)}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.card,.hero-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow)}.hero-card h3,.card h3{margin-top:0;margin-bottom:.7rem}.hero-card p,.card p{margin:.4rem 0;color:var(--muted);font-size:.97rem}section{padding:3.5rem 0}.section-head{margin-bottom:1.2rem}.section-head h2{margin:0 0 .6rem;font-size:1.85rem;line-height:1.15;letter-spacing:-.03em}.section-head p{margin:0;max-width:72ch;color:var(--muted)}.grid{display:grid;gap:1rem}.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.link-list{margin-top:.9rem;padding-left:1.1rem;color:var(--muted)}.link-list li{margin-bottom:.45rem}.link-list a{text-decoration:none;font-weight:700}.link-list a:hover{text-decoration:underline}.pill-list{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}.pill{display:inline-block;padding:.4rem .7rem;border-radius:999px;border:1px solid var(--border);background:var(--soft);color:var(--muted);font-size:.86rem;font-weight:600}.status{display:inline-block;margin-bottom:.75rem;padding:.25rem .55rem;border-radius:999px;background:#e0f2fe;color:var(--accent-dark);font-size:.78rem;font-weight:700}.profile-box{display:grid;grid-template-columns:1.2fr .8fr;gap:1rem;align-items:start}footer{border-top:1px solid var(--border);padding:2rem 0 3rem;background:var(--surface);color:var(--muted);font-size:.95rem}@media(max-width:900px){.hero-wrap,.profile-box,.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}.hero{padding-top:4rem}}@media(max-width:640px){.hero h1{font-size:2.2rem}.section-head h2{font-size:1.55rem}}
   </style>
 </head>
 <body>
@@ -371,161 +49,85 @@
         <a href="/about/">About</a>
         <a href="/projects/">Projects</a>
         <a href="/research/">Research</a>
-        <a href="/blog/">Blog</a>
-        <a href="#contact">Social</a>
+        <a href="/ai-forensics/">AI Forensics</a>
+        <a href="#professional-link">LinkedIn</a>
       </nav>
     </div>
   </header>
-
   <main>
     <section class="hero">
       <div class="container hero-wrap">
         <div>
           <span class="eyebrow">Cybersecurity · Digital Forensics · AI Security</span>
           <h1>Lello Molinario</h1>
-          <p>
-            Cybersecurity specialist, digital forensics expert, and AI security researcher
-            based in Sassari, Italy. This website collects selected projects, research work,
-            technical tools, and professional information related to digital investigation,
-            applied security, and AI robustness.
-          </p>
-
+          <p>I work at the intersection of digital forensics, cybersecurity, AI security, and investigative technologies. This website collects selected research work, technical projects, and applied security tools related to digital investigation, AI robustness, OSINT, and external exposure assessment.</p>
           <div class="hero-cta">
-            <a class="btn primary" href="/projects/">View Projects</a>
-            <a class="btn" href="/research/">Research</a>
+            <a class="btn primary" href="/ai-forensics/">AI Forensics Research</a>
+            <a class="btn" href="/projects/">View Projects</a>
             <a class="btn" href="/tools/domain-risk-scan/">Domain Risk Scan</a>
           </div>
         </div>
-
         <aside class="hero-card">
           <h3>Current Focus Areas</h3>
-          <p>• Digital forensics and operational investigation</p>
+          <p>• Digital forensics and cyber investigation workflows</p>
           <p>• AI robustness and adversarial security</p>
           <p>• OSINT monitoring and external exposure analysis</p>
-          <p>• Lightweight security tools and applied research systems</p>
+          <p>• Practical tools for security assessment and research validation</p>
         </aside>
       </div>
     </section>
-
     <section>
       <div class="container">
         <div class="section-head">
           <h2>Featured Work</h2>
-          <p>
-            Selected initiatives spanning research, monitoring platforms, operational workflows,
-            and practical cybersecurity tooling.
-          </p>
+          <p>Selected initiatives spanning research, monitoring platforms, operational workflows, and practical cybersecurity tooling.</p>
         </div>
-
         <div class="grid cols-3">
           <article class="card">
-            <h3>OSINT Threat Radar</h3>
-            <p>
-              Project focused on geospatial monitoring, event aggregation, and cyber-relevant
-              open-source intelligence visualization.
-            </p>
-            <ul class="link-list">
-              <li><a href="/tools/osint-threat-radar/">Project page</a></li>
-            </ul>
+            <span class="status">Research</span>
+            <h3>AI Forensics / FAIR-Lab</h3>
+            <p>Methodological research on the operational robustness of AI-based tools used in digital forensics, including clean, adversarial, anti-forensic, and OOD evaluation settings.</p>
+            <ul class="link-list"><li><a href="/ai-forensics/">Open research page</a></li></ul>
           </article>
-
           <article class="card">
-            <h3>AI Forensics</h3>
-            <p>
-              Research effort centered on the robustness of AI-based tools in digital forensics,
-              adversarial attacks, anti-forensic perturbations, and operational reliability.
-            </p>
-            <ul class="link-list">
-              <li><a href="/tools/ai-forensics/">Project page</a></li>
-            </ul>
-          </article>
-
-
-
-          <article class="card">
+            <span class="status">MVP</span>
             <h3>Supplier Risk Screening</h3>
-            <p>
-              Experimental validation page for a documented external cyber risk screening format
-              designed for vendor assessment, procurement, audit, and compliance support.
-            </p>
-            <ul class="link-list">
-              <li><a href="/tools/supplier-risk-screening/">Open validation page</a></li>
-            </ul>
+            <p>External cyber risk screening format designed for vendor assessment, procurement, audit, and compliance-oriented validation.</p>
+            <ul class="link-list"><li><a href="/tools/supplier-risk-screening/">Open validation page</a></li></ul>
           </article>
-
-
-
           <article class="card">
+            <span class="status">Tool</span>
             <h3>Domain Risk Scan</h3>
-            <p>
-              Lightweight domain assessment tool for visible digital exposure, SSL/TLS checks,
-              DNS hygiene, and email security review.
-            </p>
-            <ul class="link-list">
-              <li><a href="/tools/domain-risk-scan/">Open tool</a></li>
-              <li><a href="/tools/">View all tools</a></li>
-            </ul>
+            <p>Lightweight external exposure assessment for fast domain-level risk triage across DNS, TLS, email security, and public-facing signals.</p>
+            <ul class="link-list"><li><a href="/tools/domain-risk-scan/">Open tool</a></li></ul>
           </article>
         </div>
       </div>
     </section>
-
     <section>
       <div class="container">
         <div class="section-head">
           <h2>Areas of Interest</h2>
-          <p>
-            Main areas of ongoing work, study, and technical development across cybersecurity,
-            digital investigation, and applied AI security.
-          </p>
+          <p>Main areas of ongoing work, study, and technical development across cybersecurity, digital investigation, and applied AI security.</p>
         </div>
-
         <div class="pill-list">
-          <span class="pill">Digital Forensics</span>
-          <span class="pill">Cybersecurity</span>
-          <span class="pill">AI Security</span>
-          <span class="pill">Adversarial Robustness</span>
-          <span class="pill">OSINT</span>
-          <span class="pill">Threat Intelligence</span>
-          <span class="pill">External Exposure Monitoring</span>
-          <span class="pill">Security Tooling</span>
+          <span class="pill">Digital Forensics</span><span class="pill">Cybersecurity</span><span class="pill">AI Security</span><span class="pill">Adversarial Robustness</span><span class="pill">OSINT</span><span class="pill">Threat Intelligence</span><span class="pill">External Exposure Monitoring</span><span class="pill">Security Tooling</span>
         </div>
       </div>
     </section>
-
-    <section id="contact">
-      <div class="container">
-        <div class="section-head">
-          <h2>Social&Links</h2>
+    <section id="professional-link">
+      <div class="container profile-box">
+        <div class="card">
+          <h3>Professional Profile</h3>
+          <p>Selected work and research are presented here as a professional portfolio. For professional context and profile verification, use the LinkedIn profile below.</p>
         </div>
-
-        <div class="contact-box">
-          <div class="card">
-            <h3>Professional and Technical Interests</h3>
-            <p>
-              Topics of interest include digital forensics, cyber investigation, AI robustness,
-              security research, external attack surface analysis, and applied monitoring systems.
-            </p>
-          </div>
-
-          <div class="card">
-            <h3>Links</h3>
-            <ul class="link-list">
-              <li><a href="https://github.com/lmolinario" target="_blank" rel="noopener">GitHub</a></li>
-              <li><a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener">LinkedIn</a></li>
-              <li><a href="/projects/">Projects</a></li>
-              <li><a href="/tools/">Tools</a></li>
-            </ul>
-          </div>
+        <div class="card">
+          <h3>LinkedIn</h3>
+          <ul class="link-list"><li><a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener">linkedin.com/in/lello-molinario-357462325</a></li></ul>
         </div>
       </div>
     </section>
   </main>
-
-  <footer>
-    <div class="container">
-      © 2026 Lello Molinario · Cybersecurity, Digital Forensics, AI Security.
-    </div>
-  </footer>
+  <footer><div class="container">© 2026 Lello Molinario · Cybersecurity, Digital Forensics, AI Security.</div></footer>
 </body>
 </html>
