@@ -3,163 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Security Tools – Lello Molinario</title>
-  <meta name="description" content="Lightweight web-based security tools and technical utilities for domain assessment, token inspection, hashing, and practical cybersecurity workflows." />
-
-  <link rel="icon" type="image/png" href="../favicon.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+  <meta name="description" content="Lightweight security tools and technical utilities by Lello Molinario for domain assessment, OSINT workflows, token inspection, hashing, DNS checks, and external exposure triage." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://lmolinario.github.io/tools/" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text: #0f172a;
-      --muted: #475569;
-      --accent: #0369a1;
-      --border: #e2e8f0;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Inter", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-
-    header {
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      margin-left: 1rem;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    main {
-      padding: 3rem 0;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      line-height: 1.2;
-      margin: 0 0 1rem;
-    }
-
-    .intro {
-      max-width: 760px;
-      color: var(--muted);
-      margin-bottom: 2rem;
-    }
-
-    h2 {
-      font-size: 1.35rem;
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.2rem;
-    }
-
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 0.65rem;
-      font-size: 1.05rem;
-    }
-
-    .card p {
-      margin: 0 0 0.9rem;
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 0.82rem;
-      padding: 0.28rem 0.55rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      margin-right: 0.4rem;
-      margin-bottom: 0.45rem;
-      color: var(--muted);
-      background: #f8fafc;
-    }
-
-    .project-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .project-link:hover {
-      text-decoration: underline;
-    }
-
-    .note {
-      margin-top: 2rem;
-      color: var(--muted);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      margin-top: 2rem;
-      padding: 1.5rem 0 2.5rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-      background: var(--surface);
-    }
-
-    @media (max-width: 640px) {
-      h1 {
-        font-size: 1.9rem;
-      }
-
-      nav a {
-        margin-left: 0.75rem;
-      }
-    }
+    :root{--bg:#f8fafc;--surface:#fff;--soft:#f1f5f9;--text:#0f172a;--muted:#475569;--accent:#0369a1;--accent-dark:#075985;--border:#e2e8f0;--shadow:0 10px 30px rgba(15,23,42,.06);--radius:16px;--maxw:1040px}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}a{color:var(--accent)}.container{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem}header{border-bottom:1px solid var(--border);background:#fff}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 0}.brand{font-weight:800;color:var(--text);text-decoration:none}nav{display:flex;gap:1rem;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-weight:600}nav a:hover{color:var(--accent)}main{padding:3rem 0}.hero{padding:1rem 0 1.5rem}h1{font-size:clamp(2rem,5vw,3rem);line-height:1.1;margin:0 0 1rem;letter-spacing:-.04em}.intro{max-width:78ch;color:var(--muted);font-size:1.05rem;margin:0 0 2rem}.section-title{font-size:1.45rem;margin:2rem 0 1rem}.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow)}.card h2,.card h3{margin-top:0;margin-bottom:.65rem}.card p{margin:.35rem 0 .9rem;color:var(--muted)}.status{display:inline-block;margin-bottom:.75rem;padding:.28rem .6rem;border-radius:999px;background:var(--soft);color:var(--muted);font-size:.8rem;font-weight:800;border:1px solid var(--border)}.status.live{background:#dcfce7;color:#166534;border-color:#bbf7d0}.status.preview{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.tag{display:inline-block;font-size:.82rem;padding:.28rem .55rem;border:1px solid var(--border);border-radius:999px;margin-right:.35rem;margin-bottom:.4rem;color:var(--muted);background:var(--soft);font-weight:700}.actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.btn{display:inline-flex;align-items:center;justify-content:center;padding:.75rem .95rem;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);text-decoration:none;font-weight:800}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.note{margin-top:2rem;color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow)}footer{border-top:1px solid var(--border);margin-top:2rem;padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.95rem;background:#fff}
   </style>
 </head>
 <body>
@@ -169,100 +22,76 @@
       <nav>
         <a href="/about/">About</a>
         <a href="/projects/">Projects</a>
+        <a href="/opengovsec/">OpenGovSec</a>
         <a href="/research/">Research</a>
-        <a href="/blog/">Blog</a>
-        <a href="/#contact">Contact</a>
+        <a href="/ai-forensics/">AI Forensics</a>
       </nav>
     </div>
   </header>
-
   <main>
     <div class="container">
-      <h1>Security Tools</h1>
-      <p class="intro">
-        This section collects lightweight web-based tools and technical utilities for cybersecurity,
-        digital forensics, and practical security assessment. Some modules are already available,
-        while others are currently being refined.
-      </p>
+      <section class="hero">
+        <h1>Security Tools</h1>
+        <p class="intro">Lightweight web-based utilities and project pages for cybersecurity, OSINT, digital forensics, and external exposure assessment. Public pages are intentionally documented as live, preview, or validation-oriented so users can distinguish functional tools from work in progress.</p>
+      </section>
 
-      <h2>Available and In Progress</h2>
+      <h2 class="section-title">Live and documented tools</h2>
       <div class="card-grid">
         <article class="card">
+          <span class="status live">Live MVP</span>
           <h3>Domain Risk Scan</h3>
-          <p>
-            Lightweight domain assessment tool designed to identify visible exposure,
-            SSL/TLS weaknesses, DNS misconfigurations, and email security gaps.
-          </p>
-          <div>
-            <span class="tag">Live MVP</span>
-            <span class="tag">Security Tool</span>
-            <span class="tag">Digital Risk</span>
-          </div>
-          <p>
-            <a class="project-link" href="/tools/domain-risk-scan/">Open tool</a>
-          </p>
+          <p>External exposure snapshot for domain-level triage across DNS, TLS, email security, and visible public-facing signals.</p>
+          <div><span class="tag">DNS</span><span class="tag">TLS</span><span class="tag">Email Security</span><span class="tag">Exposure</span></div>
+          <div class="actions"><a class="btn primary" href="/tools/domain-risk-scan/">Open tool</a></div>
         </article>
 
         <article class="card">
-          <h3>JWT Decoder</h3>
-          <p>
-            Utility for decoding and inspecting JSON Web Tokens during development,
-            debugging, and security analysis workflows.
-          </p>
-          <div>
-            <span class="tag">Preview</span>
-            <span class="tag">JWT</span>
-            <span class="tag">Analysis</span>
-          </div>
-          <p>
-            <a class="project-link" href="/tools/jwt-decoder/">Open page</a>
-          </p>
+          <span class="status live">Project page</span>
+          <h3>OSINT Threat Radar</h3>
+          <p>Geospatial intelligence dashboard documentation for OSINT monitoring, public signals, aircraft, satellites, disaster alerts, and conflict-related event filtering.</p>
+          <div><span class="tag">OSINT</span><span class="tag">Geospatial</span><span class="tag">Threat Intelligence</span></div>
+          <div class="actions"><a class="btn primary" href="/tools/osint-threat-radar/">Open project page</a><a class="btn" href="https://www.dfaas.it/radar/" target="_blank" rel="noopener">Live radar</a></div>
         </article>
 
         <article class="card">
-          <h3>DNS Security Check</h3>
-          <p>
-            Experimental utility focused on reviewing selected DNS-related settings and
-            surfacing common configuration weaknesses.
-          </p>
-          <div>
-            <span class="tag">Preview</span>
-            <span class="tag">DNS</span>
-            <span class="tag">Configuration</span>
-          </div>
-          <p>
-            <a class="project-link" href="/tools/dns-check/">Open page</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Hash Tool</h3>
-          <p>
-            Simple utility for generating and comparing cryptographic hashes for file
-            verification and lightweight forensic workflows.
-          </p>
-          <div>
-            <span class="tag">Preview</span>
-            <span class="tag">Hashing</span>
-            <span class="tag">Forensics</span>
-          </div>
-          <p>
-            <a class="project-link" href="/tools/hash-tool/">Open page</a>
-          </p>
+          <span class="status live">Validation page</span>
+          <h3>Supplier Risk Screening</h3>
+          <p>Documented format for external cyber-risk screening in vendor assessment, procurement, audit, and compliance-oriented workflows.</p>
+          <div><span class="tag">Vendor Risk</span><span class="tag">NIS2</span><span class="tag">Compliance</span></div>
+          <div class="actions"><a class="btn primary" href="/tools/supplier-risk-screening/">Open validation page</a></div>
         </article>
       </div>
 
-      <p class="note">
-        Additional tools and utilities will be added over time as part of ongoing work on
-        cybersecurity, digital forensics, and applied security assessment workflows.
-      </p>
+      <h2 class="section-title">Preview utilities</h2>
+      <div class="card-grid">
+        <article class="card">
+          <span class="status preview">Preview</span>
+          <h3>Hash Tool</h3>
+          <p>Preview page for cryptographic hash generation, comparison, and quick integrity verification workflows.</p>
+          <div><span class="tag">Hashing</span><span class="tag">Integrity</span><span class="tag">Forensics</span></div>
+          <div class="actions"><a class="btn" href="/tools/hash-tool/">Open page</a></div>
+        </article>
+
+        <article class="card">
+          <span class="status preview">Preview</span>
+          <h3>JWT Decoder</h3>
+          <p>Preview page for token decoding, claim inspection, and security-oriented API debugging workflows.</p>
+          <div><span class="tag">JWT</span><span class="tag">API Security</span><span class="tag">Debugging</span></div>
+          <div class="actions"><a class="btn" href="/tools/jwt-decoder/">Open page</a></div>
+        </article>
+
+        <article class="card">
+          <span class="status preview">Preview</span>
+          <h3>DNS Security Check</h3>
+          <p>Preview page for DNS-oriented review of record presence, SPF/DMARC visibility, MX configuration, and common hygiene checks.</p>
+          <div><span class="tag">DNS</span><span class="tag">SPF</span><span class="tag">DMARC</span></div>
+          <div class="actions"><a class="btn" href="/tools/dns-check/">Open page</a></div>
+        </article>
+      </div>
+
+      <div class="note">Preview utilities are intentionally published as documentation placeholders until the interactive workflows are ready. This avoids presenting unfinished modules as production services.</div>
     </div>
   </main>
-
-  <footer>
-    <div class="container">
-      © 2026 Lello Molinario · Security tools and technical utilities.
-    </div>
-  </footer>
+  <footer><div class="container">© 2026 Lello Molinario · Security tools and technical utilities.</div></footer>
 </body>
 </html>
