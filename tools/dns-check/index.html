@@ -3,165 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>DNS Security Check – Lello Molinario</title>
-  <meta name="description" content="Preview page for a DNS Security Check utility focused on reviewing selected DNS settings and identifying common configuration weaknesses." />
-
-  <link rel="icon" type="image/png" href="../../favicon.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+  <meta name="description" content="Preview page for a DNS Security Check utility focused on DNS record review, SPF and DMARC visibility, MX configuration, and common domain hygiene checks." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://lmolinario.github.io/tools/dns-check/" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-soft: #f1f5f9;
-      --text: #0f172a;
-      --muted: #475569;
-      --accent: #0369a1;
-      --border: #e2e8f0;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Inter", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-
-    header {
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      margin-left: 1rem;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    main {
-      padding: 3rem 0;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      line-height: 1.15;
-      margin: 0 0 1rem;
-    }
-
-    .lead {
-      max-width: 760px;
-      color: var(--muted);
-      margin-bottom: 2rem;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.25rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 1rem;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 0.82rem;
-      padding: 0.3rem 0.6rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--muted);
-      background: var(--surface-soft);
-      margin-bottom: 1rem;
-      font-weight: 600;
-    }
-
-    h2 {
-      font-size: 1.2rem;
-      margin-top: 0;
-      margin-bottom: 0.75rem;
-    }
-
-    p {
-      margin-top: 0;
-      color: var(--muted);
-    }
-
-    ul {
-      margin: 0;
-      padding-left: 1.2rem;
-      color: var(--muted);
-    }
-
-    li {
-      margin-bottom: 0.5rem;
-    }
-
-    .actions {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.8rem 1rem;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 700;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text);
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      margin-top: 2rem;
-      padding: 1.5rem 0 2.5rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-      background: var(--surface);
-    }
+    :root{--bg:#f8fafc;--surface:#fff;--soft:#f1f5f9;--text:#0f172a;--muted:#475569;--accent:#0369a1;--border:#e2e8f0;--shadow:0 10px 30px rgba(15,23,42,.06);--radius:16px;--maxw:980px}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}a{color:var(--accent)}.container{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem}header{border-bottom:1px solid var(--border);background:#fff}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 0}.brand{font-weight:800;color:var(--text);text-decoration:none}nav{display:flex;gap:1rem;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-weight:600}nav a:hover{color:var(--accent)}main{padding:3rem 0}h1{font-size:clamp(2rem,5vw,2.8rem);line-height:1.1;margin:0 0 1rem;letter-spacing:-.04em}.lead{max-width:760px;color:var(--muted);font-size:1.05rem;margin:0 0 2rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);margin-bottom:1rem}.card h2,.card h3{margin-top:0;margin-bottom:.65rem}.card p,.card li{color:var(--muted)}.badge{display:inline-block;margin-bottom:1rem;padding:.3rem .65rem;border-radius:999px;background:var(--soft);border:1px solid var(--border);color:var(--muted);font-weight:800;font-size:.82rem}.actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.btn{display:inline-flex;align-items:center;justify-content:center;padding:.75rem .95rem;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);text-decoration:none;font-weight:800}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}footer{border-top:1px solid var(--border);margin-top:2rem;padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.95rem;background:#fff}
   </style>
 </head>
 <body>
@@ -171,8 +22,9 @@
       <nav>
         <a href="/about/">About</a>
         <a href="/projects/">Projects</a>
-        <a href="/research/">Research</a>
         <a href="/tools/">Tools</a>
+        <a href="/research/">Research</a>
+        <a href="/ai-forensics/">AI Forensics</a>
       </nav>
     </div>
   </header>
@@ -180,24 +32,36 @@
   <main>
     <div class="container">
       <h1>DNS Security Check</h1>
-      <p class="lead">
-        Preview page for an experimental utility focused on reviewing selected DNS-related settings
-        and surfacing common configuration weaknesses relevant to security posture and domain hygiene.
-      </p>
+      <p class="lead">Preview page for an experimental utility focused on DNS-related security checks, domain hygiene, and email-security visibility. The page is published as a documentation placeholder until the interactive workflow is finalized.</p>
 
-      <div class="card">
-        <div class="badge">Preview</div>
+      <section class="card">
+        <span class="badge">Preview utility</span>
         <h2>Overview</h2>
-        <p>
-          This tool is intended to support quick inspection of domain-level DNS configuration,
-          with attention to practical checks that can be useful in lightweight assessment,
-          troubleshooting, and security-oriented review workflows.
-        </p>
-      </div>
+        <p>This module is intended to support quick inspection of domain-level DNS configuration, with practical checks useful for lightweight assessment, troubleshooting, and security-oriented review workflows.</p>
+      </section>
 
-      <div class="card">
-        <h2>Planned Focus Areas</h2>
+      <section class="grid">
+        <article class="card"><h3>Record visibility</h3><p>Basic DNS record presence and consistency checks for common domain configuration signals.</p></article>
+        <article class="card"><h3>Email security</h3><p>MX, SPF, DMARC, and related visibility checks where public DNS data is available.</p></article>
+        <article class="card"><h3>Hygiene indicators</h3><p>Common configuration weaknesses, missing records, and review points for domain-level risk triage.</p></article>
+      </section>
+
+      <section class="card">
+        <h2>Planned focus areas</h2>
         <ul>
-          <li>Basic record presence and DNS consistency checks</li>
-          <li>Review of MX-related visibility and common issues</li>
-          <li>Support for SPF and DMARC-oriented checks</
+          <li>Basic record presence and DNS consistency checks.</li>
+          <li>Review of MX-related visibility and common configuration issues.</li>
+          <li>Support for SPF and DMARC-oriented checks.</li>
+          <li>Simple output designed for security review and documentation.</li>
+        </ul>
+        <div class="actions">
+          <a class="btn primary" href="/tools/">Back to Tools</a>
+          <a class="btn" href="/tools/domain-risk-scan/">Open Domain Risk Scan</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer><div class="container">© 2026 Lello Molinario · DNS Security Check preview.</div></footer>
+</body>
+</html>
