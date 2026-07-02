@@ -44,12 +44,12 @@
     <div class="container">
       <div class="section-head">
         <h2>Current MVP scope</h2>
-        <p>The project currently implements a strong open-data scanner, plus base modules for API documentation and repository readiness. The next evolution is to specialize these bases into a PDND/API security checker and a public-administration software supply-chain radar.</p>
+        <p>The project now demonstrates three passive modules: open-data risk scanning, API security-documentation checking, and repository supply-chain-readiness checking.</p>
       </div>
       <div class="grid cols-3">
         <article class="card"><h3>Open Data Risk Scanner</h3><p>Assesses CKAN-like public metadata, resource declarations, descriptions, ownership, reuse signals, and risk scoring.</p><div><span class="tag">Mature MVP</span><span class="tag">dati.gov.it</span></div></article>
-        <article class="card"><h3>API Documentation Checker</h3><p>Base module for checking OpenAPI-like documentation, server declarations, paths, operation descriptions, and documentation completeness.</p><div><span class="tag">Base module</span><span class="tag">PDND direction</span></div></article>
-        <article class="card"><h3>Repository Readiness Checker</h3><p>Base module for reuse and maintainability signals such as license, README, dependency manifests, CI, contribution files, and repository activity.</p><div><span class="tag">Base module</span><span class="tag">Supply chain direction</span></div></article>
+        <article class="card"><h3>API Security Documentation Checker</h3><p>Reviews OpenAPI-like documents for security schemes, security requirements, operation IDs, error responses, contact metadata, and license metadata.</p><div><span class="tag">Good/weak demo</span><span class="tag">PDND direction</span></div></article>
+        <article class="card"><h3>Repository Supply-Chain Readiness</h3><p>Reviews repository metadata for license, README, dependency manifests, lockfiles, CI, security policy, dependency updates, releases, SBOM, and activity.</p><div><span class="tag">Good/weak demo</span><span class="tag">Supply-chain direction</span></div></article>
       </div>
     </div>
   </section>
@@ -83,10 +83,30 @@
   <section>
     <div class="container">
       <div class="section-head">
-        <h2>Reproducible workflow</h2>
-        <p>The core value of OpenGovSec is not only the scanner, but the traceable chain from public metadata to human-readable and machine-readable outputs.</p>
+        <h2>API and repository good/weak demos</h2>
+        <p>The API and repository modules include paired good/weak examples to demonstrate the risk model and reporting output without live service testing.</p>
       </div>
-      <div class="workflow">public catalogue metadata → local JSON source → passive scanner → Markdown report → JSON report → CSV summary</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Module</th><th>Input</th><th>Report</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td><strong>API documentation</strong></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/examples/sample_openapi.json" target="_blank" rel="noopener">security-complete OpenAPI</a></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/reports/demo_api_good_report.md" target="_blank" rel="noopener">good report</a></td><td>low risk, no findings</td></tr>
+            <tr><td><strong>API documentation</strong></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/examples/sample_openapi_weak.json" target="_blank" rel="noopener">weak OpenAPI</a></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/reports/demo_api_weak_report.md" target="_blank" rel="noopener">weak report</a></td><td>high risk, documentation findings</td></tr>
+            <tr><td><strong>Repository readiness</strong></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/examples/sample_repository_metadata.json" target="_blank" rel="noopener">supply-chain-ready metadata</a></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/reports/demo_repository_good_report.md" target="_blank" rel="noopener">good report</a></td><td>low risk, no findings</td></tr>
+            <tr><td><strong>Repository readiness</strong></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/examples/sample_repository_metadata_weak.json" target="_blank" rel="noopener">weak metadata</a></td><td><a href="https://github.com/lmolinario/opengovsec-toolkit/blob/main/reports/demo_repository_weak_report.md" target="_blank" rel="noopener">weak report</a></td><td>critical risk, readiness findings</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Reproducible workflow</h2>
+        <p>The core value of OpenGovSec is not only the scanners, but the traceable chain from documented inputs to human-readable and machine-readable outputs.</p>
+      </div>
+      <div class="workflow">public catalogue metadata → local JSON source → passive scanner → Markdown report → JSON report → CSV summary<br>OpenAPI / repository metadata → passive checker → good/weak Markdown reports</div>
     </div>
   </section>
 
@@ -94,7 +114,7 @@
     <div class="container">
       <div class="section-head"><h2>Direction</h2><p>OpenGovSec is being developed as a single modular toolkit rather than a collection of unrelated scripts.</p></div>
       <div class="grid cols-2">
-        <article class="card"><h3>Near-term development</h3><p>Specialize the API documentation checker toward PDND/API security documentation signals, and extend repository readiness into a public-administration supply-chain radar.</p></article>
+        <article class="card"><h3>Near-term development</h3><p>Specialize the API checker toward PDND/API documentation readiness and extend repository readiness into a broader public-administration supply-chain radar.</p></article>
         <article class="card"><h3>Portfolio role</h3><p>The project demonstrates applied cybersecurity, public-sector digital governance, risk-model design, reproducible reporting, and technical communication.</p></article>
       </div>
     </div>
