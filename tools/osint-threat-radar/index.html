@@ -4,26 +4,66 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>OSINT Threat Radar – Lello Molinario</title>
-  <meta name="description" content="OSINT Threat Radar is a DFAAS geospatial intelligence dashboard for OSINT monitoring, Earth and disaster intelligence, aircraft, satellites, AIS-ready vessel layers, and military OSINT event filtering." />
-  <meta name="keywords" content="OSINT Threat Radar, DFAAS, OSINT, cyber threat intelligence, geospatial monitoring, open source intelligence, aircraft tracking, satellites, disaster intelligence, military OSINT" />
+  <title>OSINT Threat Radar | Geospatial Threat Intelligence Dashboard</title>
+  <meta name="description" content="OSINT Threat Radar is a geospatial threat intelligence dashboard for open-source monitoring of cyber-relevant events, disasters, aircraft, satellites, vessel layers, and conflict-related public signals." />
   <meta name="author" content="Lello Molinario" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
   <link rel="canonical" href="https://lmolinario.github.io/tools/osint-threat-radar/" />
 
-  <meta property="og:title" content="OSINT Threat Radar – Lello Molinario" />
-  <meta property="og:description" content="Geospatial intelligence dashboard for OSINT monitoring, mobility, space, Earth intelligence, and conflict-related public signals." />
+  <meta property="og:title" content="OSINT Threat Radar | Geospatial Threat Intelligence Dashboard" />
+  <meta property="og:description" content="Geospatial OSINT dashboard for cyber-relevant events, disasters, aircraft, satellites, vessel layers, and conflict-related public signals." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lmolinario.github.io/tools/osint-threat-radar/" />
+  <meta property="og:site_name" content="Lello Molinario" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:image" content="https://ui-avatars.com/api/?name=OSINT+Threat+Radar&background=0f172a&color=fff&size=400" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="OSINT Threat Radar – Lello Molinario" />
-  <meta name="twitter:description" content="DFAAS geospatial intelligence dashboard for OSINT monitoring and situational awareness." />
+  <meta name="twitter:title" content="OSINT Threat Radar | Geospatial Threat Intelligence" />
+  <meta name="twitter:description" content="Open-source geospatial monitoring for cyber-relevant events, disasters, aircraft, satellites, vessels, and conflict-related signals." />
   <meta name="twitter:image" content="https://ui-avatars.com/api/?name=OSINT+Threat+Radar&background=0f172a&color=fff&size=400" />
 
   <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://lmolinario.github.io/tools/osint-threat-radar/#software",
+        "name": "OSINT Threat Radar",
+        "url": "https://lmolinario.github.io/tools/osint-threat-radar/",
+        "sameAs": "https://www.dfaas.it/radar/",
+        "description": "A geospatial threat intelligence dashboard for open-source monitoring of cyber-relevant events, disasters, aircraft, satellites, vessel layers, and conflict-related public signals.",
+        "applicationCategory": "SecurityApplication",
+        "applicationSubCategory": "OSINT and threat intelligence",
+        "operatingSystem": "Web",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
+        "author": {"@id": "https://lmolinario.github.io/#person"},
+        "featureList": [
+          "Geospatial OSINT monitoring",
+          "Cyber-relevant event visualization",
+          "Earthquake and disaster intelligence",
+          "Aircraft and satellite layers",
+          "Vessel-layer integration",
+          "Conflict-related public-signal filtering"
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://lmolinario.github.io/"},
+          {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://lmolinario.github.io/tools/"},
+          {"@type": "ListItem", "position": 3, "name": "OSINT Threat Radar", "item": "https://lmolinario.github.io/tools/osint-threat-radar/"}
+        ]
+      }
+    ]
+  }
+  </script>
 
   <style>
     :root{--bg:#f8fafc;--surface:#fff;--text:#0f172a;--muted:#475569;--accent:#0369a1;--accent-dark:#075985;--border:#e2e8f0;--soft:#f1f5f9;--shadow:0 10px 30px rgba(15,23,42,.06)}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}.container{max-width:1040px;margin:0 auto;padding:0 1.25rem}header{border-bottom:1px solid var(--border);background:#fff}.topbar{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;gap:1rem;flex-wrap:wrap}.brand{font-weight:800;font-size:1.05rem;color:var(--text);text-decoration:none}nav{display:flex;gap:1rem;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-weight:600}nav a:hover{color:var(--accent)}.hero{padding:4.5rem 0 3.2rem;background:radial-gradient(circle at top right,rgba(3,105,161,.12),transparent 32%),linear-gradient(to bottom,#fff,#f8fafc);border-bottom:1px solid var(--border)}.eyebrow{display:inline-block;margin-bottom:1rem;padding:.35rem .7rem;border-radius:999px;background:#e0f2fe;color:var(--accent-dark);font-weight:800;font-size:.84rem}.hero h1{font-size:clamp(2.2rem,5vw,3.3rem);line-height:1.08;letter-spacing:-.04em;margin:0 0 1rem}.hero p{max-width:850px;color:var(--muted);margin:0 0 1.4rem;font-size:1.06rem}.hero-links{display:flex;gap:.85rem;flex-wrap:wrap;margin-top:1.2rem}.btn{display:inline-flex;align-items:center;justify-content:center;padding:.85rem 1.05rem;border-radius:12px;text-decoration:none;font-weight:800;border:1px solid var(--border);background:var(--surface);color:var(--text);box-shadow:var(--shadow)}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.dark{background:#0f172a;border-color:#0f172a;color:#fff}section{padding:2.8rem 0}h2{font-size:1.55rem;margin:0 0 1rem;letter-spacing:-.03em}.lead{max-width:860px;color:var(--muted)}.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1rem}.card,.panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.2rem;box-shadow:var(--shadow)}.card h3{margin-top:0;margin-bottom:.55rem;font-size:1.05rem}.card p{margin:0;color:var(--muted);font-size:.96rem}.feature-list{padding-left:1.2rem;color:var(--muted)}.feature-list li{margin-bottom:.5rem}.tech-tags{margin-top:1rem}.tag{display:inline-block;font-size:.82rem;padding:.28rem .55rem;border:1px solid var(--border);border-radius:999px;margin-right:.4rem;margin-bottom:.45rem;color:var(--muted);background:var(--soft);font-weight:700}.panel{margin-top:1rem}.panel a{color:var(--accent);text-decoration:none;font-weight:800}.panel a:hover{text-decoration:underline}.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1rem}.status{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:1rem}.status strong{display:block;font-size:.9rem}.status span{display:block;color:var(--muted);font-size:.9rem;margin-top:.25rem}footer{border-top:1px solid var(--border);margin-top:2rem;padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.95rem;background:#fff}@media(max-width:640px){.hero h1{font-size:2rem}}
@@ -36,6 +76,7 @@
       <nav>
         <a href="/about/">About</a>
         <a href="/projects/">Projects</a>
+        <a href="/tools/">Tools</a>
         <a href="/research/">Research</a>
         <a href="/ai-forensics/">AI Forensics</a>
         <a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener">LinkedIn</a>
@@ -46,14 +87,14 @@
   <main>
     <section class="hero">
       <div class="container">
-        <span class="eyebrow">DFAAS · OSINT · Geospatial Intelligence</span>
-        <h1>OSINT Threat Radar</h1>
-        <p>OSINT Threat Radar is a geospatial intelligence dashboard designed to aggregate and visualize public signals relevant to situational awareness: news and cyber-relevant events, earthquakes, GDACS disaster alerts, live aircraft, CelesTrak satellites, GPS/Starlink layers, AIS-ready vessels, and conflict-related OSINT events.</p>
+        <span class="eyebrow">DFAAS · OSINT · Threat Intelligence · Geospatial Monitoring</span>
+        <h1>OSINT Threat Radar: Geospatial Threat Intelligence Dashboard</h1>
+        <p>OSINT Threat Radar is a geospatial threat intelligence dashboard designed to aggregate and visualize public signals relevant to situational awareness: news and cyber-relevant events, earthquakes, GDACS disaster alerts, live aircraft, CelesTrak satellites, GPS/Starlink layers, AIS-ready vessels, and conflict-related OSINT events.</p>
 
         <div class="hero-links">
           <a class="btn primary" href="https://www.dfaas.it/radar/" target="_blank" rel="noopener">Open Live Radar</a>
           <a class="btn dark" href="/tools/osint-threat-radar/radar/">Open Radar Redirect</a>
-          <a class="btn" href="/projects/">Back to Projects</a>
+          <a class="btn" href="/tools/">Security Tools</a>
         </div>
 
         <div class="tech-tags">
@@ -64,8 +105,8 @@
 
     <section>
       <div class="container">
-        <h2>Project Overview</h2>
-        <p class="lead">The platform is built as a practical monitoring and visualization layer for open-source signals. It combines normalized backend collectors with a map-oriented frontend that uses a ClimateViewer-style map list, active layer management, and separate visual styles for mobility, space, Earth intelligence, and military OSINT signals.</p>
+        <h2>OSINT and Threat Intelligence Project Overview</h2>
+        <p class="lead">The platform is built as a practical monitoring and visualization layer for open-source intelligence and threat-relevant public signals. It combines normalized backend collectors with a map-oriented frontend that uses a ClimateViewer-style map list, active layer management, and separate visual styles for mobility, space, Earth intelligence, and military OSINT signals.</p>
 
         <div class="card-grid">
           <article class="card"><h3>Layer Catalog</h3><p>Organizes live and OSINT layers into categories such as Earth Intelligence, Mobility Intelligence, Space Intelligence, and Military OSINT.</p></article>
@@ -112,6 +153,17 @@
           <p><a href="https://www.dfaas.it/radar/" target="_blank" rel="noopener">https://www.dfaas.it/radar/</a></p>
           <p class="lead">The local portfolio route remains available as a redirect for consistency:</p>
           <p><a href="/tools/osint-threat-radar/radar/">/tools/osint-threat-radar/radar/</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Related OSINT and Cybersecurity Work</h2>
+        <div class="card-grid">
+          <article class="card"><h3>Research</h3><p>Digital forensics, AI security, OSINT, threat intelligence, and external exposure research.</p><p><a href="/research/">Open research overview</a></p></article>
+          <article class="card"><h3>Domain Risk Scan</h3><p>External domain exposure assessment across DNS, TLS, email security, and visible public-facing signals.</p><p><a href="/tools/domain-risk-scan/">Open Domain Risk Scan</a></p></article>
+          <article class="card"><h3>Projects</h3><p>Selected technical projects across cybersecurity, digital forensics, AI security, and OSINT.</p><p><a href="/projects/">Open projects</a></p></article>
         </div>
       </div>
     </section>
