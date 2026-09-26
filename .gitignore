@@ -1,2 +1,4 @@
 .idea/
-*.iml
+*.iml# Python cache
+__pycache__/
+*.py[cod]
