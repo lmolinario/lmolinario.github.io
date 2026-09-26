@@ -1,22 +1,437 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="refresh" content="0; url=https://www.dfaas.it/radar/" />
-  <title>Redirecting to OSINT Threat Radar</title>
-  <meta name="robots" content="noindex,follow" />
-  <link rel="canonical" href="https://www.dfaas.it/radar/" />
-  <style>
-    body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Inter,Arial,sans-serif;background:#06111f;color:#e5eefb}main{max-width:680px;padding:2rem;text-align:center}a{color:#38bdf8;font-weight:800}p{color:#8ea3bd;line-height:1.6}
-  </style>
-</head>
-<body>
-  <main>
-    <h1>Redirecting to OSINT Threat Radar</h1>
-    <p>The operational radar dashboard is hosted on DFAAS.</p>
-    <p><a href="https://www.dfaas.it/radar/">Open https://www.dfaas.it/radar/</a></p>
-    <script>window.location.replace('https://www.dfaas.it/radar/');</script>
-  </main>
-</body>
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OSINT Threat Radar</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <style>
+      :root {
+        --bg: #06111f;
+        --panel: rgba(11, 22, 38, 0.96);
+        --panel-2: rgba(15, 31, 54, 0.92);
+        --panel-3: rgba(20, 42, 70, 0.88);
+        --border: rgba(148, 163, 184, 0.20);
+        --text: #e5eefb;
+        --muted: #8ea3bd;
+        --soft: #c6d3e3;
+        --accent: #38bdf8;
+        --earth: #22c55e;
+        --air: #38bdf8;
+        --ship: #14b8a6;
+        --sat: #a78bfa;
+        --mil: #f97316;
+        --danger: #ef4444;
+        --warning: #facc15;
+        --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); }
+      body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+
+      #app {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 430px 1fr;
+        background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 34%), var(--bg);
+      }
+
+      #sidebar {
+        position: relative;
+        z-index: 500;
+        overflow: auto;
+        padding: 0;
+        border-right: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(8, 20, 36, 0.98), rgba(4, 10, 20, 0.98));
+        box-shadow: var(--shadow);
+      }
+
+      .sidebar-inner { padding: 18px; }
+
+      #map { height: 100%; background: #06111f; }
+      .leaflet-control-attribution { background: rgba(4, 10, 20, 0.75) !important; color: var(--muted) !important; }
+      .leaflet-control-attribution a { color: var(--accent) !important; }
+      .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+        background: #0b1626;
+        color: var(--text);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+      .leaflet-popup-content { font-size: 12px; line-height: 1.45; }
+      .leaflet-popup-content small { color: var(--muted); }
+
+      .topbar {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(4, 10, 20, 0.92);
+      }
+      .topbar-title { font-weight: 900; font-size: 15px; letter-spacing: .04em; }
+      .topbar-close { width: 32px; height: 32px; border-radius: 0; display: grid; place-items: center; padding: 0; color: var(--muted); }
+
+      .brand { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+      .brand h1 { margin: 0; font-size: 20px; letter-spacing: -0.03em; line-height: 1.05; }
+      .brand p { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.35; }
+      .brand-mark {
+        width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
+        color: #06111f; font-weight: 900;
+        background: linear-gradient(135deg, #38bdf8, #22c55e);
+        box-shadow: 0 0 28px rgba(56, 189, 248, 0.28);
+      }
+
+      .status-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+      .status-card { border: 1px solid var(--border); background: var(--panel-2); border-radius: 14px; padding: 10px; }
+      .status-label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+      .status-value { margin-top: 4px; font-weight: 800; font-size: 14px; }
+
+      .active-maps {
+        border: 1px solid rgba(148, 163, 184, .34);
+        background: rgba(18, 28, 42, .86);
+        margin-bottom: 16px;
+      }
+      .active-header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, .24);
+      }
+      .active-header h2 { margin: 0; font-size: 15px; letter-spacing: .02em; }
+      #clearMapsBtn { width: auto; border-radius: 0; padding: 9px 12px; font-size: 11px; background: rgba(5, 10, 18, .7); }
+      .active-list { display: grid; }
+      .active-map-row {
+        min-height: 46px;
+        display: grid;
+        grid-template-columns: 34px 1fr 34px;
+        align-items: center;
+        border-bottom: 1px solid rgba(148, 163, 184, .16);
+        color: #cbd5e1;
+      }
+      .active-map-row:last-child { border-bottom: 0; }
+      .active-icon { display: grid; place-items: center; color: var(--muted); font-size: 13px; }
+      .active-name { font-size: 12px; text-align: center; line-height: 1.25; padding: 8px; }
+      .active-remove { width: 28px; height: 28px; border-radius: 0; padding: 0; display: grid; place-items: center; color: var(--muted); background: rgba(4, 10, 20, .65); }
+      .active-empty { padding: 16px; text-align: center; color: var(--muted); font-size: 12px; }
+      .maps-counter { text-align: center; font-size: 26px; font-weight: 300; color: #e5eefb; margin: 6px 0 16px; }
+      .maps-counter small { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+
+      .controls { display: grid; gap: 10px; margin-bottom: 12px; }
+      input, select, button {
+        width: 100%; border: 1px solid var(--border); border-radius: 12px;
+        background: rgba(15, 31, 54, 0.86); color: var(--text); padding: 10px 11px; outline: none;
+      }
+      input::placeholder { color: #64748b; }
+      button { cursor: pointer; transition: transform .12s ease, border-color .12s ease, background .12s ease; }
+      button:hover { transform: translateY(-1px); border-color: rgba(56,189,248,.55); background: rgba(30, 58, 92, .92); }
+
+      .section-title { margin: 16px 0 8px; color: var(--soft); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+      .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 12px; }
+      .quick-grid button { padding: 8px; font-size: 11px; border-radius: 10px; }
+
+      .layer-catalog { display: grid; gap: 8px; }
+      .layer-category {
+        border: 1px solid var(--border);
+        border-radius: 0;
+        background: rgba(15, 31, 54, 0.74);
+        overflow: hidden;
+      }
+      .layer-category summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 12px;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        gap: 8px;
+        background: rgba(20, 42, 70, 0.56);
+        border-left: 3px solid rgba(56, 189, 248, .85);
+      }
+      .layer-category summary::-webkit-details-marker { display: none; }
+      .category-title { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 13px; }
+      .category-desc { margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+      .category-count { padding: 7px 9px; background: rgba(4,10,20,.76); color: var(--text); font-size: 11px; font-weight: 900; }
+      .chevron { color: var(--muted); font-size: 13px; transition: transform .15s ease; }
+      .layer-category[open] .chevron { transform: rotate(90deg); }
+      .category-body { display: grid; gap: 8px; padding: 10px; }
+
+      .layer-card { border: 1px solid var(--border); border-radius: 0; background: var(--panel-2); padding: 10px; transition: border-color .12s ease, background .12s ease; }
+      .layer-card:hover { border-color: rgba(148, 163, 184, 0.38); background: var(--panel-3); }
+      .layer-card label { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; cursor: pointer; }
+      .layer-card input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); }
+      .layer-main { display: grid; gap: 3px; }
+      .layer-name { font-size: 13px; font-weight: 800; }
+      .layer-desc { font-size: 11px; color: var(--muted); line-height: 1.35; }
+      .layer-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 8px; }
+      .layer-actions button { font-size: 11px; padding: 8px; }
+      .disabled-card { opacity: .58; }
+
+      .badge {
+        display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 7px;
+        font-size: 9px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #06111f;
+      }
+      .badge-live { background: var(--air); }
+      .badge-demo { background: var(--ship); }
+      .badge-osint { background: var(--mil); }
+      .badge-earth { background: var(--earth); }
+      .badge-space { background: var(--sat); }
+      .badge-future { background: var(--warning); }
+
+      .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+      #status { display: block; min-height: 18px; color: var(--muted); font-size: 11px; margin-bottom: 10px; }
+
+      .event { border: 1px solid var(--border); border-left: 3px solid rgba(56,189,248,0.75); border-radius: 0; background: rgba(15, 31, 54, 0.72); padding: 10px; margin-bottom: 8px; }
+      .event h4 { margin: 0 0 6px 0; font-size: 13px; line-height: 1.25; }
+      .event small { color: var(--muted); }
+      .event .summary { margin-top: 7px; color: #bfd0e5; font-size: 12px; line-height: 1.4; }
+      .event a { color: var(--accent); text-decoration: none; }
+      .event a:hover { text-decoration: underline; }
+
+      .map-legend {
+        position: absolute; right: 18px; bottom: 18px; z-index: 450; display: grid; gap: 7px;
+        min-width: 190px; padding: 12px; border: 1px solid var(--border); border-radius: 16px;
+        background: rgba(4, 10, 20, 0.84); backdrop-filter: blur(12px); box-shadow: var(--shadow); font-size: 11px;
+      }
+      .legend-title { color: var(--soft); font-weight: 900; text-transform: uppercase; letter-spacing: .08em; font-size: 10px; }
+      .legend-item { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+      .dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; box-shadow: 0 0 16px currentColor; }
+      .dot-air { color: var(--air); background: var(--air); }
+      .dot-ship { color: var(--ship); background: var(--ship); }
+      .dot-sat { color: var(--sat); background: var(--sat); }
+      .dot-mil { color: var(--mil); background: var(--mil); }
+      .dot-earth { color: var(--earth); background: var(--earth); }
+
+      .aircraft-icon div { color: var(--air); text-shadow: 0 0 10px rgba(56,189,248,.95), 0 0 18px rgba(56,189,248,.45); }
+      .ship-icon div { color: var(--ship); text-shadow: 0 0 10px rgba(20,184,166,.95), 0 0 18px rgba(20,184,166,.45); }
+      .sat-icon div { color: var(--sat); text-shadow: 0 0 10px rgba(167,139,250,.95), 0 0 18px rgba(167,139,250,.45); }
+      .event-icon .ev-earth { color: var(--earth); text-shadow: 0 0 12px rgba(34,197,94,.8); }
+      .event-icon .ev-mil { color: var(--mil); text-shadow: 0 0 12px rgba(249,115,22,.8); }
+      .event-icon .ev-news { color: var(--accent); text-shadow: 0 0 12px rgba(56,189,248,.7); }
+
+      @media (max-width: 980px) {
+        #app { grid-template-columns: 1fr; grid-template-rows: 48vh 52vh; }
+        #sidebar { grid-row: 2; border-right: none; border-top: 1px solid var(--border); }
+        #map { grid-row: 1; }
+        .map-legend { display: none; }
+      }
+    </style>
+    <script type="module" crossorigin src="/tools/osint-threat-radar/radar/assets/index-F_ECzUyZ.js"></script>
+    <link rel="stylesheet" crossorigin href="/tools/osint-threat-radar/radar/assets/index-CIGW-MKW.css">
+  </head>
+  <body>
+    <div id="app">
+      <aside id="sidebar">
+        <div class="topbar">
+          <div class="topbar-title">MAP LIST</div>
+          <button class="topbar-close" onclick="window.location.reload()">×</button>
+        </div>
+
+        <div class="sidebar-inner">
+          <div class="brand">
+            <div>
+              <h1>OSINT Threat Radar</h1>
+              <p>DFAAS geospatial intelligence dashboard for cyber, earth, mobility, space and conflict signals.</p>
+            </div>
+            <div class="brand-mark">R</div>
+          </div>
+
+          <div class="status-row">
+            <div class="status-card"><div class="status-label">API</div><div class="status-value">LIVE</div></div>
+            <div class="status-card"><div class="status-label">Mode</div><div class="status-value">MVP</div></div>
+            <div class="status-card"><div class="status-label">AIS</div><div class="status-value">DEMO</div></div>
+          </div>
+
+          <section class="active-maps">
+            <div class="active-header">
+              <h2>ACTIVE MAPS</h2>
+              <button id="clearMapsBtn">Clear Maps</button>
+            </div>
+            <div id="activeMapsList" class="active-list">
+              <div class="active-empty">No active maps selected.</div>
+            </div>
+          </section>
+
+          <div class="maps-counter"><span id="totalMapsCount">18</span> MAPS<small>available layers / roadmap</small></div>
+
+          <div class="section-title">Search & filters</div>
+          <div class="controls">
+            <input id="q" placeholder="Cerca evento, paese, fonte..." />
+            <select id="type">
+              <option value="">Tutti i tipi</option>
+              <option value="news">news</option>
+              <option value="military_event">military_event</option>
+              <option value="earthquake">earthquake</option>
+              <option value="disaster">disaster</option>
+              <option value="flood">flood</option>
+              <option value="wildfire">wildfire</option>
+              <option value="cyclone">cyclone</option>
+              <option value="volcano">volcano</option>
+              <option value="drought">drought</option>
+              <option value="severe_weather">severe_weather</option>
+            </select>
+            <select id="source">
+              <option value="">Tutte le fonti</option>
+              <option value="rss">rss</option>
+              <option value="military_osint">military_osint</option>
+              <option value="usgs">usgs</option>
+              <option value="gdacs">gdacs</option>
+            </select>
+          </div>
+
+          <div class="quick-grid">
+            <button class="quick-filter" data-source="" data-type="">All</button>
+            <button class="quick-filter" data-source="military_osint" data-type="">Military</button>
+            <button class="quick-filter" data-source="usgs" data-type="earthquake">Earthquake</button>
+            <button class="quick-filter" data-source="gdacs" data-type="">GDACS</button>
+            <button id="quickSpaceBtn">Space</button>
+            <button id="quickMobilityBtn">Mobility</button>
+          </div>
+
+          <div class="section-title">Layer catalog</div>
+          <div class="layer-catalog">
+            <details class="layer-category" open>
+              <summary>
+                <div><div class="category-title">▣ Cyber & News</div><div class="category-desc">RSS intelligence and searchable public signals.</div></div>
+                <span class="category-count">2 Maps</span><span class="chevron">›</span>
+              </summary>
+              <div class="category-body">
+                <div class="layer-card">
+                  <div class="layer-main"><span class="layer-name">RSS News</span><span class="layer-desc">General RSS events already shown in the event stream.</span></div>
+                  <div class="layer-actions"><button class="quick-filter" data-source="rss" data-type="">Show RSS</button><button class="quick-filter" data-source="" data-type="news">News type</button></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="layer-category" open>
+              <summary>
+                <div><div class="category-title">▣ Earth Intelligence</div><div class="category-desc">Earthquakes, floods, wildfires and disaster alerts.</div></div>
+                <span class="category-count">8 Maps</span><span class="chevron">›</span>
+              </summary>
+              <div class="category-body">
+                <div class="layer-card">
+                  <button id="earthIntelBtn">Mostra terremoti e disastri</button>
+                  <div class="layer-desc" style="margin-top:8px;">USGS + GDACS. Marker verdi quando disponibili.</div>
+                  <div class="layer-actions"><button class="quick-filter" data-source="usgs" data-type="earthquake">USGS</button><button class="quick-filter" data-source="gdacs" data-type="">GDACS</button></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="layer-category" open>
+              <summary>
+                <div><div class="category-title">▣ Mobility Intelligence</div><div class="category-desc">Live air traffic and AIS-ready vessel layer.</div></div>
+                <span class="category-count">2 Maps</span><span class="chevron">›</span>
+              </summary>
+              <div class="category-body">
+                <div class="layer-card">
+                  <label>
+                    <input type="checkbox" id="aircraftToggle" />
+                    <span class="layer-main"><span class="layer-name">Aerei live</span><span class="layer-desc">OpenSky viewport layer, aggiornamento rapido.</span></span>
+                    <span class="badge badge-live">live</span>
+                  </label>
+                </div>
+                <div class="layer-card">
+                  <label>
+                    <input type="checkbox" id="shipsToggle" />
+                    <span class="layer-main"><span class="layer-name">Navi AIS</span><span class="layer-desc">Demo locale, pronto per provider AIS reale.</span></span>
+                    <span class="badge badge-demo">demo</span>
+                  </label>
+                </div>
+              </div>
+            </details>
+
+            <details class="layer-category" open>
+              <summary>
+                <div><div class="category-title">▣ Space Intelligence</div><div class="category-desc">CelesTrak orbital layers with SGP4 propagation.</div></div>
+                <span class="category-count">4 Maps</span><span class="chevron">›</span>
+              </summary>
+              <div class="category-body">
+                <div class="layer-card">
+                  <label>
+                    <input type="checkbox" id="satellitesToggle" />
+                    <span class="layer-main"><span class="layer-name">Satelliti</span><span class="layer-desc">Stations, GPS, Starlink and active catalog.</span></span>
+                    <span class="badge badge-space">space</span>
+                  </label>
+                  <select id="satGroup" style="margin-top:9px;">
+                    <option value="stations">stations (ISS ecc.)</option>
+                    <option value="active">active (tutti)</option>
+                    <option value="starlink">starlink</option>
+                    <option value="gps-ops">GPS</option>
+                  </select>
+                </div>
+              </div>
+            </details>
+
+            <details class="layer-category" open>
+              <summary>
+                <div><div class="category-title">▣ Military OSINT</div><div class="category-desc">Conflict-related RSS filtering with source verification links.</div></div>
+                <span class="category-count">1 Map</span><span class="chevron">›</span>
+              </summary>
+              <div class="category-body">
+                <div class="layer-card">
+                  <label>
+                    <input type="checkbox" id="milToggle" />
+                    <span class="layer-main"><span class="layer-name">Eventi militari OSINT</span><span class="layer-desc">Conflitti, missili, droni, difesa e guerra.</span></span>
+                    <span class="badge badge-osint">osint</span>
+                  </label>
+                </div>
+              </div>
+            </details>
+
+            <details class="layer-category">
+              <summary>
+                <div><div class="category-title">▣ Future / 3D Globe</div><div class="category-desc">Prepared roadmap for a CesiumJS experimental globe.</div></div>
+                <span class="category-count">3 Maps</span><span class="chevron">›</span>
+              </summary>
+              <div class="category-body">
+                <div class="layer-card disabled-card">
+                  <div class="layer-main"><span class="layer-name">3D Globe experimental</span><span class="layer-desc">Next step: separate CesiumJS view, not replacing this stable 2D radar.</span></div>
+                  <div style="margin-top:8px;"><span class="badge badge-future">planned</span></div>
+                </div>
+                <div class="layer-card disabled-card">
+                  <div class="layer-main"><span class="layer-name">Critical Infrastructure</span><span class="layer-desc">Ports, airports, cables and facilities. Future static/reference layer.</span></div>
+                  <div style="margin-top:8px;"><span class="badge badge-future">planned</span></div>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="action-grid">
+            <button id="refresh">Aggiorna eventi</button>
+            <button onclick="window.location.reload()">Reload UI</button>
+          </div>
+
+          <small id="status"></small>
+          <div id="events"></div>
+        </div>
+      </aside>
+
+      <main id="map"></main>
+
+      <div class="map-legend">
+        <div class="legend-title">Layer colors</div>
+        <div class="legend-item"><span class="dot dot-air"></span>Aerei OpenSky</div>
+        <div class="legend-item"><span class="dot dot-ship"></span>Navi AIS demo/provider</div>
+        <div class="legend-item"><span class="dot dot-sat"></span>Satelliti / GPS / Starlink</div>
+        <div class="legend-item"><span class="dot dot-mil"></span>Eventi militari OSINT</div>
+        <div class="legend-item"><span class="dot dot-earth"></span>Earth intelligence</div>
+      </div>
+    </div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+  </body>
 </html>

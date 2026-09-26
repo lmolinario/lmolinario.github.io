@@ -37,7 +37,7 @@
         "@id": "https://lmolinario.github.io/tools/osint-threat-radar/#software",
         "name": "OSINT Threat Radar",
         "url": "https://lmolinario.github.io/tools/osint-threat-radar/",
-        "sameAs": "https://www.dfaas.it/radar/",
+        "sameAs": "https://lmolinario.github.io/tools/osint-threat-radar/radar/",
         "description": "A geospatial threat intelligence dashboard for open-source monitoring of cyber-relevant events, disasters, aircraft, satellites, vessel layers, and conflict-related public signals.",
         "applicationCategory": "SecurityApplication",
         "applicationSubCategory": "OSINT and threat intelligence",
@@ -87,13 +87,13 @@
   <main>
     <section class="hero">
       <div class="container">
-        <span class="eyebrow">DFAAS · OSINT · Threat Intelligence · Geospatial Monitoring</span>
+        <span class="eyebrow">OSINT · Threat Intelligence · Geospatial Monitoring</span>
         <h1>OSINT Threat Radar: Geospatial Threat Intelligence Dashboard</h1>
         <p>OSINT Threat Radar is a geospatial threat intelligence dashboard designed to aggregate and visualize public signals relevant to situational awareness: news and cyber-relevant events, earthquakes, GDACS disaster alerts, live aircraft, CelesTrak satellites, GPS/Starlink layers, AIS-ready vessels, and conflict-related OSINT events.</p>
 
         <div class="hero-links">
-          <a class="btn primary" href="https://www.dfaas.it/radar/" target="_blank" rel="noopener">Open Live Radar</a>
-          <a class="btn dark" href="/tools/osint-threat-radar/radar/">Open Radar Redirect</a>
+          <a class="btn primary" href="https://lmolinario.github.io/tools/osint-threat-radar/radar/" target="_blank" rel="noopener">Open Live Radar</a>
+          <a class="btn dark" href="/tools/osint-threat-radar/radar/">Open Radar Dashboard</a>
           <a class="btn" href="/tools/">Security Tools</a>
         </div>
 
@@ -112,7 +112,7 @@
           <article class="card"><h3>Layer Catalog</h3><p>Organizes live and OSINT layers into categories such as Earth Intelligence, Mobility Intelligence, Space Intelligence, and Military OSINT.</p></article>
           <article class="card"><h3>Operational Map</h3><p>Provides an interactive radar-style dashboard with active maps, clear maps, filtering, popup metadata, and visual layer separation.</p></article>
           <article class="card"><h3>Backend Collectors</h3><p>Uses FastAPI collectors and normalizers for public feeds and API-based sources, exposing results as JSON or GeoJSON-like structures.</p></article>
-          <article class="card"><h3>DFAAS Integration</h3><p>The operational instance is published under the DFAAS domain, while this page documents the project within the personal portfolio.</p></article>
+          <article class="card"><h3>Self-Hosted T340 Backend</h3><p>The public frontend is published on GitHub Pages, while the API and collectors run on the self-hosted Dell PowerEdge T340.</p></article>
         </div>
       </div>
     </section>
@@ -137,8 +137,8 @@
         <div class="panel">
           <ul class="feature-list">
             <li><strong>Frontend:</strong> Leaflet-based map dashboard with layer catalog and active map controls.</li>
-            <li><strong>Backend:</strong> FastAPI service deployed separately and exposed through Render.</li>
-            <li><strong>Public site:</strong> DFAAS hosts the operational radar, while GitHub Pages hosts the portfolio/project description.</li>
+            <li><strong>Backend:</strong> FastAPI service running on the self-hosted Dell PowerEdge T340 and exposed through a restricted HTTPS gateway.</li>
+            <li><strong>Public site:</strong> GitHub Pages hosts both the portfolio and the static OSINT Threat Radar frontend.</li>
             <li><strong>Data model:</strong> normalized public-source events and live layer endpoints for aircraft, vessels, and satellites.</li>
           </ul>
         </div>
@@ -149,8 +149,8 @@
       <div class="container">
         <h2>Access the Dashboard</h2>
         <div class="panel">
-          <p class="lead">The stable operational dashboard is published on DFAAS:</p>
-          <p><a href="https://www.dfaas.it/radar/" target="_blank" rel="noopener">https://www.dfaas.it/radar/</a></p>
+          <p class="lead">The operational dashboard is published on GitHub Pages:</p>
+          <p><a href="https://lmolinario.github.io/tools/osint-threat-radar/radar/" target="_blank" rel="noopener">https://lmolinario.github.io/tools/osint-threat-radar/radar/</a></p>
           <p class="lead">The local portfolio route remains available as a redirect for consistency:</p>
           <p><a href="/tools/osint-threat-radar/radar/">/tools/osint-threat-radar/radar/</a></p>
         </div>
