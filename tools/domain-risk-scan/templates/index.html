@@ -597,7 +597,7 @@
     const API_BASE_URL =
       window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
         ? "http://127.0.0.1:8000"
-        : "https://lmolinario-github-io.onrender.com";
+        : "https://osint-radar.tail8a2be3.ts.net/domain-risk";
 
     function apiUrl(path) {
       return `${API_BASE_URL}${path}`;
@@ -1042,7 +1042,7 @@
 
           ${data.pdf_url ? `
             <div class="actions" style="margin-top:0; margin-bottom:0.75rem;">
-              <a href="${escapeHtml(data.pdf_url)}" target="_blank" rel="noopener noreferrer">
+              <a href="${escapeHtml(apiUrl(data.pdf_url))}" target="_blank" rel="noopener noreferrer">
                 <button type="button">Download PDF report</button>
               </a>
             </div>
