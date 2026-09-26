@@ -132,7 +132,7 @@ def _enrich_spf_missing(f: Finding, domain: str) -> dict[str, Any]:
             "Start with a minimal policy covering known senders.",
             "Wait for propagation and re-run the scan.",
         ],
-        "copy_paste_snippet": "v=spf1 include:_spf.google.com ~all",
+        "copy_paste_snippet": None,
     })
     return payload
 
