@@ -27,24 +27,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-05SFNMJWMN"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-05SFNMJWMN');
-  </script>
-
-  <!-- Microsoft Clarity -->
-  <script>
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wblykkhts3");
-  </script>
-
   <style>
     :root{
       --bg:#f8fafc;
@@ -500,7 +482,6 @@
               target="_blank"
               rel="noopener noreferrer"
               id="cta-hero"
-              onclick="trackCTA('hero_primary_cta', 'google_form')"
             >
               Richiedi il PDF dimostrativo
             </a>
@@ -509,7 +490,6 @@
               class="btn btn-secondary"
               href="#come-funziona"
               id="cta-secondary"
-              onclick="trackCTA('hero_secondary_cta', 'scroll_how_it_works')"
             >
               Come funziona
             </a>
@@ -642,7 +622,6 @@
               target="_blank"
               rel="noopener noreferrer"
               id="cta-mid"
-              onclick="trackCTA('mid_primary_cta', 'google_form')"
             >
               Richiedi il PDF dimostrativo
             </a>
@@ -698,7 +677,6 @@
             target="_blank"
             rel="noopener noreferrer"
             id="cta-final"
-            onclick="trackCTA('final_primary_cta', 'google_form')"
           >
             Apri il modulo
           </a>
@@ -717,32 +695,5 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    function trackCTA(label, destination) {
-      if (typeof gtag === 'function') {
-        gtag('event', 'cta_click', {
-          event_category: 'engagement',
-          event_label: label,
-          destination: destination
-        });
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const links = document.querySelectorAll('a[href]');
-      links.forEach(function(link) {
-        link.addEventListener('click', function() {
-          const href = link.getAttribute('href') || '';
-          if (typeof gtag === 'function') {
-            gtag('event', 'link_click', {
-              event_category: 'navigation',
-              event_label: href
-            });
-          }
-        });
-      });
-    });
-  </script>
 </body>
 </html>
