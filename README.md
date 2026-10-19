@@ -25,7 +25,7 @@ The public site intentionally distinguishes maintained work and current research
 
 ## Structure
 
-The site is static and deployed with GitHub Pages. Shared presentation rules for the primary portfolio pages are in `assets/site.css`. The responsive navigation, accessibility fixes and consistent footer are currently applied across the primary HTML pages.
+The site is static and deployed with GitHub Pages. Shared presentation rules for the primary portfolio pages are in `assets/site.css`. The responsive navigation, accessibility fixes and consistent footer are applied across 18 public portfolio pages. The homepage header/footer acts as the authoritative source; run `python scripts/sync_site_shell.py --write` after modifying it. CI runs `python scripts/sync_site_shell.py --check` to prevent the menus and footers from drifting across pages.
 
 ### Automated quality gates
 
