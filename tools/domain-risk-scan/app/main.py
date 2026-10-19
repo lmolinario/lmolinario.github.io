@@ -11,6 +11,7 @@ from app.api.routes_pdf import router as pdf_router
 from app.api.routes_analytics import router as analytics_router
 
 from app.models.scan import Scan
+from app.models.scan_access import ScanAccess
 from app.models.finding import Finding
 from app.models.report import Report
 from app.models.analytics_event import AnalyticsEvent
