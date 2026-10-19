@@ -30,7 +30,7 @@ def normalize_domain(domain: str) -> str:
 
 
 def is_valid_domain(domain: str) -> bool:
-    return bool(DOMAIN_REGEX.fullmatch(domain))
+    return bool(DOMAIN_REGEX.fullmatch(domain)) and not domain.endswith((".local", ".localhost", ".internal", ".test", ".invalid", ".lan", ".home.arpa"))
 
 
 def safe_tls_addresses(domain: str, port: int = 443) -> list[tuple]:
