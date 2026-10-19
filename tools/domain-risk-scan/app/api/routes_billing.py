@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Query
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.security.scan_access import require_owned_scan, scan_token_header
 from app.core.database import get_db
 from app.models.scan import Scan
 from app.schemas.report import CheckoutCreateRequest, CheckoutCreateResponse
@@ -26,21 +27,18 @@ router = APIRouter(prefix="/api/billing", tags=["billing"])
 @router.post("/cancel")
 def track_checkout_cancel(
     scan_id: int = Query(...),
+    token: str | None = Depends(scan_token_header),
     db: Session = Depends(get_db),
 ):
-    scan = db.query(Scan).filter(Scan.id == scan_id).first()
-    if not scan:
-        raise HTTPException(status_code=404, detail="Scan not found")
+    scan = require_owned_scan(db, scan_id, token)
 
     track_event(db, scan.id, "checkout_canceled")
     return {"status": "ok"}
 
 
 @router.post("/checkout", response_model=CheckoutCreateResponse)
-def create_checkout(payload: CheckoutCreateRequest, db: Session = Depends(get_db)):
-    scan = db.query(Scan).filter(Scan.id == payload.scan_id).first()
-    if not scan:
-        raise HTTPException(status_code=404, detail="Scan not found")
+def create_checkout(payload: CheckoutCreateRequest, token: str | None = Depends(scan_token_header), db: Session = Depends(get_db)):
+    scan = require_owned_scan(db, payload.scan_id, token)
 
     report = get_or_create_report(db, scan.id)
 
@@ -63,18 +61,13 @@ def create_checkout(payload: CheckoutCreateRequest, db: Session = Depends(get_db
             "quantity": 1,
         }],
         success_url=(
-            f"{settings.app_base_url}/"
+            f"{settings.public_frontend_url.rstrip('/')}/"
             f"?paid=1&scan_id={scan.id}&session_id={{CHECKOUT_SESSION_ID}}"
         ),
         cancel_url=f"{settings.app_base_url}/?canceled=1&scan_id={scan.id}",
         metadata={
             "scan_id": str(scan.id),
         },
-        custom_text={
-            "submit": {
-                "message": "Test mode: use card 4242 4242 4242 4242 to simulate payment."
-            }
-        }
     )
 
     set_report_checkout_session(db, report, session.id)
@@ -93,11 +86,10 @@ def create_checkout(payload: CheckoutCreateRequest, db: Session = Depends(get_db
 def confirm_checkout_session(
     scan_id: int = Query(...),
     session_id: str = Query(...),
+    token: str | None = Depends(scan_token_header),
     db: Session = Depends(get_db),
 ):
-    scan = db.query(Scan).filter(Scan.id == scan_id).first()
-    if not scan:
-        raise HTTPException(status_code=404, detail="Scan not found")
+    scan = require_owned_scan(db, scan_id, token)
 
     report = get_or_create_report(db, scan.id)
 
