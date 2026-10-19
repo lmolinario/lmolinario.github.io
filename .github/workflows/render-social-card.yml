@@ -1,0 +1,36 @@
+name: Render social preview PNG
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/social-card.svg'
+      - '.github/workflows/render-social-card.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install SVG rasterizer
+        run: python -m pip install --disable-pip-version-check cairosvg==2.8.2
+      - name: Export 1200x630 PNG
+        run: |
+          python - <<'PY'
+          import cairosvg
+          cairosvg.svg2png(url='assets/social-card.svg', write_to='assets/social-card.png', output_width=1200, output_height=630)
+          PY
+      - name: Commit generated asset
+        run: |
+          git add assets/social-card.png
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Generate wide Open Graph social preview'
+            git push
+          fi
