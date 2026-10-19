@@ -23,6 +23,7 @@ from app.services.scan_service import (
 from app.tasks.scan_tasks import run_scan_task
 from app.utils.validators import normalize_domain, is_valid_domain, is_safe_external_domain
 from app.security.rate_limit import enforce_scan_quota
+from app.security.scan_access import mint_scan_token, require_owned_scan, scan_token_header
 
 router = APIRouter(prefix="/api/scans", tags=["scans"])
 
@@ -38,19 +39,9 @@ def create_scan_endpoint(payload: ScanCreate, request: Request, db: Session = De
 
     enforce_scan_quota(request)
 
-    cached_scan = get_recent_completed_scan_by_domain(
-        db=db,
-        domain=domain,
-        max_age_hours=settings.scan_cache_hours,
-    )
-    if cached_scan:
-        return ScanCreateResponse(
-            scan_id=cached_scan.id,
-            status=cached_scan.status,
-            cached=True,
-        )
-
+    # Every request gets its own unguessable credential. No cross-user cached IDs.
     scan = create_scan(db, domain)
+    scan_token = mint_scan_token(db, scan.id)
     try:
         run_scan_task.delay(scan.id)
     except Exception:
@@ -60,15 +51,14 @@ def create_scan_endpoint(payload: ScanCreate, request: Request, db: Session = De
     return ScanCreateResponse(
         scan_id=scan.id,
         status=scan.status,
+        scan_token=scan_token,
         cached=False,
     )
 
 
 @router.get("/{scan_id}", response_model=ScanStatusResponse)
-def get_scan_endpoint(scan_id: int, db: Session = Depends(get_db)):
-    scan = get_scan(db, scan_id)
-    if not scan:
-        raise HTTPException(status_code=404, detail="Scan not found")
+def get_scan_endpoint(scan_id: int, token: str | None = Depends(scan_token_header), db: Session = Depends(get_db)):
+    scan = require_owned_scan(db, scan_id, token)
 
     return ScanStatusResponse(
         scan_id=scan.id,
@@ -81,10 +71,8 @@ def get_scan_endpoint(scan_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/{scan_id}/findings", response_model=FindingsListResponse)
-def get_scan_findings_endpoint(scan_id: int, db: Session = Depends(get_db)):
-    scan = get_scan(db, scan_id)
-    if not scan:
-        raise HTTPException(status_code=404, detail="Scan not found")
+def get_scan_findings_endpoint(scan_id: int, token: str | None = Depends(scan_token_header), db: Session = Depends(get_db)):
+    scan = require_owned_scan(db, scan_id, token)
 
     findings = get_findings_by_scan(db, scan_id)
 
