@@ -42,6 +42,16 @@ app.include_router(reports_router)
 app.include_router(pdf_router)
 app.include_router(analytics_router)
 
+
+@app.middleware("http")
+async def privacy_response_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    if request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store, private"
+    return response
+
 @app.get("/health")
 def health():
     return {"status": "ok", "cors_debug": "enabled_v2"}
