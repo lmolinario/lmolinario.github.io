@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Lello Molinario — Digital Forensics, Cybersecurity and Trustworthy AI">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14395f"/><stop offset=".52" stop-color="#06152b"/><stop offset="1" stop-color="#071c38"/></linearGradient>
+  <radialGradient id="glow" cx="75%" cy="56%" r="55%"><stop offset="0" stop-color="#086c9a" stop-opacity=".46"/><stop offset="1" stop-color="#021329" stop-opacity="0"/></radialGradient>
+  <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse"><path d="M42 0H0V42" stroke="#5dc5ea" stroke-width=".7" fill="none" opacity=".09"/></pattern>
+  <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#54c5f4" opacity=".36"/></pattern>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<rect width="1200" height="630" fill="url(#glow)"/>
+<rect x="595" width="605" height="630" fill="url(#grid)"/>
+<rect x="850" y="40" width="310" height="270" fill="url(#dots)" opacity=".75"/>
+<path d="M75 70V560" stroke="#48b7df" stroke-width="5" opacity=".8"/>
+<path d="M75 70H248 M75 560H368" stroke="#48b7df" stroke-width="1.6" opacity=".4"/>
+<g opacity=".5" stroke="#2a9cca" stroke-width="1.2" fill="none">
+  <circle cx="974" cy="308" r="206"/><circle cx="974" cy="308" r="172"/><circle cx="974" cy="308" r="138"/>
+  <path d="M790 308H1180 M974 110V510 M820 155L1134 470 M813 467L1135 153"/>
+</g>
+<g transform="translate(970 310)" fill="none" stroke="#62d4fa" stroke-linecap="round" opacity=".88">
+ <path d="M-92 54C-118 20-128-32-105-81C-71-153 33-168 100-110C130-77 148-35 141 17" stroke-width="3"/>
+ <path d="M-76 76C-113 33-110-33-80-82C-39-135 33-140 84-92C116-62 123-8 110 45" stroke-width="2.5"/>
+ <path d="M-56 94C-99 45-86-31-54-71C-20-113 34-107 67-76C97-43 103 1 86 64" stroke-width="2.5"/>
+ <path d="M-34 106C-78 52-67-29-37-58C-7-87 34-85 54-61C88-18 77 41 57 80" stroke-width="2"/>
+ <path d="M-12 114C-53 55-43-24-18-46C4-64 31-57 43-35C58-10 57 35 35 85" stroke-width="2"/>
+ <path d="M10 110C-19 66-19 4-7-22C5-42 26-39 31-16C37 10 24 58 13 78" stroke-width="2"/>
+</g>
+<g fill="#4bc3ee"><rect x="773" y="300" width="9" height="9"/><rect x="1154" y="300" width="9" height="9"/><rect x="968" y="109" width="9" height="9"/><rect x="968" y="504" width="9" height="9"/></g>
+<g font-family="DejaVu Sans, Arial, sans-serif">
+ <text x="114" y="264" fill="#ffffff" font-size="61" font-weight="750" letter-spacing="1">LELLO MOLINARIO</text>
+ <text x="114" y="341" fill="#4dc6ef" font-size="47" font-weight="650" letter-spacing="5">DIGITAL FORENSICS</text>
+ <text x="116" y="392" fill="#e7f1fd" font-size="21" font-weight="450" letter-spacing="2.2">CYBERSECURITY · TRUSTWORTHY AI</text>
+</g>
+<path d="M114 445H640" stroke="#36abdb" stroke-width="2" opacity=".7"/>
+<text x="114" y="483" fill="#a3c4dd" font-size="17" font-family="DejaVu Sans, Arial, sans-serif" letter-spacing=".5">lmolinario.github.io</text>
+</svg>
