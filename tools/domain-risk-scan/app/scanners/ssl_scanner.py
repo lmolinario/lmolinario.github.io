@@ -2,6 +2,8 @@ import socket
 import ssl
 from datetime import datetime, timezone
 
+from app.utils.validators import safe_tls_addresses
+
 
 def scan_ssl(domain: str) -> list[dict]:
     findings = []
@@ -9,7 +11,11 @@ def scan_ssl(domain: str) -> list[dict]:
     try:
         context = ssl.create_default_context()
 
-        with socket.create_connection((domain, 443), timeout=5) as sock:
+        # Pin the socket to an already vetted public IP to prevent DNS rebinding.
+        family, sock_type, proto, _, address = safe_tls_addresses(domain)
+        with socket.socket(family, sock_type, proto) as sock:
+            sock.settimeout(5)
+            sock.connect(address)
             with context.wrap_socket(sock, server_hostname=domain) as ssock:
                 cert = ssock.getpeercert()
 
