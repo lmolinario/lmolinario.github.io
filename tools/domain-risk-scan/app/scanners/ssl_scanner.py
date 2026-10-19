@@ -12,7 +12,7 @@ def scan_ssl(domain: str) -> list[dict]:
         context = ssl.create_default_context()
 
         # Pin the socket to an already vetted public IP to prevent DNS rebinding.
-        family, sock_type, proto, _, address = safe_tls_addresses(domain)
+        family, sock_type, proto, _, address = safe_tls_addresses(domain)[0]
         with socket.socket(family, sock_type, proto) as sock:
             sock.settimeout(5)
             sock.connect(address)
