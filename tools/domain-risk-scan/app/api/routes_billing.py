@@ -64,7 +64,7 @@ def create_checkout(payload: CheckoutCreateRequest, token: str | None = Depends(
             f"{settings.public_frontend_url.rstrip('/')}/"
             f"?paid=1&scan_id={scan.id}&session_id={{CHECKOUT_SESSION_ID}}"
         ),
-        cancel_url=f"{settings.app_base_url}/?canceled=1&scan_id={scan.id}",
+        cancel_url=f"{settings.public_frontend_url.rstrip('/')}/?canceled=1&scan_id={scan.id}",
         metadata={
             "scan_id": str(scan.id),
         },
