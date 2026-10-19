@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     stripe_report_price_eur_cents: int = 2900
 
     app_base_url: str = "http://localhost:8000"
+    public_frontend_url: str = "https://lmolinario.github.io/tools/domain-risk-scan/"
     reports_storage_dir: str = "storage/reports"
 
     model_config = SettingsConfigDict(
