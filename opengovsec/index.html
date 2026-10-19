@@ -57,21 +57,10 @@
   <style>
     :root{--bg:#f8fafc;--surface:#fff;--soft:#f1f5f9;--text:#0f172a;--muted:#475569;--accent:#0369a1;--accent-dark:#075985;--border:#e2e8f0;--shadow:0 10px 30px rgba(15,23,42,.06);--radius:16px;--maxw:1040px}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}a{color:var(--accent)}.container{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem}header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 0}.brand{font-weight:800;color:var(--text);text-decoration:none}nav{display:flex;gap:1rem;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-weight:600}nav a:hover{color:var(--accent)}.hero{padding:4.5rem 0 3rem;background:linear-gradient(to bottom,#fff,#f8fafc)}.eyebrow{display:inline-block;margin-bottom:1rem;padding:.35rem .7rem;border-radius:999px;background:#e0f2fe;color:var(--accent-dark);font-weight:800;font-size:.84rem}.hero h1{margin:0 0 1rem;font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.1;letter-spacing:-.04em}.hero p{max-width:75ch;color:var(--muted);font-size:1.06rem;margin:0 0 1.1rem}.cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.4rem}.btn{display:inline-flex;align-items:center;justify-content:center;padding:.8rem 1rem;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--text);text-decoration:none;font-weight:800;box-shadow:var(--shadow)}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}section{padding:3rem 0}.section-head{margin-bottom:1rem}.section-head h2{margin:0 0 .55rem;font-size:1.8rem;letter-spacing:-.03em;line-height:1.15}.section-head p{margin:0;color:var(--muted);max-width:75ch}.grid{display:grid;gap:1rem}.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow)}.card h3{margin:.1rem 0 .6rem}.card p{margin:.4rem 0;color:var(--muted)}.metric{font-size:2rem;font-weight:800;letter-spacing:-.04em}.tag{display:inline-block;font-size:.82rem;padding:.28rem .55rem;border:1px solid var(--border);border-radius:999px;margin-right:.4rem;margin-bottom:.45rem;color:var(--muted);background:var(--soft);font-weight:700}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:16px;background:#fff;box-shadow:var(--shadow)}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:.85rem 1rem;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}th{background:#f8fafc;font-size:.9rem}td{color:var(--muted)}code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:.12rem .3rem}.workflow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e2e8f0;border-radius:16px;padding:1rem;overflow:auto}.note{color:var(--muted)}footer{border-top:1px solid var(--border);padding:2rem 0 3rem;background:#fff;color:var(--muted)}@media(max-width:880px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}.hero{padding-top:3.5rem}}
   </style>
-</head>
-<body>
-<header>
-  <div class="container topbar">
-    <a class="brand" href="/">Lello Molinario</a>
-    <nav>
-      <a href="/projects/">Projects</a>
-      <a href="/opengovsec/">OpenGovSec</a>
-      <a href="/research/">Research</a>
-      <a href="/ai-forensics/">AI Forensics</a>
-      <a href="https://www.linkedin.com/in/lello-molinario-357462325" target="_blank" rel="noopener">LinkedIn</a>
-    </nav>
-  </div>
-</header>
-<main>
+<link rel="stylesheet" href="/assets/site.css"></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="container topbar"><a class="brand" href="/">Lello Molinario</a><details class="site-menu"><summary class="menu-toggle">Menu</summary><nav class="nav" aria-label="Primary"><a href="/about/">About</a><a href="/research/">Research</a><a href="/publications/">Publications</a><a href="/projects/">Projects</a><a href="/tools/">Tools</a><a href="/projects/evidence-first/">Evidence First</a><a href="/contact/">Contact</a></nav></details></div></header>
+<main id="main">
   <section class="hero">
     <div class="container">
       <span class="eyebrow">Public-sector cybersecurity · Digital governance · Open data risk · Reproducible assessment</span>
@@ -177,6 +166,6 @@
     </div>
   </section>
 </main>
-<footer><div class="container">© 2026 Lello Molinario · OpenGovSec Toolkit case study.</div></footer>
+<footer class="footer"><div class="container footer-inner"><div>© 2026 Lello Molinario. All rights reserved.</div><div class="footer-links"><a href="/about/">About</a><a href="/research/">Research</a><a href="/publications/">Publications</a><a href="/projects/">Projects</a><a href="/tools/">Tools</a><a href="/media/">Media</a><a href="/privacy/">Privacy</a><a href="/cookies/">Cookies</a><a href="/legal/">Legal</a><a href="/contact/">Contact</a></div></div></footer>
 </body>
 </html>
