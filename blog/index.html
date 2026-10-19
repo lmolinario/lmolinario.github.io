@@ -14,10 +14,10 @@
   <style>
     :root{--bg:#f8fafc;--surface:#fff;--text:#0f172a;--muted:#475569;--accent:#0369a1;--border:#e2e8f0;--shadow:0 10px 30px rgba(15,23,42,.06)}*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}.container{max-width:900px;margin:0 auto;padding:0 1.25rem}header{border-bottom:1px solid var(--border);background:#fff}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 0}.brand{font-weight:800;color:var(--text);text-decoration:none}nav{display:flex;gap:1rem;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none;font-weight:600}nav a:hover{color:var(--accent)}main{padding:4rem 0}.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem;box-shadow:var(--shadow)}h1{margin-top:0;font-size:clamp(2rem,5vw,3rem);letter-spacing:-.04em;line-height:1.1}p{color:var(--muted);max-width:70ch}.btn{display:inline-flex;align-items:center;justify-content:center;margin-top:1rem;padding:.8rem 1rem;border-radius:12px;background:var(--accent);color:#fff;text-decoration:none;font-weight:800}footer{border-top:1px solid var(--border);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.95rem;background:#fff}
   </style>
-</head>
-<body>
-  <header><div class="container topbar"><a class="brand" href="/">Lello Molinario</a><nav><a href="/projects/">Projects</a><a href="/tools/">Tools</a><a href="/research/">Research</a><a href="/ai-forensics/">AI Forensics</a></nav></div></header>
-  <main>
+<link rel="stylesheet" href="/assets/site.css"></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container topbar"><a class="brand" href="/">Lello Molinario</a><details class="site-menu"><summary class="menu-toggle">Menu</summary><nav class="nav" aria-label="Primary"><a href="/about/">About</a><a href="/research/">Research</a><a href="/publications/">Publications</a><a href="/projects/">Projects</a><a href="/tools/">Tools</a><a href="/projects/evidence-first/">Evidence First</a><a href="/contact/">Contact</a></nav></details></div></header>
+  <main id="main">
     <div class="container">
       <section class="card">
         <h1>Blog</h1>
@@ -26,6 +26,6 @@
       </section>
     </div>
   </main>
-  <footer><div class="container">© 2026 Lello Molinario · Draft blog section.</div></footer>
+  <footer class="footer"><div class="container footer-inner"><div>© 2026 Lello Molinario. All rights reserved.</div><div class="footer-links"><a href="/about/">About</a><a href="/research/">Research</a><a href="/publications/">Publications</a><a href="/projects/">Projects</a><a href="/tools/">Tools</a><a href="/media/">Media</a><a href="/privacy/">Privacy</a><a href="/cookies/">Cookies</a><a href="/legal/">Legal</a><a href="/contact/">Contact</a></div></div></footer>
 </body>
 </html>
