@@ -4,12 +4,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     app_name: str = "Digital Risk Scanner"
     app_env: str = "development"
-    app_debug: bool = True
+    app_debug: bool = False
 
     database_url: str
     redis_url: str
 
     scan_cache_hours: int = 24
+    scan_rate_limit_per_hour: int = 60
+    admin_api_key: str = ""
 
     stripe_secret_key: str = ""
     stripe_publishable_key: str = ""
