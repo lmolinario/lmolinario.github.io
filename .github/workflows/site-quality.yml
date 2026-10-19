@@ -23,8 +23,10 @@ jobs:
         run: python scripts/site_audit.py
       - name: Check backend Python syntax
         run: python -m compileall -q tools/domain-risk-scan/app
-      - name: Install offline security test dependency
-        run: python -m pip install --disable-pip-version-check pytest
-      - name: Test target validation without external network
+      - name: Install offline security test dependencies
+        run: python -m pip install --disable-pip-version-check pytest fastapi sqlalchemy
+      - name: Test target validation and credential isolation
         working-directory: tools/domain-risk-scan
-        run: python -m pytest tests/test_host_validation.py -q
+        run: python -m pytest tests/test_host_validation.py tests/test_scan_access.py -q
+      - name: Validate frontend application JavaScript syntax
+        run: python scripts/check_inline_javascript.py
