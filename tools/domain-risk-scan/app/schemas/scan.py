@@ -9,6 +9,7 @@ class ScanCreate(BaseModel):
 class ScanCreateResponse(BaseModel):
     scan_id: int
     status: str
+    scan_token: str
     cached: bool = False
 
 
