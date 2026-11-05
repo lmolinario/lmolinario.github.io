@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.security.scan_access import require_owned_scan, scan_token_header
 from app.models.scan import Scan
 from app.schemas.report import ReportResponse
 from app.services.report_service import (
@@ -13,16 +14,13 @@ from app.services.report_service import (
 router = APIRouter(prefix="/api/reports", tags=["reports"])
 
 
-def _get_scan_or_404(db: Session, scan_id: int) -> Scan:
-    scan = db.query(Scan).filter(Scan.id == scan_id).first()
-    if not scan:
-        raise HTTPException(status_code=404, detail="Scan not found")
-    return scan
+def _get_scan_or_404(db: Session, scan_id: int, token: str | None) -> Scan:
+    return require_owned_scan(db, scan_id, token)
 
 
 @router.get("/{scan_id}", response_model=ReportResponse)
-def get_report(scan_id: int, db: Session = Depends(get_db)):
-    scan = _get_scan_or_404(db, scan_id)
+def get_report(scan_id: int, token: str | None = Depends(scan_token_header), db: Session = Depends(get_db)):
+    scan = _get_scan_or_404(db, scan_id, token)
 
     if scan.status != "completed":
         raise HTTPException(

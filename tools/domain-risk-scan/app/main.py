@@ -11,6 +11,7 @@ from app.api.routes_pdf import router as pdf_router
 from app.api.routes_analytics import router as analytics_router
 
 from app.models.scan import Scan
+from app.models.scan_access import ScanAccess
 from app.models.finding import Finding
 from app.models.report import Report
 from app.models.analytics_event import AnalyticsEvent
@@ -40,6 +41,16 @@ app.include_router(billing_router)
 app.include_router(reports_router)
 app.include_router(pdf_router)
 app.include_router(analytics_router)
+
+
+@app.middleware("http")
+async def privacy_response_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    if request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store, private"
+    return response
 
 @app.get("/health")
 def health():

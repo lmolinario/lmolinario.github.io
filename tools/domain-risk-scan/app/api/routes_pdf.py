@@ -10,6 +10,7 @@ from reportlab.pdfgen import canvas
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.security.scan_access import require_owned_scan, scan_token_header
 from app.models.scan import Scan
 from app.services.report_service import build_report_payload, get_or_create_report
 
@@ -23,11 +24,8 @@ LINE = 14
 MAX_EVIDENCE_LIST_ITEMS = 6
 
 
-def _get_scan_or_404(db: Session, scan_id: int) -> Scan:
-    scan = db.query(Scan).filter(Scan.id == scan_id).first()
-    if not scan:
-        raise HTTPException(status_code=404, detail="Scan not found")
-    return scan
+def _get_scan_or_404(db: Session, scan_id: int, token: str | None) -> Scan:
+    return require_owned_scan(db, scan_id, token)
 
 
 def format_value(value) -> str:
@@ -295,8 +293,8 @@ def draw_finding(pdf: canvas.Canvas, finding: dict, y: int):
 
 
 @router.get("/{scan_id}")
-def export_pdf(scan_id: int, db: Session = Depends(get_db)):
-    scan = _get_scan_or_404(db, scan_id)
+def export_pdf(scan_id: int, token: str | None = Depends(scan_token_header), db: Session = Depends(get_db)):
+    scan = _get_scan_or_404(db, scan_id, token)
 
     if scan.status != "completed":
         raise HTTPException(
