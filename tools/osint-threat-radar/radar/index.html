@@ -225,8 +225,17 @@
         #map { grid-row: 1; }
         .map-legend { display: none; }
       }
-    </style>
-    <script type="module" crossorigin src="/tools/osint-threat-radar/radar/assets/index-DjDx5ZVA.js"></script>
+    
+.ci-panel {margin:16px 0;padding:14px;border:1px solid rgba(249,115,22,.4);background:rgba(15,31,54,.85);}
+.ci-panel h2 {margin:0 0 7px;font-size:15px;color:#fb923c;}
+.ci-panel p, #ci-status {color:#94a3b8;font-size:12px;line-height:1.5;}
+.ci-controls {display:grid;gap:8px;margin:12px 0;}
+.ci-event {border-left-color:#f97316;overflow-wrap:anywhere;}
+.ci-event a {display:inline-block;margin-top:8px;color:#38bdf8;}
+#ci-mapnote {font-size:11px;line-height:1.5;color:#fdba74;padding:9px;margin-bottom:10px;border-left:3px solid #f97316;background:rgba(249,115,22,.08);}
+
+</style>
+    <script type="module" crossorigin src="/tools/osint-threat-radar/radar/assets/index-ci-20261114.js"></script>
     <link rel="stylesheet" crossorigin href="/tools/osint-threat-radar/radar/assets/index-CIGW-MKW.css">
   </head>
   <body>
@@ -298,7 +307,32 @@
             <button id="quickMobilityBtn">Mobility</button>
           </div>
 
-          <div class="section-title">Layer catalog</div>
+          
+<section id="ci-panel" class="ci-panel">
+  <h2>Conflict Intelligence</h2>
+  <p>Report OSINT storici e non verificati. Le date si riferiscono alla pubblicazione. Le posizioni sono riferimenti geografici indicativi e non indicano incidenti accertati.</p>
+  <div class="ci-controls">
+    <select id="ci-topic" aria-label="Categoria">
+      <option value="all">Tutte le categorie</option>
+      <option value="drone">Droni</option>
+      <option value="missile">Missili</option>
+      <option value="air_defense">Difesa aerea</option>
+      <option value="other_conflict">Altri conflitti</option>
+    </select>
+    <select id="ci-period" aria-label="Periodo">
+      <option value="7">Ultimi 7 giorni</option>
+      <option value="30" selected>Ultimi 30 giorni</option>
+      <option value="90">Ultimi 90 giorni</option>
+      <option value="all">Tutto lo storico</option>
+    </select>
+    <input id="ci-query" aria-label="Ricerca report" placeholder="Cerca nei report..." />
+    <button id="ci-load">Carica report storici</button>
+  </div>
+  <div id="ci-status" role="status">Seleziona Carica report storici.</div>
+  <div id="ci-mapnote" role="note"></div>
+  <div id="ci-results"></div>
+</section>
+<div class="section-title">Layer catalog</div>
           <div class="layer-catalog">
             <details class="layer-category" open>
               <summary>
