@@ -48,3 +48,23 @@ The Domain Risk Scan backend code under `tools/domain-risk-scan/` is not deploye
 ## Copyright
 
 Unless a file or linked project states otherwise, website text, graphics, research summaries and editorial material are © Lello Molinario. See the site's Legal Notice for details.
+
+## Editorial design and automated maintenance (November 2026)
+
+The public portfolio uses a shared editorial theme in `assets/site.css`. Standalone tools retain their application-specific UI and load `assets/app-editorial.css` as a visual bridge. The unlisted `/design-preview/` remains `noindex` and is not part of the main navigation.
+
+**Self-hosted typography:** DM Sans (variable) and Instrument Serif (italic) are served locally from `assets/fonts/`. Their OFL licences are retained next to the files. To regenerate them, run the `Vendor licensed web fonts` GitHub Actions workflow. No Google Fonts requests are needed on published pages.
+
+**Social sharing:** edit `assets/social-card.svg`, not the generated PNG. The `Render social preview PNG` workflow renders `assets/social-card.png` at 1200 × 630. Public pages carry Open Graph and Twitter/X preview metadata.
+
+**Publications:** `data/publications.json` is the single source of truth for the Red Hot Cyber article catalogue. The daily `Refresh verified Red Hot Cyber publications` workflow checks the publisher archive, verifies title/byline/date for previously unseen entries, and regenerates the publications index, featured homepage links, structured data, and sitemap. Publisher HTML can change or become unavailable, so the discovery job must not be treated as a guaranteed feed. To add or correct an article manually, edit the catalogue and run:
+
+```bash
+python scripts/sync_publications.py --write --check
+python scripts/site_audit.py
+python scripts/sync_site_shell.py --check
+```
+
+**Quality control:** `Static site quality` enforces URLs, sitemap, SEO and social metadata, structured data, self-hosted font files, shared header/footer, and article catalogue consistency. The `Browser QA and Lighthouse` workflow runs weekly and on design changes, tests the mobile and desktop navigation and article filters, captures screenshots, and stores lab Lighthouse reports as GitHub Actions artifacts. Lab scores are not real-user Core Web Vitals measurements.
+
+**Deployment:** GitHub Pages publishes from `main`. Changes to `index.html` and `publications/index.html` should be made through the catalogue sync when they involve articles. Never add the unlisted preview to the public sitemap.
