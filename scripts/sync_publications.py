@@ -132,7 +132,15 @@ def render(data: dict, rows: list[dict]) -> set[Path]:
     pub = pub[:match.start()] + "".join(publication_card(a) for a in rows) + pub[match.end():]
     pub = update_structured_data(pub, rows)
     home = HOME.read_text(encoding="utf-8")
-    featured = rows[:5]
+    # Balance recency and thematic coverage, so both filters remain useful.
+    featured = list(rows[:3])
+    featured.extend(row for row in rows if row["topic"] == "ai" and row not in featured)
+    for row in rows:
+        if len(featured) >= 5:
+            break
+        if row not in featured:
+            featured.append(row)
+    featured = sorted(featured[:5], key=lambda row: row["date"], reverse=True)
     if not HOME_RE.search(home):
         raise ValueError("Homepage article list missing")
     home = HOME_RE.sub(
