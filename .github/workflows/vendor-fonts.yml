@@ -29,8 +29,8 @@ jobs:
           npm install --prefix /tmp/fontsource-packages --no-audit --no-fund --ignore-scripts --no-package-lock @fontsource-variable/dm-sans@5.3.0 @fontsource/instrument-serif@5.3.0
           cp /tmp/fontsource-packages/node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2 assets/fonts/dm-sans-latin-wght-normal.woff2
           cp /tmp/fontsource-packages/node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2 assets/fonts/instrument-serif-latin-400-italic.woff2
-          cp /tmp/fontsource-packages/node_modules/@fontsource-variable/dm-sans/OFL.txt assets/fonts/DM-Sans-OFL.txt
-          cp /tmp/fontsource-packages/node_modules/@fontsource/instrument-serif/OFL.txt assets/fonts/Instrument-Serif-OFL.txt
+          curl --fail --location --retry 3 --silent --show-error https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/OFL.txt -o assets/fonts/DM-Sans-OFL.txt
+          curl --fail --location --retry 3 --silent --show-error https://raw.githubusercontent.com/google/fonts/main/ofl/instrumentserif/OFL.txt -o assets/fonts/Instrument-Serif-OFL.txt
           test -s assets/fonts/dm-sans-latin-wght-normal.woff2
           test -s assets/fonts/instrument-serif-latin-400-italic.woff2
       - name: Commit self-hosted font files
