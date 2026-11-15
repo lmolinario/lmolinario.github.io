@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "source": "Red Hot Cyber",
+  "source_author_url": "https://www.redhotcyber.com/post/author/lello-molinario/",
+  "articles": [
+    {
+      "id": "redhotcyber-ram-volatile-evidence",
+      "title": "RAM e volatile evidence: quando vale la pena acquisire prima di tutto il resto?",
+      "url": "https://www.redhotcyber.com/post/ram-e-volatile-evidence-quando-vale-la-pena-acquisire-prima-di-tutto-il-resto/",
+      "date": "2026-11-12",
+      "description": "Should investigators acquire RAM before anything else? This article weighs the value of volatile processes, active connections and encryption keys against memory smear, system instability and the forensic footprint of live acquisition.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Memory Forensics",
+        "Volatile Evidence",
+        "Order of Volatility"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Volatile Evidence",
+        "Memory Forensics",
+        "Order of Volatility",
+        "Evidence Preservation"
+      ]
+    },
+    {
+      "id": "redhotcyber-bitlocker",
+      "title": "BitLocker, attenzione prima di spegnere il PC: potresti perdere l’accesso a tutti i tuoi dati",
+      "url": "https://www.redhotcyber.com/post/bitlocker-attenzione-prima-di-spegnere-il-pc-potresti-perdere-laccesso-a-tutti-i-tuoi-dati/",
+      "date": "2026-11-09",
+      "description": "A powered-on, BitLocker-protected computer may expose data while its volume is unlocked. The article explains why shutting down or removing storage can affect access, and how to assess recovery keys, acquisition alternatives and documentation before acting.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "BitLocker",
+        "Disk Encryption",
+        "Live Acquisition"
+      ],
+      "about": [
+        "Digital Forensics",
+        "BitLocker",
+        "Disk Encryption",
+        "Live Acquisition",
+        "Digital Evidence Preservation"
+      ]
+    },
+    {
+      "id": "redhotcyber-a-cosa-serve",
+      "title": "A cosa serve la Digital Forensics? Quando una traccia digitale diventa una prova",
+      "url": "https://www.redhotcyber.com/post/a-cosa-serve-la-digital-forensics-quando-una-traccia-digitale-diventa-una-prova/",
+      "date": "2026-11-06",
+      "description": "An account login, an IP address or a file export can be a useful digital trace without proving who acted. Using a concrete investigation scenario, this article distinguishes collection, preservation and analysis from attribution and defensible conclusions.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Digital Evidence",
+        "Evidence Interpretation",
+        "Incident Response"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Digital Evidence",
+        "Digital Investigation",
+        "Incident Response",
+        "Evidence Interpretation"
+      ]
+    },
+    {
+      "id": "redhotcyber-storia-digital-forensics",
+      "title": "La storia della Digital Forensics: dalle origini alle indagini digitali moderne",
+      "url": "https://www.redhotcyber.com/post/la-storia-della-digital-forensics-dalle-origini-alle-indagini-digitali-moderne/",
+      "date": "2026-11-04",
+      "description": "From early computer investigations to smartphones, cloud services and AI, this article traces how forensic practice evolved around data integrity, reproducibility, tool verification, incomplete acquisitions and the limits of automated analysis.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Forensic History",
+        "Evidence Integrity",
+        "AI Forensics"
+      ],
+      "about": [
+        "History of Digital Forensics",
+        "Digital Evidence",
+        "Forensic Acquisition",
+        "Cloud Forensics",
+        "AI Forensics"
+      ]
+    },
+    {
+      "id": "redhotcyber-live-acquisition",
+      "title": "Live acquisition: perché preservare più evidenze potrebbe alterare il sistema",
+      "url": "https://www.redhotcyber.com/post/live-acquisition-perche-preservare-piu-evidenze-potrebbe-alterare-il-sistema/",
+      "date": "2026-11-02",
+      "description": "Live acquisition trade-offs on powered-on systems, volatile digital evidence, unlocked encryption, memory smear, targeted collection and forensic documentation.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Live Acquisition",
+        "Volatile Evidence",
+        "Evidence Preservation"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Live Acquisition",
+        "Volatile Evidence",
+        "Memory Forensics",
+        "Forensic Acquisition",
+        "Digital Evidence Preservation"
+      ]
+    },
+    {
+      "id": "redhotcyber-europol-gap-analysis",
+      "title": "Europol e Digital Forensics: il problema non è solo trovare le evidenze, ma sapere cosa manca",
+      "url": "https://www.redhotcyber.com/post/europol-e-digital-forensics-il-problema-non-e-solo-trovare-le-evidenze-ma-sapere-cosa-manca/",
+      "date": "2026-10-29",
+      "description": "An analysis of Europol's Digital Forensics: Gap Analysis, highlighting forensic tool validation, interoperability, evidence coverage and the need to understand discrepancies between tools.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Europol Gap Analysis",
+        "Forensic Tool Validation",
+        "Evidence Reliability"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Digital Evidence",
+        "Europol",
+        "Forensic Tool Validation",
+        "Interoperability",
+        "Evidence Reliability"
+      ]
+    },
+    {
+      "id": "redhotcyber-computer-acceso",
+      "title": "Computer acceso: le decisioni critiche che dobbiamo prendere per preservare le prove digitali",
+      "url": "https://www.redhotcyber.com/post/computer-acceso-le-decisioni-critiche-che-dobbiamo-prendere-per-preservare-le-prove-digitali/",
+      "date": "2026-10-24",
+      "description": "Operational forensic choices involving powered-on computers, volatile evidence, active sessions, disk encryption, network isolation and evidence preservation.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Live Forensics",
+        "Volatile Evidence",
+        "Evidence Preservation"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Live Forensics",
+        "Volatile Evidence",
+        "Digital Evidence Preservation",
+        "Incident Response"
+      ]
+    },
+    {
+      "id": "redhotcyber-ai-classificazione",
+      "title": "AI nella Digital Forensics: quando possiamo fidarci di una classificazione automatica?",
+      "url": "https://www.redhotcyber.com/post/ai-nella-digital-forensics-quando-possiamo-fidarci-di-una-classificazione-automatica/",
+      "date": "2026-10-15",
+      "topic": "ai",
+      "tags": [
+        "AI in Digital Forensics",
+        "Image Classification",
+        "Model Validation",
+        "False Negatives"
+      ],
+      "about": [
+        "Digital Forensics",
+        "AI Image Classification",
+        "False Negatives",
+        "Model Validation",
+        "Processing Coverage"
+      ]
+    },
+    {
+      "id": "redhotcyber-software-forense",
+      "title": "Il software forense dice che non c’è? Ma potrebbe esserci comunque",
+      "url": "https://www.redhotcyber.com/post/il-software-forense-dice-che-non-ce-ma-potrebbe-esserci-comunque/",
+      "date": "2026-10-07",
+      "topic": "ai",
+      "tags": [
+        "Digital Forensics",
+        "Forensic Tool Testing",
+        "False Negatives",
+        "Independent Verification"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Forensic Tool Testing",
+        "False Negatives",
+        "Independent Verification",
+        "Black-Box Forensic Tools"
+      ]
+    },
+    {
+      "id": "redhotcyber-acquisire-subito",
+      "title": "Digital Forensics: acquisire subito o aspettare? Prima bisogna capire cosa rischiamo di perdere",
+      "url": "https://www.redhotcyber.com/post/digital-forensics-acquisire-subito-o-aspettare-prima-bisogna-capire-cosa-rischiamo-di-perdere/",
+      "date": "2026-09-28",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Digital Evidence",
+        "First Response",
+        "Forensic Acquisition"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Digital Evidence",
+        "Forensic Acquisition",
+        "First Response"
+      ]
+    }
+  ]
+}
