@@ -1,0 +1,48 @@
+name: Refresh verified Red Hot Cyber publications
+on:
+  schedule:
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/publications.json'
+      - 'scripts/sync_publications.py'
+      - '.github/workflows/sync-publications.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: redhotcyber-publication-sync
+  cancel-in-progress: false
+
+jobs:
+  synchronize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify official author records and regenerate site
+        run: |
+          python scripts/sync_publications.py --discover --write --check
+          python scripts/site_audit.py
+          python scripts/sync_site_shell.py --check
+      - name: Commit catalogue and generated pages if changed
+        run: |
+          git add data/publications.json publications/index.html index.html sitemap.xml
+          if git diff --cached --quiet; then
+            echo 'No newly verified articles or publication changes.'
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Sync verified Red Hot Cyber publications'
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 5
+          done
+          exit 1
