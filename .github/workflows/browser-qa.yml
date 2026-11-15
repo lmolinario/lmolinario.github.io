@@ -61,6 +61,10 @@ jobs:
               refs=report['categories']['accessibility']['auditRefs']
               issues=[(x['id'], report['audits'][x['id']].get('title',''), report['audits'][x['id']].get('score')) for x in refs if x.get('weight',0)>0 and report['audits'].get(x['id'],{}).get('score',1)<1]
               print('Accessibility findings:',issues)
+              contrast=report['audits'].get('color-contrast',{}).get('details',{}).get('items',[])
+              for item in contrast[:25]:
+                  node=item.get('node',{})
+                  print('Contrast node:', {'selector':node.get('selector'), 'text':node.get('snippet'), 'ratio':item.get('contrastRatio'), 'explanation':item.get('explanation')})
               with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f: f.write(f"### {device.title()} Lighthouse (local lab)\n{categories}\nAccessibility findings: {issues}\n\n")
           PY
       - name: Preserve screenshots and Lighthouse evidence
