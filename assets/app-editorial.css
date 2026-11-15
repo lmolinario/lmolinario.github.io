@@ -1,5 +1,7 @@
 /* App-specific interface integration — loaded after each tool's own CSS. */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+@font-face{font-family:'DM Sans';src:url('/assets/fonts/dm-sans-latin-wght-normal.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:'Instrument Serif';src:url('/assets/fonts/instrument-serif-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+
 :root{--bg:#f4f4ef;--surface:#fdfefa;--soft:#eaf0e7;--surface-soft:#eaf0e7;--text:#172422;--ink:#172422;--muted:#596761;--border:#d3dbd2;--accent:#35644a;--accent-dark:#213f31;--shadow:0 8px 28px rgba(26,54,38,.055)}
 body{font-family:'DM Sans',Inter,Arial,sans-serif;background:#f4f4ef;color:#172422}
 .site-header{position:sticky;top:0;z-index:60;background:rgba(244,244,239,.96);border-bottom:1px solid #d3dbd2;backdrop-filter:blur(18px)}
