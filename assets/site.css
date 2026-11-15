@@ -15,7 +15,7 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
 
 /* Design system bridge: existing pages retain their text and semantics. */
-:root{--bg:var(--paper);--surface:#fdfefa;--surface-2:#e9eee6;--text:var(--ink);--muted:var(--soft);--border:var(--line);--accent:#315e44;--accent-dark:#203c2b;--success:#285b39;--shadow:none;--radius:16px;--maxw:1240px}
+:root{--bg:var(--paper);--surface:#fdfefa;--surface-2:#e9eee6;--text:var(--ink);--muted:var(--soft);--border:var(--line);--accent:#d7fa74;--accent-dark:#203c2b;--success:#285b39;--shadow:none;--radius:16px;--maxw:1240px}
 .container{width:min(1240px,calc(100% - 88px));max-width:none;margin:0 auto;padding:0}
 .site-header{position:sticky;top:0;z-index:100;background:rgba(244,244,239,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
 .site-header .topbar{min-height:78px;height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}
