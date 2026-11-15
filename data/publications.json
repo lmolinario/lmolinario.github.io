@@ -170,7 +170,8 @@
         "False Negatives",
         "Model Validation",
         "Processing Coverage"
-      ]
+      ],
+      "description": "Automated image classification can speed up forensic review without guaranteeing that relevant material has been identified. The article explores false negatives, recall and precision, decision thresholds, model robustness, processing coverage and the limits of human-in-the-loop verification."
     },
     {
       "id": "redhotcyber-software-forense",
@@ -190,7 +191,8 @@
         "False Negatives",
         "Independent Verification",
         "Black-Box Forensic Tools"
-      ]
+      ],
+      "description": "A forensic tool’s failure to flag evidence does not establish its absence. This article examines false negatives, black-box limitations, function-specific testing, independent verification, and the risks of treating repeatable outputs as definitive findings."
     },
     {
       "id": "redhotcyber-acquisire-subito",
@@ -209,7 +211,8 @@
         "Digital Evidence",
         "Forensic Acquisition",
         "First Response"
-      ]
+      ],
+      "description": "The article examines first-response decision-making on live systems: what may exist only in volatile or active state, what intervention can change, and why acquisition choices should follow the state of the evidence rather than a fixed tool-first procedure."
     }
   ]
 }
