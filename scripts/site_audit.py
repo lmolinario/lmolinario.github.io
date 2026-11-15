@@ -104,6 +104,17 @@ def audit() -> list[str]:
             errors.append(f"canonical mismatch: {route}")
         if "noindex" in page.meta.get("robots", "").lower():
             errors.append(f"public page marked noindex: {route}")
+        if "fonts.googleapis.com" in html or "fonts.gstatic.com" in html:
+            errors.append(f"unexpected third-party Google Font request: {route}")
+        if not page.meta.get("og:image") or not page.meta.get("og:title"):
+            errors.append(f"missing social preview metadata: {route}")
+        if page.meta.get("twitter:card") != "summary_large_image":
+            errors.append(f"missing large Twitter/X preview: {route}")
+        if "social-card.png" in page.meta.get("og:image", ""):
+            if page.meta.get("og:image:width") != "1200" or page.meta.get("og:image:height") != "630":
+                errors.append(f"incorrect social preview dimensions: {route}")
+            if not page.meta.get("og:image:alt"):
+                errors.append(f"missing social preview alt text: {route}")
         if not page.meta.get("description"):
             errors.append(f"missing description: {route}")
         if page.h1 != 1:
@@ -135,6 +146,13 @@ def audit() -> list[str]:
             errors.append(f"duplicate title: {route} and {titles[title]}")
         titles[title] = route
 
+    for font in ("dm-sans-latin-wght-normal.woff2", "instrument-serif-latin-400-italic.woff2"):
+        if not (ROOT / "assets" / "fonts" / font).is_file():
+            errors.append(f"missing self-hosted font: {font}")
+    for stylesheet in ("assets/site.css", "assets/app-editorial.css", "design-preview/preview.css"):
+        css = (ROOT / stylesheet).read_text(encoding="utf-8")
+        if "fonts.googleapis.com" in css or "fonts.gstatic.com" in css:
+            errors.append(f"remote font CSS still used in {stylesheet}")
     robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
     if ORIGIN + "/sitemap.xml" not in robots:
         errors.append("robots.txt does not advertise sitemap")

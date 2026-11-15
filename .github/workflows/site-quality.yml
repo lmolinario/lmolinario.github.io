@@ -23,5 +23,7 @@ jobs:
         run: python scripts/sync_site_shell.py --check
       - name: Validate static SEO, sitemap, and links
         run: python scripts/site_audit.py
+      - name: Validate publication catalogue and rendered metadata
+        run: python scripts/sync_publications.py --check
       - name: Check backend Python syntax
         run: python -m compileall -q tools/domain-risk-scan/app
