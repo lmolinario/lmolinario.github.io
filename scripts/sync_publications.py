@@ -103,7 +103,7 @@ def update_structured_data(page: str, rows: list[dict]) -> str:
         for row in rows
     ]
     collection["dateModified"] = max(
-        collection.get("dateModified", "2000-01-01"), dt.date.today().isoformat()
+        collection.get("dateModified", "2000-01-01"), rows[0]["date"]
     )
     graph[:] = [x for x in graph if x.get("@type") != "Article"]
     for row in rows:
@@ -218,11 +218,10 @@ def fetch(url: str) -> str:
     with urlopen(req, timeout=18) as response:
         if response.status != 200:
             raise ValueError("Unexpected HTTP status")
-        if len(response.read(1)) == 0:
+        payload = response.read(1_500_000)
+        if not payload:
             raise ValueError("Empty publisher response")
-    # Read a bounded response in a separate request to protect the runner from oversized pages.
-    with urlopen(req, timeout=18) as response:
-        return response.read(1_500_000).decode("utf-8", errors="replace")
+        return payload.decode("utf-8", errors="replace")
 
 
 def has_verified_author(document: Document) -> bool:
