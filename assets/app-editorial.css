@@ -15,7 +15,7 @@ body{font-family:'DM Sans',Inter,Arial,sans-serif;background:#f4f4ef;color:#1724
 .site-menu>.nav a[aria-current="page"]{text-decoration:underline;text-underline-offset:6px}
 .site-menu>.nav a:last-child{background:#172722;color:#fff;padding:11px 17px;border-radius:99px}
 .site-menu>.nav a:last-child:hover{background:#335d49;color:#fff}
-.hero{background:#172722;color:#f7f8f1}.hero h1{letter-spacing:-.055em;color:#f7f8f1}.hero .lead,.hero .sublead,.hero p{color:#d5e4d7}.hero .eyebrow{color:#d7fa74}.hero .btn.primary{background:#d7fa74;border-color:#d7fa74;color:#172722}
+.hero{background:#172722;color:#f7f8f1;min-height:0}.hero h1{letter-spacing:-.055em;color:#f7f8f1}.hero .lead,.hero .sublead,.hero p{color:#d5e4d7}.hero .eyebrow{color:#d7fa74}.hero .btn.primary{background:#d7fa74;border-color:#d7fa74;color:#172722}
 .card{border-color:#d3dbd2;box-shadow:none}.card h2,.card h3,.section-head h2{letter-spacing:-.04em}
 .footer{background:#172722;color:#dce9dc;border-top:0}.footer a{color:#dce9dc}.footer a:hover{color:#d7fa74}
 .header{background:#f4f4ef;border-bottom:1px solid #d3dbd2}.header .brand{color:#172422;letter-spacing:-.04em}.header .brand span{color:#35644a}.header-actions .btn{border-radius:99px}
