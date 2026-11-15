@@ -42,7 +42,7 @@ const browserOptions = {headless:true, executablePath:CHROME, args:['--no-sandbo
         if (route !== '/' && route !== '/contact/' && !info.nav)
           errors.push('Missing shared navigation');
         if (!info.fontReady) errors.push('Local DM Sans font unavailable');
-        if (viewport.name === 'mobile' && page.locator('.site-header .site-menu summary').count() > 0) {
+        if (viewport.name === 'mobile' && (await page.locator('.site-header .site-menu summary').count()) > 0) {
           await page.locator('.site-header .site-menu summary').click();
           const visible = await page.locator('.site-header .site-menu nav').isVisible();
           if (!visible) errors.push('Mobile navigation does not open');
