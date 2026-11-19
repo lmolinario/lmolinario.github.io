@@ -86,7 +86,7 @@ def home_card(row: dict, n: int) -> str:
         f'<span class="article-number">{n:02d}</span>'
         f'<h3 lang="it">{safe_text(row["title"])}</h3>'
         f'<span class="article-type">{subject} · Red Hot Cyber</span>'
-        '<span class="article-arrow" aria-hidden="true">↗</span></a>'
+        '</a>'
     )
 
 
@@ -148,7 +148,7 @@ def render(data: dict, rows: list[dict]) -> set[Path]:
         home, count=1,
     )
     home = re.sub(r'All \d+ technical articles', f'All {len(rows)} technical articles', home)
-    home = re.sub(r'\d+ technical articles ↗</strong>', f'{len(rows)} technical articles ↗</strong>', home)
+    home = re.sub(r'\d+ technical articles</strong>', f'{len(rows)} technical articles</strong>', home)
     home = re.sub(r'Showing \d+ selected articles', f'Showing {len(featured)} selected articles', home)
     changes = {}
     for file, content in ((HOME, home), (PUBLICATIONS, pub)):

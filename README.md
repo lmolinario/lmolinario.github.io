@@ -27,6 +27,8 @@ The public site intentionally distinguishes maintained work and current research
 
 The site is static and deployed with GitHub Pages. Shared presentation rules for the primary portfolio pages are in `assets/site.css`. The responsive navigation, accessibility fixes and consistent footer are applied across 18 public portfolio pages. The homepage header/footer acts as the authoritative source; run `python scripts/sync_site_shell.py --write` after modifying it. CI runs `python scripts/sync_site_shell.py --check` to prevent the menus and footers from drifting across pages.
 
+The shared native navigation is open at desktop widths and collapses on mobile through `assets/site.js`, with Escape and outside-click support. Retain the initial `open` attribute when updating the shared header so desktop navigation remains available without JavaScript. The November 2026 review also increases copy and control sizes, removes decorative link arrows and pseudo telemetry, and repairs utility skip links and the domain-scan form labels and status announcements.
+
 ### Automated quality gates
 
 On pushes and pull requests, `.github/workflows/site-quality.yml` verifies the canonical URLs, title and description presence, semantic H1 elements, JSON-LD parsing, internal links, indexable sitemap URLs, and Python syntax. Run the same audit locally with:
