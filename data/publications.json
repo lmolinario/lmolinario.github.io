@@ -4,6 +4,22 @@
   "source_author_url": "https://www.redhotcyber.com/post/author/lello-molinario/",
   "articles": [
     {
+      "id": "redhotcyber-computer-acceso-durante-unindagine-forense-staccare-il-cavo-di-rete-puo-essere-un-errore-fatale",
+      "title": "Computer acceso durante un’indagine forense: staccare il cavo di rete può essere un errore fatale",
+      "url": "https://www.redhotcyber.com/post/computer-acceso-durante-unindagine-forense-staccare-il-cavo-di-rete-puo-essere-un-errore-fatale/",
+      "date": "2026-11-20",
+      "description": "Sai quando è più sicuro isolare la rete di un computer durante un incidente? Scopri i criteri, i rischi e le migliori pratiche per preservare le prove. Leggi ora.",
+      "topic": "forensics",
+      "tags": [
+        "Digital Forensics",
+        "Digital Evidence"
+      ],
+      "about": [
+        "Digital Forensics",
+        "Digital Evidence"
+      ]
+    },
+    {
       "id": "redhotcyber-ram-volatile-evidence",
       "title": "RAM e volatile evidence: quando vale la pena acquisire prima di tutto il resto?",
       "url": "https://www.redhotcyber.com/post/ram-e-volatile-evidence-quando-vale-la-pena-acquisire-prima-di-tutto-il-resto/",
